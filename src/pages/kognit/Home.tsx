@@ -1,33 +1,32 @@
 import { AlertOctagon, Play, Sparkles, Wind, Target, ChevronRight, Bell } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
+import mascot from "@/assets/kognit-mascot.png";
 
 const moods = [
-  { emoji: "🧘", label: "Calm" },
-  { emoji: "🎯", label: "Focused" },
+  { emoji: "🧘", label: "Calma" },
+  { emoji: "🎯", label: "Foco" },
   { emoji: "😐", label: "Neutral" },
-  { emoji: "😤", label: "Edgy" },
-  { emoji: "🔥", label: "Tilted" },
+  { emoji: "😤", label: "Tenso" },
+  { emoji: "🔥", label: "Tilt" },
 ];
 
 export const HomeScreen = () => (
   <div className="min-h-full bg-gradient-hero pb-28">
-    {/* Header */}
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
-        <p className="text-xs text-muted-foreground font-medium">Good evening</p>
+        <p className="text-xs text-muted-foreground font-medium">Buenas noches</p>
         <h1 className="text-2xl font-bold">Alex</h1>
       </div>
       <div className="flex items-center gap-2">
         <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
           <Bell size={16} />
         </button>
-        <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-sm">A</div>
+        <img src={mascot} alt="Kognit" className="w-10 h-10 object-contain" />
       </div>
     </div>
 
-    {/* Mood check */}
     <div className="mx-6 mt-5 p-5 rounded-3xl bg-card shadow-card">
-      <p className="text-sm font-semibold text-foreground">How are you feeling right now?</p>
+      <p className="text-sm font-semibold text-foreground">¿Cómo te sentís ahora?</p>
       <div className="mt-3 flex justify-between">
         {moods.map((m, i) => (
           <button key={m.label} className={`flex flex-col items-center gap-1 transition-all ${i === 1 ? "scale-110" : "opacity-70"}`}>
@@ -40,7 +39,6 @@ export const HomeScreen = () => (
       </div>
     </div>
 
-    {/* Tilt Emergency */}
     <div className="mx-6 mt-4 relative">
       <div className="absolute inset-0 rounded-3xl bg-destructive/30 animate-pulse-ring" />
       <button className="relative w-full bg-gradient-emergency text-destructive-foreground rounded-3xl p-5 shadow-emergency flex items-center gap-4 active:scale-[0.98] transition-transform">
@@ -48,37 +46,35 @@ export const HomeScreen = () => (
           <AlertOctagon size={26} strokeWidth={2.4} />
         </div>
         <div className="flex-1 text-left">
-          <p className="text-[11px] uppercase tracking-widest opacity-90 font-bold">Emergency</p>
-          <p className="text-lg font-bold leading-tight">Tilt Reset</p>
-          <p className="text-xs opacity-90">Tap for an instant calming flow</p>
+          <p className="text-[11px] uppercase tracking-widest opacity-90 font-bold">Emergencia</p>
+          <p className="text-lg font-bold leading-tight">Reset de Tilt</p>
+          <p className="text-xs opacity-90">Tocá para un flujo calmante inmediato</p>
         </div>
         <ChevronRight size={22} />
       </button>
     </div>
 
-    {/* Quick actions */}
     <div className="px-6 mt-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-bold">Quick tools</h2>
-        <button className="text-xs font-semibold text-primary">See all</button>
+        <h2 className="text-base font-bold">Herramientas rápidas</h2>
+        <button className="text-xs font-semibold text-primary">Ver todo</button>
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-3">
-        <ToolCard icon={Play} title="Start session" subtitle="Pre-game ritual" gradient />
-        <ToolCard icon={Sparkles} title="Reset your focus" subtitle="2 min mental clear" />
-        <ToolCard icon={Wind} title="Breath" subtitle="4-7-8 technique" />
-        <ToolCard icon={Target} title="Mental cards" subtitle="Quick mindset boost" />
+        <ToolCard icon={Play} title="Iniciar sesión" subtitle="Ritual pre-juego" gradient />
+        <ToolCard icon={Sparkles} title="Resetear foco" subtitle="2 min de claridad" />
+        <ToolCard icon={Wind} title="Respiración" subtitle="Técnica 4-7-8" />
+        <ToolCard icon={Target} title="Cartas mentales" subtitle="Boost de mindset" />
       </div>
     </div>
 
-    {/* Today */}
     <div className="px-6 mt-6">
-      <h2 className="text-base font-bold">Today's mindset</h2>
+      <h2 className="text-base font-bold">Mentalidad de hoy</h2>
       <div className="mt-3 p-5 rounded-3xl bg-gradient-deep text-primary-foreground shadow-card relative overflow-hidden">
         <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary-glow/30 blur-2xl" />
-        <p className="text-xs uppercase tracking-widest opacity-70 font-semibold">Card of the day</p>
-        <p className="mt-2 text-xl font-bold leading-snug">"You don't lose hands. You lose focus."</p>
-        <button className="mt-4 text-xs font-semibold bg-white/15 backdrop-blur px-4 py-2 rounded-full">Reflect →</button>
+        <p className="text-xs uppercase tracking-widest opacity-70 font-semibold">Carta del día</p>
+        <p className="mt-2 text-xl font-bold leading-snug">"No perdés manos. Perdés el foco."</p>
+        <button className="mt-4 text-xs font-semibold bg-white/15 backdrop-blur px-4 py-2 rounded-full">Reflexionar →</button>
       </div>
     </div>
 
