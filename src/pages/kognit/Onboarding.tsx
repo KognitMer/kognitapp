@@ -2,32 +2,32 @@ import { ArrowRight, Check, Brain, Heart, Target, Zap } from "lucide-react";
 import mascot from "@/assets/kognit-mascot.png";
 
 const goals = [
-  { icon: Heart, label: "Stay calm under pressure" },
-  { icon: Zap, label: "Recover faster from tilt" },
-  { icon: Target, label: "Sharpen decision-making" },
-  { icon: Brain, label: "Build mental endurance" },
+  { icon: Heart, label: "Mantener la calma bajo presión" },
+  { icon: Zap, label: "Recuperarme más rápido del tilt" },
+  { icon: Target, label: "Afilar mis decisiones" },
+  { icon: Brain, label: "Construir resistencia mental" },
 ];
 
-const triggers = ["Bad beats", "Long sessions", "Aggressive opponents", "Downswings"];
+const triggers = ["Bad beats", "Sesiones largas", "Rivales agresivos", "Downswings"];
 
 export const OnboardingScreen = () => (
   <div className="min-h-full bg-gradient-hero px-6 pt-6 pb-10">
     <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
-      <span>Step 2 of 4</span>
-      <button className="text-primary">Skip</button>
+      <span>Paso 2 de 4</span>
+      <button className="text-primary">Saltar</button>
     </div>
     <div className="mt-3 h-1.5 bg-muted rounded-full overflow-hidden">
       <div className="h-full w-1/2 bg-gradient-primary rounded-full" />
     </div>
 
     <div className="mt-6 flex justify-center">
-      <img src={mascot} alt="Kognit mascot" className="w-28 h-28 object-contain animate-float-slow" />
+      <img src={mascot} alt="Mascota Kognit" className="w-32 h-32 object-contain animate-float-slow" />
     </div>
 
     <h1 className="mt-2 text-[28px] leading-tight font-bold text-foreground">
-      What usually <span className="text-gradient">affects your game?</span>
+      ¿Qué suele <span className="text-gradient">afectar tu juego?</span>
     </h1>
-    <p className="mt-2 text-sm text-muted-foreground">Pick what shakes your focus the most. We'll personalize your resets.</p>
+    <p className="mt-2 text-sm text-muted-foreground">Elegí lo que más te saca del foco. Vamos a personalizar tus resets.</p>
 
     <div className="mt-5 flex flex-wrap gap-2">
       {triggers.map((t, i) => (
@@ -42,7 +42,7 @@ export const OnboardingScreen = () => (
       ))}
     </div>
 
-    <h2 className="mt-7 text-base font-semibold">What do you want to improve?</h2>
+    <h2 className="mt-7 text-base font-semibold">¿Qué querés mejorar?</h2>
     <div className="mt-3 space-y-2.5">
       {goals.map(({ icon: Icon, label }, i) => (
         <div
@@ -61,7 +61,7 @@ export const OnboardingScreen = () => (
     </div>
 
     <button className="mt-7 w-full bg-gradient-primary text-primary-foreground font-semibold py-4 rounded-2xl shadow-soft flex items-center justify-center gap-2">
-      Continue <ArrowRight size={18} />
+      Continuar <ArrowRight size={18} />
     </button>
   </div>
 );
