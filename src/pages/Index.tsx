@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/kognit-logo.png";
 import { PhoneFrame } from "@/components/kognit/PhoneFrame";
 import { OnboardingScreen } from "./kognit/Onboarding";
@@ -22,19 +23,27 @@ const Index = () => {
 
         <div className="mt-10 max-w-2xl">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-            ● Prototipo móvil
+            ● Rendimiento mental para poker
           </span>
           <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight">
-            Mantené la calma. <br />
-            <span className="text-gradient">Jugá más afilado.</span>
+            Cortá el tilt. <br />
+            <span className="text-gradient">Decidí afilado.</span>
           </h1>
           <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-lg">
-            Un coach de bolsillo para jugadores de poker y atletas cognitivos. Recuperate del tilt en segundos, reseteá tu foco entre manos y entrená la ventaja mental que separa a los ganadores del resto.
+            Herramienta de rendimiento mental para jugadores de poker. Reset de tilt en 90 segundos, cartas con instrucciones aplicables en juego y registro de foco bajo presión.
           </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
+              Entrar a la app →
+            </Link>
+            <a href="#prototipo" className="bg-card border border-border font-bold px-6 py-3 rounded-full text-sm">
+              Ver prototipo
+            </a>
+          </div>
         </div>
       </header>
 
-      <main className="px-6 pb-24">
+      <main id="prototipo" className="px-6 pb-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16 place-items-center">
           <PhoneFrame label="01 · Onboarding"><OnboardingScreen /></PhoneFrame>
           <PhoneFrame label="02 · Inicio"><HomeScreen /></PhoneFrame>
