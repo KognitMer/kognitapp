@@ -17,7 +17,7 @@ const Index = () => {
           <img src={logo} alt="Kognit" className="w-14 h-14 object-contain" />
           <div>
             <p className="text-xl font-bold tracking-tight">kognit</p>
-            <p className="text-xs text-muted-foreground font-medium">Entrenamiento mental para mentes de poker</p>
+            <p className="text-xs text-muted-foreground font-medium">Entrenamiento mental&nbsp;</p>
           </div>
         </div>
 
@@ -25,8 +25,8 @@ const Index = () => {
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
             ● Rendimiento mental para poker
           </span>
-          <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight">
-            Cortá el tilt. <br />
+          <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight whitespace-pre-line">
+            Volvé al foco{"\n"}
             <span className="text-gradient">Decidí afilado.</span>
           </h1>
           <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-lg">
