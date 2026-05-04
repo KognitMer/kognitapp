@@ -25,8 +25,9 @@ const Index = () => {
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
             ● Rendimiento mental para poker
           </span>
-          <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight whitespace-pre-line">
-            Volvé al foco{"\n"}
+          <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight">
+            <span>Volvé al foco</span>
+            <br />
             <span className="text-gradient">Decidí afilado.</span>
           </h1>
           <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-lg">
