@@ -90,13 +90,13 @@ export default function Auth() {
           </div>
 
           <h1 className="text-2xl font-bold mb-1">
-            {mode === "login" && "Volvé al control"}
-            {mode === "signup" && "Activá tu mente"}
+            {mode === "login" && "Entrá en modo juego"}
+            {mode === "signup" && "Recuperá el foco"}
             {mode === "forgot" && "Recuperar acceso"}
           </h1>
           <p className="text-sm text-muted-foreground mb-5">
-            {mode === "login" && "Tu progreso y métricas te están esperando."}
-            {mode === "signup" && "Empezá a entrenar foco y control."}
+            {mode === "login" && "Tu rendimiento empieza acá."}
+            {mode === "signup" && "Empezá a entrenar foco y control bajo presión."}
             {mode === "forgot" && "Te enviamos un link para resetear tu clave."}
           </p>
 
@@ -115,7 +115,7 @@ export default function Auth() {
             <button disabled={loading} type="submit"
               className="w-full bg-gradient-primary text-primary-foreground font-bold py-3.5 rounded-xl shadow-soft flex items-center justify-center gap-2 disabled:opacity-60">
               {loading ? <Loader2 className="animate-spin" size={18} /> : <>
-                {mode === "login" ? "Ingresar" : mode === "signup" ? "Crear cuenta" : "Enviar link"} <ArrowRight size={16} />
+                {mode === "login" ? "Entrar al juego" : mode === "signup" ? "Crear cuenta" : "Enviar link"} <ArrowRight size={16} />
               </>}
             </button>
           </form>
@@ -130,6 +130,11 @@ export default function Auth() {
               Continuar como invitado →
             </button>
           </div>
+
+          <Link to="/tilt"
+            className="mt-5 block text-center text-xs font-bold text-destructive bg-destructive/10 py-2.5 rounded-xl">
+            ⚡ Reset de tilt sin login →
+          </Link>
         </div>
 
         <Link to="/" className="mt-5 block text-center text-xs text-muted-foreground">Ver demo del prototipo</Link>

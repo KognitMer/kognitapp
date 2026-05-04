@@ -1,4 +1,4 @@
-import { AlertOctagon, Layers, Activity, ChevronRight, Bell } from "lucide-react";
+import { AlertOctagon, Layers, Activity, ChevronRight, Bell, TrendingUp } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import mascot from "@/assets/kognit-mascot.png";
 
@@ -23,15 +23,18 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeP
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Sesión activa</p>
         <h1 className="text-2xl font-bold">{name}</h1>
       </div>
-      <div className="flex items-center gap-2">
-        <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
-          <Bell size={16} />
-        </button>
-        <img src={mascot} alt="Kognit" className="w-10 h-10 object-contain" />
-      </div>
+      <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+        <Bell size={16} />
+      </button>
     </div>
 
-    <div className="mx-6 mt-5 p-5 rounded-3xl bg-card shadow-card">
+    {/* Mascota protagonista */}
+    <div className="flex justify-center mt-2 relative">
+      <div className="absolute top-6 w-44 h-44 rounded-full bg-primary-glow/25 blur-3xl" />
+      <img src={mascot} alt="Kognit" className="relative w-32 h-32 object-contain animate-float-slow" />
+    </div>
+
+    <div className="mx-6 mt-2 p-5 rounded-3xl bg-card shadow-card">
       <div className="flex items-center justify-between">
         <p className="text-sm font-bold">Estado mental actual</p>
         <span className="text-[10px] text-muted-foreground font-semibold">Toca para fijar</span>
@@ -55,30 +58,17 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeP
         </div>
         <div className="flex-1 text-left">
           <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">Protocolo crítico</p>
-          <p className="text-2xl font-bold leading-tight mt-0.5">Activar reset</p>
-          <p className="text-xs opacity-90 mt-0.5">Cortá el tilt en 90 segundos</p>
+          <p className="text-2xl font-bold leading-tight mt-0.5">Reset de Tilt</p>
+          <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco y volvé al juego</p>
         </div>
         <ChevronRight size={26} />
       </button>
     </div>
 
-    {/* ACCIONES INMEDIATAS — máx 2 secundarias */}
-    <div className="px-6 mt-6">
-      <h2 className="text-base font-bold">Acciones inmediatas</h2>
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <ToolCard icon={Layers} title="Cartas Mentales" subtitle="Instrucción aplicable ahora" onClick={onCards} gradient />
-        <ToolCard icon={Activity} title="Registrar estado" subtitle="2 segundos · sin fricción" onClick={onTrack} />
-      </div>
-    </div>
-
-    <div className="px-6 mt-6">
-      <h2 className="text-base font-bold">Foco del día</h2>
-      <div className="mt-3 p-5 rounded-3xl bg-gradient-deep text-primary-foreground shadow-card relative overflow-hidden">
-        <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary-glow/30 blur-2xl" />
-        <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
-        <p className="mt-2 text-lg font-bold leading-snug">"Una decisión a la vez. El resultado anterior no juega esta mano."</p>
-        <button onClick={onCards} className="mt-4 text-xs font-semibold bg-white/15 backdrop-blur px-4 py-2 rounded-full">Ver carta →</button>
-      </div>
+    {/* SECUNDARIAS — máximo 2 */}
+    <div className="px-6 mt-5 grid grid-cols-2 gap-3">
+      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} gradient />
+      <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · control" onClick={onTrack} />
     </div>
 
     <BottomNav active="home" />
