@@ -1,27 +1,40 @@
-import { ChevronLeft, Shuffle, Bookmark, Check } from "lucide-react";
+import { ChevronLeft, Shuffle } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
-import { CATEGORIES, pickRandom, MentalCard } from "@/data/mentalCards";
-import { useMemo, useState } from "react";
+import { CATEGORIES, MentalCard } from "@/data/mentalCards";
+import { useState } from "react";
 
 interface CardsProps { onBack?: () => void; }
 
+function getRandomCard() {
+  const randomCat = Math.floor(Math.random() * CATEGORIES.length);
+  const randomCard = Math.floor(Math.random() * CATEGORIES[randomCat].cards.length);
+  return { catIdx: randomCat, cardIdx: randomCard };
+}
+
 export const CardsScreen = ({ onBack }: CardsProps) => {
-  const [catIdx, setCatIdx] = useState(0);
-  const [cardIdx, setCardIdx] = useState(0);
-  const [seed, setSeed] = useState(0);
+  const initial = getRandomCard();
+  const [catIdx, setCatIdx] = useState(initial.catIdx);
+  const [cardIdx, setCardIdx] = useState(initial.cardIdx);
 
   const cat = CATEGORIES[catIdx];
-  const cards: MentalCard[] = useMemo(
-    () => pickRandom(cat.cards, Math.min(cat.cards.length, 5)),
-    [catIdx, seed]
-  );
-  const card = cards[cardIdx % cards.length];
+  const card: MentalCard = cat.cards[cardIdx];
 
   const accentMap: Record<string, string> = {
     primary: "bg-gradient-primary text-primary-foreground",
     destructive: "bg-gradient-emergency text-destructive-foreground",
     warning: "bg-warning text-warning-foreground",
     accent: "bg-gradient-deep text-primary-foreground",
+  };
+
+  const drawCard = () => {
+    const next = getRandomCard();
+    setCatIdx(next.catIdx);
+    setCardIdx(next.cardIdx);
+  };
+
+  const selectCategory = (i: number) => {
+    setCatIdx(i);
+    setCardIdx(Math.floor(Math.random() * CATEGORIES[i].cards.length));
   };
 
   return (
@@ -34,16 +47,14 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Cartas Mentales</p>
           <p className="text-sm font-bold">{cat.name}</p>
         </div>
-        <button onClick={() => { setSeed(s => s + 1); setCardIdx(0); }} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
-          <Shuffle size={16} />
-        </button>
+        <div className="w-10" />
       </div>
 
       {/* Selector de categoría */}
       <div className="mt-4 px-6 flex gap-2 overflow-x-auto no-scrollbar pb-1">
         {CATEGORIES.map((c, i) => (
           <button key={c.id}
-            onClick={() => { setCatIdx(i); setCardIdx(0); setSeed(s => s + 1); }}
+            onClick={() => selectCategory(i)}
             className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all ${
               i === catIdx ? "bg-foreground text-background border-transparent" : "bg-card text-muted-foreground border-border"
             }`}>
@@ -61,7 +72,7 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             <span className="text-[10px] uppercase tracking-widest font-bold bg-white/20 backdrop-blur px-3 py-1 rounded-full">
               {cat.name}
             </span>
-            <span className="text-xs opacity-80 font-bold">{String((cardIdx % cards.length) + 1).padStart(2,"0")} / {cards.length}</span>
+            <span className="text-xs opacity-80 font-bold">{cardIdx + 1} / {cat.cards.length}</span>
           </div>
           <div className="flex-1 flex flex-col justify-center">
             <h2 className="text-3xl font-bold leading-tight">{card.title}</h2>
@@ -74,19 +85,10 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
         </div>
       </div>
 
-      <div className="mt-4 flex justify-center gap-1.5">
-        {cards.map((_, i) => (
-          <div key={i} className={`h-1.5 rounded-full transition-all ${i === (cardIdx % cards.length) ? "w-6 bg-primary" : "w-1.5 bg-muted"}`} />
-        ))}
-      </div>
-
-      <div className="px-6 mt-5 flex gap-3">
-        <button className="flex-1 py-3 rounded-2xl bg-card shadow-soft text-sm font-bold flex items-center justify-center gap-2">
-          <Bookmark size={15} /> Guardar
-        </button>
-        <button onClick={() => setCardIdx(i => i + 1)}
-          className="flex-[2] py-3 rounded-2xl bg-foreground text-background text-sm font-bold flex items-center justify-center gap-2">
-          <Check size={15} /> Aplicar y siguiente
+      <div className="px-6 mt-6">
+        <button onClick={drawCard}
+          className="w-full py-4 rounded-2xl bg-foreground text-background text-sm font-bold flex items-center justify-center gap-2 shadow-card hover:opacity-90 transition-opacity">
+          <Shuffle size={16} /> Sacar carta
         </button>
       </div>
 
