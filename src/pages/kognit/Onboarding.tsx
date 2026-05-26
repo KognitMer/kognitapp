@@ -25,9 +25,9 @@ export const OnboardingScreen = () => (
     </div>
 
     <h1 className="mt-2 text-[28px] leading-tight font-bold text-foreground">
-      ¿Qué suele <span className="text-gradient">afectar tu juego?</span>
+      ¿Qué suele <span className="text-gradient">afectar tus decisiones?</span>
     </h1>
-    <p className="mt-2 text-sm text-muted-foreground">Elegí lo que más te saca del foco. Vamos a personalizar tus resets.</p>
+    <p className="mt-2 text-sm text-muted-foreground">Elegí lo que más te saca del foco. <br />Vamos a personalizar tus resets.</p>
 
     <div className="mt-5 flex flex-wrap gap-2">
       {triggers.map((t, i) => (
