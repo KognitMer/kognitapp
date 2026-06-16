@@ -58,7 +58,7 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeP
         </div>
         <div className="flex-1 text-left">
           <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">Protocolo crítico</p>
-          <p className="text-2xl font-bold leading-tight mt-0.5">Reset de Tilt</p>
+          <p className="text-2xl font-bold leading-tight mt-0.5">Reset&nbsp;</p>
           <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco y volvé al juego</p>
         </div>
         <ChevronRight size={26} />
