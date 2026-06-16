@@ -28,12 +28,10 @@ const Index = () => {
           <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight">
             <span>Vuelve al foco</span>
             <br />
-            <span className="text-gradient">Decide afilado.</span>
+            <span className="text-gradient">Donde la mente juega a ganar.</span>
           </h1>
           <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-lg">
-            Herramienta de rendimiento mental para jugadores de poker. 
-            <br />
-            Reset de tilt en 90 segundos. Cartas accionables para jugar mejor bajo presión y registro inteligente de enfoque en tiempo real.
+            Reset de tilt en segundos, herramientas prácticas para volver al presente, rituales diarios de conexión y una comunidad que comparte el camino hacia un rendimiento mental más sólido.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
