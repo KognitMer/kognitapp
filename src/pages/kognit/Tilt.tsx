@@ -148,8 +148,8 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             <img src={mascot} alt="" className="w-40 h-40 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.35)]" />
           </div>
           <p className="mt-2 text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Protocolo</p>
-          <h1 className="mt-2 text-center text-3xl font-bold leading-tight">Recuperá el control</h1>
-          <p className="mt-3 text-center text-sm opacity-85 px-4">Bajá el pulso. Volvé a decidir desde la cabeza, no desde la mano que perdiste.</p>
+          <h1 className="mt-2 text-center text-3xl font-bold leading-tight">Conectá con vos</h1>
+          <p className="mt-3 text-center text-sm opacity-85 px-4 whitespace-pre-line">Bajá el pulso.{"\n"}Volvé a decidir desde el equilibrio interno</p>
 
           <div className="mt-7 space-y-3">
             <button onClick={() => startBreath("fast")}
