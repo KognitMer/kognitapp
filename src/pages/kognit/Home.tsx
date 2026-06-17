@@ -57,7 +57,7 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeP
           <AlertOctagon size={32} strokeWidth={2.4} />
         </div>
         <div className="flex-1 text-left">
-          <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">Protocolo crítico</p>
+          <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">PROTOCOLO&nbsp;</p>
           <p className="text-2xl font-bold leading-tight mt-0.5">Reset&nbsp;</p>
           <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco y volvé al juego</p>
         </div>
