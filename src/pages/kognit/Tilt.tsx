@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { X, ChevronRight, Volume2, VolumeX } from "lucide-react";
 import mascot from "@/assets/kognit-mascot.png";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface TiltProps { onExit?: () => void; }
 
 type Mode = "deep" | "fast";
-type Stage = "intro" | "breathe" | "grounding" | "exit";
+type Stage = "intro" | "breathe" | "grounding" | "state" | "exit";
 type Phase = "in" | "hold" | "out";
 
 const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; label: string; cycles: number }> = {
@@ -34,14 +36,22 @@ const GROUNDING_Q = [
   },
 ];
 
-const EXIT_INSTRUCTIONS = [
-  "Esperá 1 ronda antes de jugar.",
-  "Volvé a tu rango por posición.",
-  "Es más importante jugar sólido que recuperar.",
-  "Una decisión a la vez. La mano anterior no juega esta.",
+const STATE_OPTIONS = [
+  "Frustración", "Ansiedad", "Impaciencia", "Fatiga", "Exceso de confianza", "Distracción", "Miedo",
 ];
 
+const STATE_MESSAGES: Record<string, string[]> = {
+  Frustración: ["Una mano no define tu sesión.", "Volvé a la decisión, no al resultado."],
+  Ansiedad: ["Respirá. Observá. Continuá.", "No necesitás recuperar nada ahora."],
+  Impaciencia: ["Tu próximo paso es lo único que importa.", "Esperá una ronda antes de volver al ritmo."],
+  Fatiga: ["Si el cuerpo pide pausa, escuchalo.", "Jugar sólido pesa más que jugar mucho."],
+  "Exceso de confianza": ["Volvé a tu rango por posición.", "El proceso es más confiable que la racha."],
+  Distracción: ["Una decisión a la vez.", "Cerrá lo que no es la mesa."],
+  Miedo: ["Decidí desde el plan, no desde el miedo.", "El resultado no juega esta mano: tu lectura sí."],
+};
+
 export const TiltScreen = ({ onExit }: TiltProps) => {
+  const { user } = useAuth();
   const [stage, setStage] = useState<Stage>("intro");
   const [mode, setMode] = useState<Mode>("deep");
   const [sound, setSound] = useState(false);
@@ -55,7 +65,19 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const groundingQs = useMemo(() => [GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)], GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)]], [stage === "grounding"]);
   const [gIdx, setGIdx] = useState(0);
 
-  const exitText = useMemo(() => EXIT_INSTRUCTIONS[Math.floor(Math.random() * EXIT_INSTRUCTIONS.length)], [stage === "exit"]);
+  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const exitText = useMemo(() => {
+    const pool = selectedState ? STATE_MESSAGES[selectedState] : ["Volvé al juego con cabeza."];
+    return pool[Math.floor(Math.random() * pool.length)];
+  }, [selectedState, stage === "exit"]);
+
+  const pickState = async (s: string) => {
+    setSelectedState(s);
+    if (user) {
+      await supabase.from("reset_sessions").insert({ user_id: user.id, state: s });
+    }
+    setStage("exit");
+  };
 
   const beep = (freq = 660) => {
     if (!sound) return;
@@ -223,7 +245,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
                 <button key={opt}
                   onClick={() => {
                     if (gIdx < groundingQs.length - 1) setGIdx(gIdx + 1);
-                    else setStage("exit");
+                    else setStage("state");
                   }}
                   className="p-5 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-sm font-bold text-left active:scale-95 transition-transform">
                   {opt}
@@ -237,6 +259,24 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           </div>
         );
       })()}
+
+      {/* STATE — pick what you're feeling */}
+      {stage === "state" && (
+        <div className="relative px-6 pt-6">
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
+          <h1 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h1>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo.</p>
+
+          <div className="mt-7 grid grid-cols-2 gap-3">
+            {STATE_OPTIONS.map(s => (
+              <button key={s} onClick={() => pickState(s)}
+                className="p-4 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-sm font-bold active:scale-95 transition-transform">
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* EXIT */}
       {stage === "exit" && (
