@@ -47,7 +47,7 @@ export const RitualScreen = ({ onExit }: Props) => {
   const [closing] = useState(() => CLOSINGS[Math.floor(Math.random() * CLOSINGS.length)]);
   const [saved, setSaved] = useState(false);
 
-  const next = () => setStep(s => Math.min(6, (s + 1) as Step));
+  const next = () => setStep(s => (s >= 6 ? 6 : ((s + 1) as Step)));
 
   const finish = async () => {
     if (!user || energy == null || tension == null || !emo) return;
