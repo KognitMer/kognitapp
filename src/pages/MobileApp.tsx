@@ -9,10 +9,12 @@ import { CardsScreen } from "./kognit/Cards";
 import { TrackingScreen } from "./kognit/Tracking";
 import { CalendarScreen } from "./kognit/Calendar";
 import { ProfileScreen } from "./kognit/Profile";
+import { CommunityScreen } from "./kognit/Community";
+import { RitualScreen } from "./kognit/Ritual";
 import { BottomNav } from "@/components/kognit/BottomNav";
 
 type Tab = "home" | "cards" | "calendar" | "track" | "profile";
-type View = Tab | "tilt";
+type View = Tab | "tilt" | "community" | "ritual";
 
 interface Profile {
   display_name: string;
@@ -50,6 +52,10 @@ export default function MobileApp() {
     switch (view) {
       case "tilt":
         return <TiltScreen onExit={() => setView("home")} />;
+      case "ritual":
+        return <RitualScreen onExit={() => setView("home")} />;
+      case "community":
+        return <CommunityScreen onBack={() => setView("home")} />;
       case "cards":
         return <CardsScreen onBack={() => setView("home")} />;
       case "calendar":
@@ -73,6 +79,8 @@ export default function MobileApp() {
           onTilt={goTilt}
           onCards={() => setView("cards")}
           onTrack={() => setView("track")}
+          onRitual={() => setView("ritual")}
+          onCommunity={() => setView("community")}
         />;
     }
   })();
@@ -82,7 +90,7 @@ export default function MobileApp() {
     <div className="min-h-screen bg-gradient-hero md:flex md:items-center md:justify-center md:py-8">
       <div className="md:hidden relative min-h-screen">
         {screen}
-        {view !== "tilt" && (
+        {view !== "tilt" && view !== "ritual" && (
           <BottomNav
             active={view as Tab}
             onChange={(k) => setView(k)}
@@ -93,7 +101,7 @@ export default function MobileApp() {
         <PhoneFrame>
           <div className="relative h-full">
             {screen}
-            {view !== "tilt" && (
+            {view !== "tilt" && view !== "ritual" && (
               <BottomNav active={view as Tab} onChange={(k) => setView(k)} />
             )}
           </div>

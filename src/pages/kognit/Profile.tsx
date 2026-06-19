@@ -1,5 +1,9 @@
 import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { Switch } from "@/components/ui/switch";
 
 interface ProfileProps {
   name?: string;
@@ -21,7 +25,30 @@ export const ProfileScreen = ({
   streakDays = 0,
   xp = 0,
   onSignOut,
-}: ProfileProps) => (
+}: ProfileProps) => {
+  const { user } = useAuth();
+  const [reminderEnabled, setReminderEnabled] = useState(false);
+  const [reminderTime, setReminderTime] = useState("19:00");
+  const [openReminders, setOpenReminders] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.from("profiles").select("reminder_enabled, reminder_time").eq("id", user.id).maybeSingle()
+      .then(({ data }) => {
+        if (data) {
+          setReminderEnabled(!!data.reminder_enabled);
+          setReminderTime(data.reminder_time ?? "19:00");
+        }
+      });
+  }, [user]);
+
+  const saveReminders = async (enabled: boolean, time: string) => {
+    setReminderEnabled(enabled); setReminderTime(time);
+    if (!user) return;
+    await supabase.from("profiles").update({ reminder_enabled: enabled, reminder_time: time }).eq("id", user.id);
+  };
+
+  return (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <p className="text-sm font-bold">Perfil</p>
@@ -100,8 +127,33 @@ export const ProfileScreen = ({
     </div>
 
     <div className="mx-6 mt-5 rounded-3xl bg-card shadow-soft overflow-hidden">
+      <div className="p-4 border-b border-border">
+        <button onClick={() => setOpenReminders(o => !o)} className="w-full flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Bell size={16} /></div>
+          <span className="flex-1 text-sm font-semibold text-left">Recordatorio diario</span>
+          <span className="text-xs text-muted-foreground">{reminderEnabled ? reminderTime : "Apagado"}</span>
+          <ChevronRight size={16} className={`text-muted-foreground transition-transform ${openReminders ? "rotate-90" : ""}`} />
+        </button>
+        {openReminders && (
+          <div className="mt-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold">Activar recordatorio</p>
+                <p className="text-[11px] text-muted-foreground">Un mensaje suave para escucharte.</p>
+              </div>
+              <Switch checked={reminderEnabled} onCheckedChange={(v) => saveReminders(v, reminderTime)} />
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold">Horario</p>
+              <input type="time" value={reminderTime}
+                onChange={(e) => saveReminders(reminderEnabled, e.target.value)}
+                className="bg-secondary px-3 py-1.5 rounded-lg text-sm font-semibold focus:outline-none" />
+            </div>
+            <p className="text-[11px] text-muted-foreground italic">"Antes de jugar, escuchate. Tu rendimiento empieza por tu estado mental."</p>
+          </div>
+        )}
+      </div>
       {[
-        { i: Bell, l: "Recordatorios", v: "Diario · 19 hs" },
         { i: Shield, l: "Privacidad", v: "Solo local" },
         { i: Settings, l: "Preferencias", v: "" },
         { i: LogOut, l: "Cerrar sesión", v: "", danger: true, onClick: onSignOut },
@@ -118,4 +170,5 @@ export const ProfileScreen = ({
 
     <BottomNav active="profile" />
   </div>
-);
+  );
+};

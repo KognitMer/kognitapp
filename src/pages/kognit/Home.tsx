@@ -1,4 +1,4 @@
-import { AlertOctagon, Layers, Activity, ChevronRight, Bell, TrendingUp } from "lucide-react";
+import { AlertOctagon, Layers, ChevronRight, Bell, TrendingUp, Sparkles, Users } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import mascot from "@/assets/kognit-mascot.png";
 
@@ -14,9 +14,11 @@ interface HomeProps {
   onTilt?: () => void;
   onCards?: () => void;
   onTrack?: () => void;
+  onRitual?: () => void;
+  onCommunity?: () => void;
 }
 
-export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeProps) => (
+export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack, onRitual, onCommunity }: HomeProps) => (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
@@ -67,7 +69,11 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack }: HomeP
 
     {/* SECUNDARIAS — máximo 2 */}
     <div className="px-6 mt-5 grid grid-cols-2 gap-3">
-      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} gradient />
+      <ToolCard icon={Sparkles} title="Ritual diario" subtitle="1 min para escucharte" onClick={onRitual} gradient />
+      <ToolCard icon={Users} title="Comunidad" subtitle="Momentos de conexión" onClick={onCommunity} />
+    </div>
+    <div className="px-6 mt-3 grid grid-cols-2 gap-3">
+      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} />
       <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · control" onClick={onTrack} />
     </div>
 

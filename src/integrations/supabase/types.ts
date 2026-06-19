@@ -14,6 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
+      note_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          note_id: string
+          reaction: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note_id: string
+          reaction: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note_id?: string
+          reaction?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "note_reactions_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          mood: string | null
+          tag: string | null
+          title: string | null
+          updated_at: string
+          user_id: string
+          visibility: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          mood?: string | null
+          tag?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id: string
+          visibility?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          mood?: string | null
+          tag?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -21,6 +89,8 @@ export type Database = {
           emotional_control: number
           focus_level: number
           id: string
+          reminder_enabled: boolean
+          reminder_time: string
           streak_days: number
           total_resets: number
           updated_at: string
@@ -32,6 +102,8 @@ export type Database = {
           emotional_control?: number
           focus_level?: number
           id: string
+          reminder_enabled?: boolean
+          reminder_time?: string
           streak_days?: number
           total_resets?: number
           updated_at?: string
@@ -43,10 +115,69 @@ export type Database = {
           emotional_control?: number
           focus_level?: number
           id?: string
+          reminder_enabled?: boolean
+          reminder_time?: string
           streak_days?: number
           total_resets?: number
           updated_at?: string
           xp?: number
+        }
+        Relationships: []
+      }
+      reset_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          state: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          state?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          state?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ritual_entries: {
+        Row: {
+          body_tension: number
+          created_at: string
+          emotional_state: string
+          energy: number
+          gratitude: string | null
+          id: string
+          intention: string | null
+          reflection: string | null
+          user_id: string
+        }
+        Insert: {
+          body_tension: number
+          created_at?: string
+          emotional_state: string
+          energy: number
+          gratitude?: string | null
+          id?: string
+          intention?: string | null
+          reflection?: string | null
+          user_id: string
+        }
+        Update: {
+          body_tension?: number
+          created_at?: string
+          emotional_state?: string
+          energy?: number
+          gratitude?: string | null
+          id?: string
+          intention?: string | null
+          reflection?: string | null
+          user_id?: string
         }
         Relationships: []
       }
