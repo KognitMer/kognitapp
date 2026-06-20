@@ -33,18 +33,25 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        toast({ title: "Cuenta creada", description: "Revisá tu email para confirmar." });
+        toast({ title: "Revisá tu email", description: "Si el email está disponible, te enviamos un link de confirmación." });
         setMode("login");
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) throw error;
-        toast({ title: "Email enviado", description: "Revisá tu casilla para recuperar tu contraseña." });
+        toast({ title: "Email enviado", description: "Si el email está registrado, recibirás un link para resetear tu clave." });
         setMode("login");
       }
     } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      console.error("[auth]", err);
+      const generic =
+        mode === "login"
+          ? "Email o contraseña inválidos."
+          : mode === "signup"
+          ? "No pudimos completar el registro. Probá nuevamente."
+          : "No pudimos procesar la solicitud. Probá nuevamente.";
+      toast({ title: "Error", description: generic, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -60,7 +67,8 @@ export default function Auth() {
     });
     setLoading(false);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      console.error("[auth:guest]", error);
+      toast({ title: "Error", description: "No pudimos crear la sesión de invitado.", variant: "destructive" });
     } else {
       navigate("/app");
     }
