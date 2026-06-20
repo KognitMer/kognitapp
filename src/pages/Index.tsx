@@ -13,24 +13,24 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <header className="px-8 pt-14 pb-10 max-w-6xl mx-auto">
-        <div className="flex items-center gap-3">
-          <img src={logo} alt="Kognit" className="w-14 h-14 object-contain" />
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div>
-            <p className="text-xl font-bold tracking-tight">kognit</p>
-            <p className="text-xs text-muted-foreground font-medium">Entrenamiento mental&nbsp;</p>
+            <p className="text-3xl md:text-4xl font-bold tracking-tight">kognit</p>
+            <p className="text-sm md:text-base text-muted-foreground font-medium">Entrenamiento mental para poker</p>
           </div>
         </div>
 
-        <div className="mt-10 max-w-2xl">
+        <div className="mt-12 max-w-2xl">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
             ● Rendimiento mental para poker
           </span>
-          <h1 className="mt-5 text-5xl md:text-6xl font-bold leading-[1.05] tracking-tight">
+          <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
             <span>Vuelve al foco</span>
             <br />
             <span className="text-gradient">Donde la mente juega a ganar.</span>
           </h1>
-          <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-lg">
+          <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
             Reset de tilt en segundos, herramientas prácticas para volver al presente, rituales diarios de conexión y una comunidad que comparte el camino hacia un rendimiento mental más sólido.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">

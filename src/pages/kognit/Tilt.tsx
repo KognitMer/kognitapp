@@ -154,11 +154,11 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* Header */}
       <div className="relative px-6 pt-3 flex items-center justify-between">
-        <button onClick={onExit} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
+        <button onClick={onExit} aria-label="Salir del reset" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           <X size={18} />
         </button>
         <span className="text-[10px] font-bold opacity-80 tracking-[0.25em]">RESET DE TILT</span>
-        <button onClick={() => setSound(s => !s)} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
+        <button onClick={() => setSound(s => !s)} aria-label={sound ? "Silenciar sonido" : "Activar sonido"} aria-pressed={sound} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           {sound ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
       </div>
@@ -167,7 +167,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "intro" && (
         <div className="relative px-6 pt-6">
           <div className="flex justify-center">
-            <img src={mascot} alt="" className="w-40 h-40 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.35)]" />
+          <img src={mascot} alt="" aria-hidden="true" className="w-40 h-40 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.35)]" />
           </div>
           <p className="mt-2 text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Protocolo</p>
           <h1 className="mt-2 text-center text-3xl font-bold leading-tight">Conectá con vos</h1>
@@ -264,7 +264,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "state" && (
         <div className="relative px-6 pt-6">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
-          <h1 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h1>
+          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo.</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
@@ -281,9 +281,9 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {/* EXIT */}
       {stage === "exit" && (
         <div className="relative px-6 pt-8 flex flex-col items-center">
-          <img src={mascot} alt="" className="w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.4)]" />
+          <img src={mascot} alt="" aria-hidden="true" className="w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.4)]" />
           <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
-          <h1 className="mt-2 text-3xl font-bold text-center leading-tight">Volvé al juego con cabeza</h1>
+          <h2 className="mt-2 text-3xl font-bold text-center leading-tight">Volvé al juego con cabeza</h2>
 
           <div className="mt-6 mx-2 p-5 rounded-3xl bg-white/10 backdrop-blur border border-white/15 w-full">
             <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
