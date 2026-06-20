@@ -6,8 +6,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
 
 const days = ["L", "M", "M", "J", "V", "S", "D"];
-// Noviembre 2026 empieza en domingo. Construimos la grilla de 6 semanas.
-const monthDays = Array.from({ length: 35 }, (_, i) => i - 5); // -5..29 -> 1..29 visible
+const MONTH_NAMES = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+];
 
 const moodByDay: Record<number, { c: string; e: string }> = {
   3: { c: "bg-accent/40", e: "🧘" },
@@ -63,6 +65,21 @@ export const CalendarScreen = () => {
   const [composerOpen, setComposerOpen] = useState(false);
   const [rows, setRows] = useState<Row[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const today = new Date();
+  const [cursor, setCursor] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
+
+  const year = cursor.getFullYear();
+  const month = cursor.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Lunes = 0 ... Domingo = 6
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+  const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+  const monthDays = Array.from({ length: totalCells }, (_, i) => i - firstDay + 1);
+  const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+  const todayDate = today.getDate();
+
+  const goPrev = () => setCursor(new Date(year, month - 1, 1));
+  const goNext = () => setCursor(new Date(year, month + 1, 1));
 
   const load = useCallback(async () => {
     if (!user) return;
@@ -82,14 +99,14 @@ export const CalendarScreen = () => {
   <div className="min-h-full bg-gradient-hero pb-28">
     {/* Header */}
     <div className="px-6 pt-3 flex items-center justify-between">
-      <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+      <button onClick={goPrev} aria-label="Mes anterior" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <ChevronLeft size={18} />
       </button>
       <div className="text-center">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Diario mental</p>
-        <p className="text-sm font-bold">Noviembre 2026</p>
+        <p className="text-sm font-bold">{MONTH_NAMES[month]} {year}</p>
       </div>
-      <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+      <button onClick={goNext} aria-label="Mes siguiente" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <ChevronRight size={18} />
       </button>
     </div>
@@ -116,8 +133,8 @@ export const CalendarScreen = () => {
           <span key={i} className="text-[10px] font-bold text-muted-foreground py-1">{d}</span>
         ))}
         {monthDays.map((n, i) => {
-          if (n < 1 || n > 30) return <span key={i} />;
-          const isToday = n === 18;
+          if (n < 1 || n > daysInMonth) return <span key={i} />;
+          const isToday = isCurrentMonth && n === todayDate;
           const mood = moodByDay[n];
           return (
             <button
