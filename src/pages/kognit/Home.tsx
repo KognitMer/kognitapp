@@ -25,7 +25,7 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack, onRitua
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Sesión activa</p>
         <h1 className="text-2xl font-bold">{name}</h1>
       </div>
-      <button className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+      <button aria-label="Notificaciones" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <Bell size={16} />
       </button>
     </div>
