@@ -420,6 +420,17 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           <div className="mt-6 mx-2 p-5 rounded-3xl bg-white/10 backdrop-blur border border-white/15 w-full">
             <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
             <p className="mt-2 text-xl font-bold leading-snug">"{exitText}"</p>
+            {selectedStates.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {selectedStates.map(s => (
+                  <span key={s} className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15">{s}</span>
+                ))}
+              </div>
+            )}
+            <div className="mt-3 flex justify-between text-[10px] opacity-70 font-semibold">
+              <span>Antes: {preIntensity}/10</span>
+              <span>Ahora: {postIntensity}/10</span>
+            </div>
           </div>
 
           <div className="mt-6 w-full space-y-3">
@@ -427,7 +438,11 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
               className="w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
               Volver al juego <ChevronRight size={18} />
             </button>
-            <button onClick={() => { setStage("intro"); }} className="w-full text-sm opacity-80 font-medium py-2">
+            <button onClick={() => {
+              setStage("intro");
+              setSelectedStates([]); setCustomNote(""); setExtraCycles(0);
+              sessionSavedRef.current = false;
+            }} className="w-full text-sm opacity-80 font-medium py-2">
               Repetir reset
             </button>
           </div>
