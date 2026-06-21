@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { X, ChevronRight, Volume2, VolumeX } from "lucide-react";
+import { X, ChevronRight, Volume2, VolumeX, Plus } from "lucide-react";
 import mascot from "@/assets/kognit-mascot.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 interface TiltProps { onExit?: () => void; }
 
 type Mode = "deep" | "fast";
-type Stage = "intro" | "breathe" | "grounding" | "state" | "exit";
+type Stage = "intro" | "pulse" | "breathe" | "grounding" | "state" | "check" | "exit";
 type Phase = "in" | "hold" | "out";
 
 const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; label: string; cycles: number }> = {
@@ -60,23 +60,51 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const [cycle, setCycle] = useState(0);
   const [phaseIdx, setPhaseIdx] = useState(0);
   const [count, setCount] = useState(1);
+  const [extraCycles, setExtraCycles] = useState(0);
 
   // grounding state
   const groundingQs = useMemo(() => [GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)], GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)]], [stage === "grounding"]);
   const [gIdx, setGIdx] = useState(0);
 
-  const [selectedState, setSelectedState] = useState<string | null>(null);
-  const exitText = useMemo(() => {
-    const pool = selectedState ? STATE_MESSAGES[selectedState] : ["Volvé al juego con cabeza."];
-    return pool[Math.floor(Math.random() * pool.length)];
-  }, [selectedState, stage === "exit"]);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [customNote, setCustomNote] = useState("");
+  const [preIntensity, setPreIntensity] = useState(6);
+  const [postIntensity, setPostIntensity] = useState(4);
+  const sessionSavedRef = useRef(false);
 
-  const pickState = async (s: string) => {
-    setSelectedState(s);
-    if (user) {
-      await supabase.from("reset_sessions").insert({ user_id: user.id, state: s });
+  const primaryState = selectedStates[0] ?? null;
+  const exitText = useMemo(() => {
+    const pool = primaryState ? STATE_MESSAGES[primaryState] : ["Volvé al juego con cabeza."];
+    return pool[Math.floor(Math.random() * pool.length)];
+  }, [primaryState, stage === "exit"]);
+
+  const toggleState = (s: string) => {
+    setSelectedStates(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
+  };
+
+  const confirmStates = () => {
+    if (selectedStates.length === 0) return;
+    setStage("check");
+  };
+
+  const finishReset = async () => {
+    if (user && !sessionSavedRef.current) {
+      sessionSavedRef.current = true;
+      await supabase.from("reset_sessions").insert({
+        user_id: user.id,
+        state: primaryState,
+        states: selectedStates,
+        mode,
+        pre_intensity: preIntensity,
+        post_intensity: postIntensity,
+        note: customNote.trim() || null,
+      });
     }
     setStage("exit");
+  };
+
+  const vibrate = (ms: number | number[]) => {
+    try { (navigator as any).vibrate?.(ms); } catch {}
   };
 
   const beep = (freq = 660) => {
@@ -115,13 +143,16 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
     if (stage !== "breathe") return;
     const pattern = PATTERNS[mode];
     const secs = pattern.secs[phaseIdx];
-    if (count === 1) beep(phaseIdx === 0 ? 740 : phaseIdx === 1 ? 520 : 420);
+    if (count === 1) {
+      beep(phaseIdx === 0 ? 740 : phaseIdx === 1 ? 520 : 420);
+      vibrate(phaseIdx === 1 ? 25 : 60);
+    }
     if (count >= secs) {
       const t = setTimeout(() => {
         const nextPhase = phaseIdx + 1;
         if (nextPhase >= pattern.phases.length) {
           const nextCycle = cycle + 1;
-          if (nextCycle >= pattern.cycles) {
+          if (nextCycle >= pattern.cycles + extraCycles) {
             setStage("grounding");
             setCycle(0); setPhaseIdx(0); setCount(1);
             return;
@@ -135,17 +166,22 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
     }
     const t = setTimeout(() => setCount(c => c + 1), 1000);
     return () => clearTimeout(t);
-  }, [stage, count, phaseIdx, cycle, mode]);
+  }, [stage, count, phaseIdx, cycle, mode, extraCycles]);
 
   const startBreath = (m: Mode) => {
-    setMode(m); setStage("breathe");
+    setMode(m);
+    setStage("pulse");
     setCycle(0); setPhaseIdx(0); setCount(1);
+    setExtraCycles(0);
+    sessionSavedRef.current = false;
   };
 
   const pattern = PATTERNS[mode];
   const phase = pattern.phases[phaseIdx];
   const phaseSecs = pattern.secs[phaseIdx];
   const scale = phase === "in" ? 0.7 + (count / phaseSecs) * 0.55 : phase === "out" ? 1.25 - (count / phaseSecs) * 0.55 : 1.25;
+  const totalCycles = pattern.cycles + extraCycles;
+  const delta = preIntensity - postIntensity;
 
   return (
     <div className="min-h-full bg-gradient-deep text-primary-foreground relative overflow-hidden">
