@@ -128,19 +128,34 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          mode: string | null
+          note: string | null
+          post_intensity: number | null
+          pre_intensity: number | null
           state: string | null
+          states: string[] | null
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
+          mode?: string | null
+          note?: string | null
+          post_intensity?: number | null
+          pre_intensity?: number | null
           state?: string | null
+          states?: string[] | null
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
+          mode?: string | null
+          note?: string | null
+          post_intensity?: number | null
+          pre_intensity?: number | null
           state?: string | null
+          states?: string[] | null
           user_id?: string
         }
         Relationships: []
