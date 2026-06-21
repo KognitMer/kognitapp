@@ -230,7 +230,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "breathe" && (
         <div className="relative px-6">
           <div className="mt-5 flex justify-center gap-1.5">
-            {Array.from({ length: pattern.cycles }).map((_, i) => (
+            {Array.from({ length: totalCycles }).map((_, i) => (
               <div key={i} className={`h-1 rounded-full transition-all ${i < cycle ? "w-8 bg-primary-glow" : i === cycle ? "w-10 bg-primary-glow/70" : "w-4 bg-white/15"}`} />
             ))}
           </div>
@@ -257,9 +257,15 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             </div>
           </div>
 
-          <p className="mt-8 text-center text-xs opacity-70 font-semibold tracking-widest">PATRÓN {pattern.label} · CICLO {cycle + 1}/{pattern.cycles}</p>
+          <p className="mt-8 text-center text-xs opacity-70 font-semibold tracking-widest">PATRÓN {pattern.label} · CICLO {cycle + 1}/{totalCycles}</p>
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <button
+              onClick={() => setExtraCycles(n => n + 1)}
+              aria-label="Extender un ciclo más"
+              className="inline-flex items-center gap-1.5 text-xs opacity-90 bg-white/10 backdrop-blur border border-white/15 rounded-full px-3 py-1.5">
+              <Plus size={12} /> Un ciclo más
+            </button>
             <button onClick={() => setStage("grounding")} className="text-xs opacity-80 underline-offset-4 underline">
               Saltar al grounding →
             </button>
@@ -301,16 +307,106 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         <div className="relative px-6 pt-6">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
           <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
-          <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo.</p>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo. Podés marcar varios.</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
-            {STATE_OPTIONS.map(s => (
-              <button key={s} onClick={() => pickState(s)}
-                className="p-4 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-sm font-bold active:scale-95 transition-transform">
-                {s}
-              </button>
-            ))}
+            {STATE_OPTIONS.map(s => {
+              const active = selectedStates.includes(s);
+              return (
+                <button key={s} onClick={() => toggleState(s)} aria-pressed={active}
+                  className={`p-4 rounded-2xl border text-sm font-bold active:scale-95 transition-all ${
+                    active ? "bg-primary-glow/30 border-primary-glow shadow-glow" : "bg-white/10 backdrop-blur border-white/15"
+                  }`}>
+                  {s}
+                </button>
+              );
+            })}
           </div>
+
+          <textarea
+            value={customNote}
+            onChange={e => setCustomNote(e.target.value)}
+            placeholder="Otra cosa que quieras anotar (opcional)"
+            rows={2}
+            maxLength={200}
+            className="mt-4 w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-3 text-sm placeholder:text-white/50 focus:outline-none resize-none"
+          />
+
+          <button
+            onClick={confirmStates}
+            disabled={selectedStates.length === 0}
+            className="mt-4 w-full bg-primary-foreground text-foreground font-bold py-3.5 rounded-2xl disabled:opacity-40">
+            Continuar
+          </button>
+        </div>
+      )}
+
+      {/* PULSE — pre intensity */}
+      {stage === "pulse" && (
+        <div className="relative px-6 pt-8">
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Pulso actual</p>
+          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué tan acelerado estás?</h2>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">Sé honesto. Vamos a comparar al final.</p>
+
+          <div className="mt-10 text-center">
+            <p className="text-7xl font-bold leading-none">{preIntensity}</p>
+            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">de 10</p>
+          </div>
+
+          <input
+            type="range" min={1} max={10} value={preIntensity}
+            onChange={e => setPreIntensity(parseInt(e.target.value, 10))}
+            aria-label="Nivel de pulso actual"
+            className="mt-8 w-full accent-primary-glow"
+          />
+          <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
+            <span>Calmo</span><span>En tilt</span>
+          </div>
+
+          <button
+            onClick={() => setStage("breathe")}
+            className="mt-8 w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
+            Empezar respiración <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {/* CHECK — post intensity */}
+      {stage === "check" && (
+        <div className="relative px-6 pt-8">
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Después del reset</p>
+          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Cómo estás ahora?</h2>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">No tiene que ser cero. Solo más estable que al empezar.</p>
+
+          <div className="mt-8 text-center">
+            <p className="text-7xl font-bold leading-none">{postIntensity}</p>
+            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">de 10</p>
+          </div>
+
+          <input
+            type="range" min={1} max={10} value={postIntensity}
+            onChange={e => setPostIntensity(parseInt(e.target.value, 10))}
+            aria-label="Nivel de pulso después del reset"
+            className="mt-6 w-full accent-primary-glow"
+          />
+          <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
+            <span>Calmo</span><span>En tilt</span>
+          </div>
+
+          <div className="mt-6 p-4 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-center">
+            <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Cambio</p>
+            <p className="mt-1 text-2xl font-bold">
+              {delta > 0 ? `−${delta}` : delta < 0 ? `+${Math.abs(delta)}` : "0"} puntos
+            </p>
+            <p className="text-[11px] opacity-75 mt-0.5">
+              {delta >= 3 ? "Reset sólido. Buen trabajo." : delta > 0 ? "Bajaste el pulso. Sigue." : "A veces solo nombrarlo alcanza."}
+            </p>
+          </div>
+
+          <button onClick={finishReset}
+            className="mt-6 w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
+            Cerrar reset <ChevronRight size={18} />
+          </button>
         </div>
       )}
 
