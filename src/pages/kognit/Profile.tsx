@@ -1,9 +1,11 @@
-import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles } from "lucide-react";
+import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles, Volume2 } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
+import { playBong } from "@/lib/sound";
+
 
 interface ProfileProps {
   name?: string;
