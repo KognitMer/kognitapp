@@ -1,11 +1,13 @@
-import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles } from "lucide-react";
+import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles, Volume2 } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
+import { playBong } from "@/lib/sound";
 
 interface ProfileProps {
+
   name?: string;
   email?: string;
   focusLevel?: number;
@@ -30,8 +32,16 @@ export const ProfileScreen = ({
   const [reminderEnabled, setReminderEnabled] = useState(false);
   const [reminderTime, setReminderTime] = useState("19:00");
   const [openReminders, setOpenReminders] = useState(false);
+  const [soundFeedback, setSoundFeedback] = useState<string | null>(null);
+
+  const playTestSound = () => {
+    playBong();
+    setSoundFeedback("Sonando...");
+    window.setTimeout(() => setSoundFeedback(null), 1800);
+  };
 
   useEffect(() => {
+
     if (!user) return;
     supabase.from("profiles").select("reminder_enabled, reminder_time").eq("id", user.id).maybeSingle()
       .then(({ data }) => {
@@ -153,8 +163,18 @@ export const ProfileScreen = ({
           </div>
         )}
       </div>
+      <button
+        onClick={playTestSound}
+        aria-label="Probar sonido del reset"
+        className="w-full flex items-center gap-3 p-4 border-b border-border">
+        <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Volume2 size={16} /></div>
+        <span className="flex-1 text-sm font-semibold text-left">Probar sonido</span>
+        <span className="text-xs text-primary font-semibold">{soundFeedback ?? "Tocá para escuchar"}</span>
+        <ChevronRight size={16} className="text-muted-foreground" />
+      </button>
       {[
         { i: Shield, l: "Privacidad", v: "Solo local" },
+
         { i: Settings, l: "Preferencias", v: "" },
         { i: LogOut, l: "Cerrar sesión", v: "", danger: true, onClick: onSignOut },
       ].map((r: any, i, arr) => (
