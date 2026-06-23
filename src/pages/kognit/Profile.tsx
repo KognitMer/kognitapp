@@ -163,7 +163,17 @@ export const ProfileScreen = ({
           </div>
         )}
       </div>
+      <button
+        onClick={playTestSound}
+        aria-label="Probar sonido del reset"
+        className="w-full flex items-center gap-3 p-4 border-b border-border">
+        <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Volume2 size={16} /></div>
+        <span className="flex-1 text-sm font-semibold text-left">Probar sonido</span>
+        <span className="text-xs text-primary font-semibold">{soundFeedback ?? "Tocá para escuchar"}</span>
+        <ChevronRight size={16} className="text-muted-foreground" />
+      </button>
       {[
+
         { i: Shield, l: "Privacidad", v: "Solo local" },
         { i: Settings, l: "Preferencias", v: "" },
         { i: LogOut, l: "Cerrar sesión", v: "", danger: true, onClick: onSignOut },
