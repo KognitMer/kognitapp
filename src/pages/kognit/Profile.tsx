@@ -32,6 +32,14 @@ export const ProfileScreen = ({
   const [reminderEnabled, setReminderEnabled] = useState(false);
   const [reminderTime, setReminderTime] = useState("19:00");
   const [openReminders, setOpenReminders] = useState(false);
+  const [soundFeedback, setSoundFeedback] = useState<string | null>(null);
+
+  const playTestSound = () => {
+    playBong();
+    setSoundFeedback("Sonando...");
+    window.setTimeout(() => setSoundFeedback(null), 1800);
+  };
+
 
   useEffect(() => {
     if (!user) return;
