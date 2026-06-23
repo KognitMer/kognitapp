@@ -173,8 +173,8 @@ export const ProfileScreen = ({
         <ChevronRight size={16} className="text-muted-foreground" />
       </button>
       {[
-
         { i: Shield, l: "Privacidad", v: "Solo local" },
+
         { i: Settings, l: "Preferencias", v: "" },
         { i: LogOut, l: "Cerrar sesión", v: "", danger: true, onClick: onSignOut },
       ].map((r: any, i, arr) => (
