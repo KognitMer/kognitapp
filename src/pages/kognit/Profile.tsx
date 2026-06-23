@@ -6,8 +6,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import { playBong } from "@/lib/sound";
 
-
 interface ProfileProps {
+
   name?: string;
   email?: string;
   focusLevel?: number;
@@ -40,8 +40,8 @@ export const ProfileScreen = ({
     window.setTimeout(() => setSoundFeedback(null), 1800);
   };
 
-
   useEffect(() => {
+
     if (!user) return;
     supabase.from("profiles").select("reminder_enabled, reminder_time").eq("id", user.id).maybeSingle()
       .then(({ data }) => {
