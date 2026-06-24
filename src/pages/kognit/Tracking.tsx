@@ -37,7 +37,7 @@ export const TrackingScreen = () => (
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {["Jugué bien", "Bad beat", "Distraído", "En flow", "Cansado"].map((t, i) => (
+        {["Frustrado", "Ansioso", "Impaciente", "Cansado", "Confiado", "En calma", "Atención plena"].map((t, i) => (
           <button key={t} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
             i < 2 ? "bg-primary/10 text-primary border-primary/30" : "bg-secondary text-muted-foreground border-transparent"
           }`}>+ {t}</button>
