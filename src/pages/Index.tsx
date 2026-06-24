@@ -48,7 +48,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16 place-items-center">
           <PhoneFrame label="01 · Onboarding"><OnboardingScreen /></PhoneFrame>
           <PhoneFrame label="02 · Inicio"><HomeScreen /></PhoneFrame>
-          <PhoneFrame label="03 · Reset de Tilt"><TiltScreen /></PhoneFrame>
+          <PhoneFrame label={"03 · RESET\u00a0"}><TiltScreen /></PhoneFrame>
           <PhoneFrame label="04 · Cartas Mentales"><CardsScreen /></PhoneFrame>
           <PhoneFrame label="05 · Diario · Calendario"><CalendarScreen /></PhoneFrame>
           <PhoneFrame label="06 · Registro Emocional"><TrackingScreen /></PhoneFrame>

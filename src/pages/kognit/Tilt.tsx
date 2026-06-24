@@ -170,7 +170,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         <button onClick={onExit} aria-label="Salir del reset" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           <X size={18} />
         </button>
-        <span className="text-[10px] font-bold opacity-80 tracking-[0.25em]">RESET DE TILT</span>
+        <span className="text-[10px] font-bold opacity-80 tracking-[0.25em]">RESET MENTAL</span>
         <button onClick={() => setSound(s => !s)} aria-label={sound ? "Silenciar sonido" : "Activar sonido"} aria-pressed={sound} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           {sound ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
@@ -257,7 +257,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           <div className="relative px-6 pt-6">
             <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Recuperación de control · {gIdx + 1}/2</p>
             <h2 className="mt-3 text-center text-3xl font-bold leading-tight px-2">{q.q}</h2>
-            <p className="mt-3 text-center text-xs opacity-75 px-4">No pienses la respuesta. Tocá la primera que aparezca.</p>
+            <p className="mt-3 text-center text-xs opacity-75 px-4">No pienses mucho la respuesta. Tocá la primera que te parezca.</p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
               {q.options.map(opt => (
