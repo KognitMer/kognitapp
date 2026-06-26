@@ -337,7 +337,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             className="mt-8 w-full accent-primary-glow"
           />
           <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
-            <span>Calmo</span><span>En tilt</span>
+            <span>Tranquilo</span><span>Abrumado</span>
           </div>
 
           <button
