@@ -4,9 +4,9 @@ import mascot from "@/assets/kognit-mascot.png";
 
 const states = [
   { key: "focus", label: "Foco", c: "bg-primary text-primary-foreground" },
-  { key: "neutral", label: "Neutral", c: "bg-secondary text-foreground" },
+  { key: "neutral", label: "Tranquilo", c: "bg-secondary text-foreground" },
   { key: "tense", label: "Tenso", c: "bg-warning/80 text-warning-foreground" },
-  { key: "tilt", label: "Desbordado", c: "bg-destructive text-destructive-foreground" },
+  { key: "tilt", label: "Abrumado", c: "bg-destructive text-destructive-foreground" },
 ];
 
 interface HomeProps {
