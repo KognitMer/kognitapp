@@ -17,7 +17,7 @@ const Index = () => {
           <img src={logo} alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div>
             <p className="text-3xl md:text-4xl font-bold tracking-tight">kognit</p>
-            <p className="text-sm md:text-base text-muted-foreground font-medium">Entrenamiento mental para poker</p>
+            <span className="text-sm md:text-base text-muted-foreground font-medium">La ventaja está en tu mente.</span>
           </div>
         </div>
 
