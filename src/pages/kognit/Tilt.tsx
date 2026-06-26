@@ -183,7 +183,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           <img src={mascot} alt="" aria-hidden="true" className="w-40 h-40 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.35)]" />
           </div>
           <p className="mt-2 text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Protocolo</p>
-          <h1 className="mt-2 text-center text-3xl font-bold leading-tight">Conectá con vos</h1>
+          <h1 className="mt-2 text-center text-2xl font-bold leading-tight">Conectá con vos</h1>
           <p className="mt-3 text-center text-sm opacity-85 px-4 whitespace-pre-line">Bajá el pulso.{"\n"}Volvé a decidir desde el equilibrio interno</p>
 
           <div className="mt-7 space-y-3">
@@ -256,7 +256,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         return (
           <div className="relative px-6 pt-6">
             <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Recuperación de control · {gIdx + 1}/2</p>
-            <h2 className="mt-3 text-center text-3xl font-bold leading-tight px-2">{q.q}</h2>
+            <h2 className="mt-3 text-center text-2xl font-bold leading-tight px-2">{q.q}</h2>
             <p className="mt-3 text-center text-xs opacity-75 px-4">No pienses mucho la respuesta. Tocá la primera que te parezca.</p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
@@ -283,7 +283,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "state" && (
         <div className="relative px-6 pt-6">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
-          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo. Podés marcar varios.</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
@@ -322,7 +322,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "pulse" && (
         <div className="relative px-6 pt-8">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Pulso actual</p>
-          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Qué tan acelerado estás?</h2>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué tan acelerado estás?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">Sé honesto. Vamos a comparar al final.</p>
 
           <div className="mt-10 text-center">
@@ -352,7 +352,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "check" && (
         <div className="relative px-6 pt-8">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Después del reset</p>
-          <h2 className="mt-2 text-center text-2xl font-bold leading-tight px-4">¿Cómo estás ahora?</h2>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Cómo estás ahora?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">No tiene que ser cero. Solo más estable que al empezar.</p>
 
           <div className="mt-8 text-center">
@@ -392,11 +392,11 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         <div className="relative px-6 pt-8 flex flex-col items-center">
           <img src={mascot} alt="" aria-hidden="true" className="w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.4)]" />
           <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
-          <h2 className="mt-2 text-3xl font-bold text-center leading-tight">Volvé al juego con cabeza</h2>
+          <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé al juego con cabeza</h2>
 
           <div className="mt-6 mx-2 p-5 rounded-3xl bg-white/10 backdrop-blur border border-white/15 w-full">
             <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
-            <p className="mt-2 text-xl font-bold leading-snug">"{exitText}"</p>
+            <p className="mt-2 text-lg font-bold leading-snug">"{exitText}"</p>
             {selectedStates.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {selectedStates.map(s => (

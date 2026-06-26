@@ -70,7 +70,7 @@ export const TrackingScreen = () => (
 
     <div className="px-6 mt-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold">Sesiones recientes</h3>
+        <h3 className="text-xs font-bold">Sesiones recientes</h3>
         <button className="text-xs font-semibold text-primary">Todas</button>
       </div>
       <div className="mt-3 space-y-2.5">

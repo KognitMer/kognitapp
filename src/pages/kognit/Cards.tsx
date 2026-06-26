@@ -75,7 +75,7 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             <span className="text-xs opacity-80 font-bold">{cardIdx + 1} / {cat.cards.length}</span>
           </div>
           <div className="flex-1 flex flex-col justify-center">
-            <h2 className="text-3xl font-bold leading-tight">{card.title}</h2>
+            <h2 className="text-2xl font-bold leading-tight">{card.title}</h2>
             <p className="mt-3 text-sm opacity-90 leading-relaxed">{card.message}</p>
           </div>
           <div className="mt-4 p-4 rounded-2xl bg-white/15 backdrop-blur">

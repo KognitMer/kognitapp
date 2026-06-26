@@ -24,7 +24,7 @@ export const OnboardingScreen = () => (
       <img src={mascot} alt="Mascota Kognit" className="w-32 h-32 object-contain animate-float-slow" />
     </div>
 
-    <h1 className="mt-2 text-[28px] leading-tight font-bold text-foreground">
+    <h1 className="mt-2 text-[26px] leading-tight font-bold text-foreground">
       ¿Qué suele <span className="text-gradient">afectar tus decisiones?</span>
     </h1>
     <p className="mt-2 text-sm text-muted-foreground">Elegí lo que más te saca del foco. <br />Vamos a personalizar tus resets.</p>
@@ -42,7 +42,7 @@ export const OnboardingScreen = () => (
       ))}
     </div>
 
-    <h2 className="mt-7 text-base font-semibold">¿Qué querés mejorar?</h2>
+    <h2 className="mt-7 text-sm font-semibold">¿Qué querés mejorar?</h2>
     <div className="mt-3 space-y-2.5">
       {goals.map(({ icon: Icon, label }, i) => (
         <div

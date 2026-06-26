@@ -97,7 +97,7 @@ export default function Auth() {
             ))}
           </div>
 
-          <h1 className="text-2xl font-bold mb-1">
+          <h1 className="text-xl font-bold mb-1">
             {mode === "login" && "Entrá en modo juego"}
             {mode === "signup" && "Recuperá el foco"}
             {mode === "forgot" && "Recuperar acceso"}
