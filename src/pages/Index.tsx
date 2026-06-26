@@ -23,7 +23,7 @@ const Index = () => {
 
         <div className="mt-12 max-w-2xl">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-            ● Rendimiento mental para poker
+            ● REGISTRO EMOCIONAL - ENTRENAMIENTO MENTAL - COMUNIDAD
           </span>
           <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
             <span>Vuelve al foco</span>
