@@ -18,7 +18,7 @@ interface HomeProps {
   onCommunity?: () => void;
 }
 
-export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack, onRitual, onCommunity }: HomeProps) => (
+export const HomeScreen = ({ name = "\n", onTilt, onCards, onTrack, onRitual, onCommunity }: HomeProps) => (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
@@ -61,7 +61,7 @@ export const HomeScreen = ({ name = "Jugador", onTilt, onCards, onTrack, onRitua
         <div className="flex-1 text-left">
           <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">PROTOCOLO&nbsp;</p>
           <p className="text-xl font-bold leading-tight mt-0.5">Reset&nbsp;</p>
-          <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco y volvé al juego</p>
+          <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco</p>
         </div>
         <ChevronRight size={26} />
       </button>
