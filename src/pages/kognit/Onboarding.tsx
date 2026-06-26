@@ -3,7 +3,7 @@ import mascot from "@/assets/kognit-mascot.png";
 
 const goals = [
   { icon: Heart, label: "Mantener la calma bajo presión" },
-  { icon: Zap, label: "Recuperarme más rápido del tilt" },
+  { icon: Zap, label: "Recuperarme más rápido\u00a0" },
   { icon: Target, label: "Afilar mis decisiones" },
   { icon: Brain, label: "Construir resistencia mental" },
 ];
