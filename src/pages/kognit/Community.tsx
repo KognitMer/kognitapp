@@ -104,7 +104,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
         </button>
         <div className="text-center">
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Comunidad</p>
-          <p className="text-sm font-bold">Momentos de Conexión</p>
+          <p className="text-xs font-bold">Momentos de Conexión</p>
         </div>
         <div className="w-10" />
       </div>
@@ -122,7 +122,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
         {!loading && notes.length === 0 && (
           <div className="text-center py-10 px-4">
             <Lock size={20} className="mx-auto text-muted-foreground" />
-            <p className="mt-3 text-sm font-bold">Todavía no hay momentos compartidos</p>
+            <p className="mt-3 text-xs font-bold">Todavía no hay momentos compartidos</p>
             <p className="mt-1 text-xs text-muted-foreground">Sé el primero en compartir una reflexión.</p>
           </div>
         )}
@@ -133,7 +133,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
                 {(n.author ?? "?").charAt(0).toUpperCase()}
               </div>
               <div className="flex-1">
-                <p className="text-sm font-bold leading-tight">{n.author}</p>
+                <p className="text-xs font-bold leading-tight">{n.author}</p>
                 <p className="text-[10px] text-muted-foreground">{timeAgo(n.created_at)}</p>
               </div>
               {n.mood && <span className="text-lg">{n.mood}</span>}

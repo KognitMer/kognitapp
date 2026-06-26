@@ -168,7 +168,7 @@ export const CalendarScreen = () => {
     <div className="px-6 mt-5 flex items-end justify-between">
       <div>
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Día seleccionado</p>
-        <h3 className="text-lg font-bold">Miércoles 18</h3>
+        <h3 className="text-base font-bold">Miércoles 18</h3>
       </div>
       <button onClick={() => setComposerOpen(true)} className="flex items-center gap-1.5 bg-gradient-primary text-primary-foreground text-xs font-bold px-3.5 py-2 rounded-full shadow-soft">
         <Plus size={14} /> Nueva nota

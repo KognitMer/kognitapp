@@ -72,7 +72,7 @@ export const ProfileScreen = ({
           {name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1">
-          <p className="text-lg font-bold">{name}</p>
+          <p className="text-base font-bold">{name}</p>
           <p className="text-xs opacity-80">{email}</p>
           <div className="mt-1.5 inline-flex items-center gap-1 bg-white/15 backdrop-blur px-2.5 py-0.5 rounded-full text-[10px] font-bold">
             <Sparkles size={10} /> KOGNIT PRO
@@ -89,7 +89,7 @@ export const ProfileScreen = ({
       ].map(s => (
         <div key={s.label} className="p-4 rounded-2xl bg-card shadow-soft text-center">
           <s.icon size={18} className={`${s.c} mx-auto`} />
-          <p className="text-xl font-bold mt-1.5">{s.value}</p>
+          <p className="text-lg font-bold mt-1.5">{s.value}</p>
           <p className="text-[10px] text-muted-foreground font-semibold mt-0.5">{s.label}</p>
         </div>
       ))}
@@ -118,7 +118,7 @@ export const ProfileScreen = ({
 
     <div className="px-6 mt-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold">Logros</h3>
+        <h3 className="text-xs font-bold">Logros</h3>
         <button className="text-xs font-semibold text-primary">Todos</button>
       </div>
       <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar">
@@ -129,7 +129,7 @@ export const ProfileScreen = ({
         ].map(a => (
           <div key={a.t} className="min-w-[140px] p-4 rounded-2xl bg-card shadow-soft text-center">
             <div className="w-12 h-12 mx-auto rounded-2xl bg-gradient-soft flex items-center justify-center text-2xl">{a.e}</div>
-            <p className="mt-2 text-sm font-bold">{a.t}</p>
+            <p className="mt-2 text-xs font-bold">{a.t}</p>
             <p className="text-[10px] text-muted-foreground mt-0.5">{a.s}</p>
           </div>
         ))}
