@@ -85,21 +85,21 @@ export const RitualScreen = ({ onExit }: Props) => {
       <div className="relative px-6 pt-10">
         {step === 0 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">¿Cómo está tu energía?</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">¿Cómo está tu energía?</h1>
             <p className="mt-2 text-center text-xs opacity-70">Un minuto para escucharte.</p>
             <div className="mt-10"><Scale value={energy} onChange={setEnergy} label="Energía 1 a 5" /></div>
           </>
         )}
         {step === 1 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">¿Cuánta tensión sentís?</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">¿Cuánta tensión sentís?</h1>
             <p className="mt-2 text-center text-xs opacity-70">Hombros, mandíbula, pecho.</p>
             <div className="mt-10"><Scale value={tension} onChange={setTension} label="Tensión corporal" /></div>
           </>
         )}
         {step === 2 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">¿Cómo estás emocionalmente?</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">¿Cómo estás emocionalmente?</h1>
             <p className="mt-2 text-center text-xs opacity-70">Elegí la que más se acerca.</p>
             <div className="mt-8 grid grid-cols-2 gap-3">
               {STATES.map(s => (
@@ -113,7 +113,7 @@ export const RitualScreen = ({ onExit }: Props) => {
         )}
         {step === 3 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">Reflexión</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">Reflexión</h1>
             <p className="mt-2 text-center text-xs opacity-70">Opcional. ¿Qué te llevás de hoy?</p>
             <textarea value={reflection} onChange={e => setReflection(e.target.value)} rows={5}
               placeholder="Escribí o saltea este paso."
@@ -122,7 +122,7 @@ export const RitualScreen = ({ onExit }: Props) => {
         )}
         {step === 4 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">Gratitud</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">Gratitud</h1>
             <p className="mt-2 text-center text-xs opacity-70">Opcional. Algo que agradeces hoy.</p>
             <textarea value={gratitude} onChange={e => setGratitude(e.target.value)} rows={4}
               placeholder="Una persona, un momento, un detalle..."
@@ -131,7 +131,7 @@ export const RitualScreen = ({ onExit }: Props) => {
         )}
         {step === 5 && (
           <>
-            <h1 className="text-center text-2xl font-bold leading-tight">Intención para hoy</h1>
+            <h1 className="text-center text-xl font-bold leading-tight">Intención para hoy</h1>
             <p className="mt-2 text-center text-xs opacity-70">Opcional. Algo simple y concreto.</p>
             <textarea value={intention} onChange={e => setIntention(e.target.value)} rows={4}
               placeholder="Hoy elijo..."
@@ -142,7 +142,7 @@ export const RitualScreen = ({ onExit }: Props) => {
           <div className="text-center mt-10">
             <div className="w-20 h-20 mx-auto rounded-full bg-gradient-primary shadow-glow flex items-center justify-center text-3xl">🌿</div>
             <p className="mt-6 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Ritual completado</p>
-            <h1 className="mt-2 text-2xl font-bold leading-tight px-2">{closing}</h1>
+            <h1 className="mt-2 text-xl font-bold leading-tight px-2">{closing}</h1>
             <p className="mt-4 text-xs opacity-70 px-4">Guardamos tu registro para que veas tu proceso con el tiempo.</p>
           </div>
         )}

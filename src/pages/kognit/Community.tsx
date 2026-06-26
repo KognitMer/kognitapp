@@ -138,7 +138,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
               </div>
               {n.mood && <span className="text-lg">{n.mood}</span>}
             </div>
-            {n.title && <p className="mt-3 text-sm font-bold">{n.title}</p>}
+            {n.title && <p className="mt-3 text-xs font-bold">{n.title}</p>}
             <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{n.content}</p>
 
             <div className="mt-3 flex flex-wrap gap-1.5">
