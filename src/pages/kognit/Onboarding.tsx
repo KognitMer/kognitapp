@@ -8,7 +8,7 @@ const goals = [
   { icon: Brain, label: "Construir resistencia mental" },
 ];
 
-const triggers = ["Frustración", "Inseguridad", "Agresividad", "Desmotivación"];
+const triggers = ["Frustración", "Miedo", "Euforia", "Enojo", "Desmotivación"];
 
 export const OnboardingScreen = () => (
   <div className="min-h-full bg-gradient-hero px-6 pt-6 pb-10">
