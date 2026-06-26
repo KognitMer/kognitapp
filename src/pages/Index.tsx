@@ -17,13 +17,13 @@ const Index = () => {
           <img src={logo} alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div>
             <p className="text-3xl md:text-4xl font-bold tracking-tight">kognit</p>
-            <p className="text-sm md:text-base text-muted-foreground font-medium">Entrenamiento mental para poker</p>
+            <span className="text-sm md:text-base text-muted-foreground font-medium">La ventaja está en tu mente.</span>
           </div>
         </div>
 
         <div className="mt-12 max-w-2xl">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-            ● Rendimiento mental para poker
+            ● REGISTRO EMOCIONAL - ENTRENAMIENTO MENTAL - COMUNIDAD
           </span>
           <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
             <span>Vuelve al foco</span>
