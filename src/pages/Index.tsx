@@ -13,11 +13,21 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <header className="px-8 pt-14 pb-10 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4">
-          <img src={logo} alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
-          <div>
-            <p className="text-3xl md:text-4xl font-bold tracking-tight">kognit</p>
-            <span className="text-sm md:text-base text-muted-foreground font-medium">La ventaja está en tu mente.</span>
+        <div className="flex items-center gap-5 md:gap-6 group">
+          <div className="relative flex-shrink-0">
+            <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110" />
+            <img
+              src={logo}
+              alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker"
+              className="relative w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <div className="flex items-baseline gap-2">
+              <p className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none">kognit</p>
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+            </div>
+            <span className="mt-1.5 text-base md:text-lg font-medium text-muted-foreground tracking-wide">La ventaja está en tu mente.</span>
           </div>
         </div>
 
