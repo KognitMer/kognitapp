@@ -27,7 +27,7 @@ export const TrackingScreen = () => (
 
       <div className="mt-4">
         <div className="flex justify-between text-xs text-muted-foreground font-medium">
-          <span>Abrumado</span><span>Tranquilo</span><span>Enfocado</span>
+          <span>Desbordado</span><span>Tranquilo</span><span>Enfocado</span>
         </div>
         <div className="mt-2 relative h-2 bg-muted rounded-full">
           <div className="absolute inset-y-0 left-0 w-[68%] bg-gradient-primary rounded-full" />

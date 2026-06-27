@@ -337,7 +337,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             className="mt-8 w-full accent-primary-glow"
           />
           <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
-            <span>Tranquilo</span><span>Abrumado</span>
+            <span>Tranquilo</span><span>Desbordado</span>
           </div>
 
           <button
@@ -367,7 +367,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             className="mt-6 w-full accent-primary-glow"
           />
           <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
-            <span>Tranquilo</span><span>Abrumado</span>
+            <span>Tranquilo</span><span>Desbordado</span>
           </div>
 
           <div className="mt-6 p-4 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-center">
