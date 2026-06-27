@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/kognit-logo.png";
+import logo from "@/assets/kognit-logo.png.asset.json";
 import { PhoneFrame } from "@/components/kognit/PhoneFrame";
 import { OnboardingScreen } from "./kognit/Onboarding";
 import { HomeScreen } from "./kognit/Home";
@@ -17,7 +17,7 @@ const Index = () => {
           <div className="relative flex-shrink-0">
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110" />
             <img
-              src={logo}
+              src={logo.url}
               alt="Logo de Kognit, app de entrenamiento mental para jugadores de poker"
               className="relative w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
             />

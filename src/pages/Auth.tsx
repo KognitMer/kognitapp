@@ -78,7 +78,7 @@ export default function Auth() {
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-6 py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center gap-3 mb-8">
-          <img src={logo} alt="Kognit" className="w-12 h-12 object-contain" />
+          <img src={logo.url} alt="Kognit" className="w-12 h-12 object-contain" />
           <div>
             <p className="text-xl font-bold tracking-tight">kognit</p>
             <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest">Rendimiento mental · Poker</p>
