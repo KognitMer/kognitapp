@@ -31,21 +31,21 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="mt-12 max-w-2xl">
+        <div className="mt-12 max-w-4xl">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
             ● REGISTRO EMOCIONAL - ENTRENAMIENTO MENTAL - COMUNIDAD
           </span>
-          <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
-            <span>Vuelve al foco</span>
+          <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight text-justify">
+            <span className="inline-block w-full">Vuelve al foco</span>
             <br />
-            <span className="text-gradient">Donde la mente juega a ganar.</span>
+            <span className="text-gradient inline-block w-full">Donde la mente juega a ganar.</span>
           </h1>
-          <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+          <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed text-justify">
             Reset de tilt en segundos, herramientas prácticas para volver al presente, rituales diarios de conexión y una comunidad que comparte el camino hacia un rendimiento mental más sólido.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
-              Entrar a la app →
+              Crear una cuenta
             </Link>
             <a href="#prototipo" className="bg-card border border-border font-bold px-6 py-3 rounded-full text-sm">
               Ver prototipo
