@@ -36,7 +36,7 @@ export const CATEGORIES: CardCategory[] = [
       { title: "Solo esta mano", message: "La anterior ya no juega. La próxima todavía no existe. Esta sí.", action: "Mirá tus cartas como si fuera tu primera mano de la sesión." },
       { title: "Entrá en la zona", message: "La zona no llega sola. Se invita con un ritual corto y repetible.", action: "Postura recta, hombros abajo, 3 respiraciones lentas. Empezá." },
       { title: "Calidad antes que resultados", message: "El resultado es ruido. La calidad de la decisión es la señal.", action: "Calificá tu última decisión del 1 al 5. Sin mirar el bote." },
-      { title: "Diversificá tus metas diarias", message: "Si tu única meta es ganar, perder te rompe. Sumá metas de proceso.", action: "Definí 1 meta técnica para esta sesión (ej: leer rangos OOP)." },
+      { title: "Diversificá tus metas diarias", message: "Si tu única meta es ganar, perder te rompe. Sumá metas de proceso.", action: "Definí 1 meta técnica para esta sesión." },
     ],
   },
   {
