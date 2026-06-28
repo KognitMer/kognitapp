@@ -19,7 +19,7 @@ interface ProfileProps {
 }
 
 export const ProfileScreen = ({
-  name = "Jugador",
+  name = "Usuario",
   email = "—",
   focusLevel = 72,
   emotionalControl = 64,

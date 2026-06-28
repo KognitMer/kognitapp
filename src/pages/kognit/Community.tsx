@@ -74,7 +74,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
 
     setNotes(list.map(n => ({
       ...n,
-      author: nameById.get(n.user_id) ?? "Jugador",
+      author: nameById.get(n.user_id) ?? "Usuario",
       reactions: counts[n.id] ?? {},
       myReaction: mine[n.id] ?? null,
     })));
