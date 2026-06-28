@@ -41,7 +41,7 @@ const Index = () => {
             <span className="text-gradient inline-block w-full">Donde la mente juega a ganar.</span>
           </h1>
           <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed text-justify">
-            Reset de tilt en segundos, herramientas prácticas para volver al presente, rituales diarios de conexión y una comunidad que comparte el camino hacia un rendimiento mental más sólido.
+            Reset en segundos, herramientas prácticas para volver al presente, rituales diarios de conexión y una comunidad que comparte el camino hacia un rendimiento mental más sólido.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
