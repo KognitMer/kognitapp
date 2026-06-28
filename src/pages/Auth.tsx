@@ -63,7 +63,7 @@ export default function Auth() {
     const { error } = await supabase.auth.signUp({
       email: `guest_${rand}@kognit.app`,
       password: `Guest_${rand}_${Date.now()}`,
-      options: { data: { display_name: "Jugador" } },
+      options: { data: { display_name: "Usuario" } },
     });
     setLoading(false);
     if (error) {

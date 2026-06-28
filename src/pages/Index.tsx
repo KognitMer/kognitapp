@@ -62,7 +62,7 @@ const Index = () => {
           <PhoneFrame label="04 · Cartas Mentales"><CardsScreen /></PhoneFrame>
           <PhoneFrame label="05 · Diario · Calendario"><CalendarScreen /></PhoneFrame>
           <PhoneFrame label="06 · Registro Emocional"><TrackingScreen /></PhoneFrame>
-          <PhoneFrame label="07 · Perfil del Jugador"><ProfileScreen /></PhoneFrame>
+          <PhoneFrame label="07 · Perfil del Usuario"><ProfileScreen /></PhoneFrame>
         </div>
       </main>
 

@@ -64,7 +64,7 @@ export default function MobileApp() {
         return <TrackingScreen />;
       case "profile":
         return <ProfileScreen
-          name={profile?.display_name ?? "Jugador"}
+          name={profile?.display_name ?? "Usuario"}
           email={user.email ?? ""}
           focusLevel={profile?.focus_level ?? 60}
           emotionalControl={profile?.emotional_control ?? 60}
@@ -75,7 +75,7 @@ export default function MobileApp() {
         />;
       default:
         return <HomeScreen
-          name={profile?.display_name ?? "Jugador"}
+          name={profile?.display_name ?? "Usuario"}
           onTilt={goTilt}
           onCards={() => setView("cards")}
           onTrack={() => setView("track")}
