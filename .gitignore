@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# NOTE: do NOT gitignore .env — it's managed by Lovable Cloud and required for
-# the Supabase client (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY).
+# Environment variables — never commit credentials
+.env
+.env.*
+!.env.example
