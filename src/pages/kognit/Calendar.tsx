@@ -160,7 +160,7 @@ export const CalendarScreen = () => {
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-primary" />Foco</span>
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent" />Calma</span>
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-warning" />Tenso</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-destructive" />Tilt</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-destructive" />Desbordado</span>
       </div>
     </div>
 

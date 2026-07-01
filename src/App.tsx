@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import MobileApp from "./pages/MobileApp.tsx";
+import TiltStandalone from "./pages/TiltStandalone.tsx";
 import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/app" element={<MobileApp />} />
+            <Route path="/tilt" element={<TiltStandalone />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

@@ -8,7 +8,7 @@ const week = [
 
 const sessions = [
   { time: "Hoy · 20:42", title: "NL50 — Stars", mood: "Enfocado", tag: "🎯", trend: "+12%", positive: true },
-  { time: "Hoy · 14:15", title: "Reset de tilt", mood: "Recuperado", tag: "🧘", trend: "Calma", positive: true },
+  { time: "Hoy · 14:15", title: "Reset", mood: "Recuperado", tag: "🧘", trend: "Calma", positive: true },
   { time: "Ayer · 23:20", title: "Burbuja MTT", mood: "Tenso", tag: "😤", trend: "-4%", positive: false },
   { time: "Ayer · 19:00", title: "Ritual pre-sesión", mood: "Tranquilo", tag: "✨", trend: "Listo", positive: true },
 ];

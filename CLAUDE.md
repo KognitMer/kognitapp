@@ -62,7 +62,7 @@ Tab  = "home" | "cards" | "calendar" | "track" | "profile"  ← visible en Botto
 | Archivo | Vista | Descripción |
 |---|---|---|
 | `Home.tsx` | `home` | Dashboard: selector de estado mental + acciones rápidas |
-| `Tilt.tsx` | `tilt` | Protocolo de reset: respiración 4·7·8 o 4·4 → grounding → estado emocional → check |
+| `Tilt.tsx` | `tilt` | Protocolo de reset: respiración 4·7·8 o 4·4·4 → grounding → estado emocional → check |
 | `Ritual.tsx` | `ritual` | Ritual diario de 7 pasos: energía, tensión, estado emocional, reflexión, gratitud, intención |
 | `Cards.tsx` | `cards` | Cartas de coaching mental por categoría |
 | `Tracking.tsx` | `track` | Registro emocional semanal con gráfico de barras |
@@ -204,17 +204,17 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 
 ## Cartas mentales
 
-`src/data/mentalCards.ts` — 5 categorías, 5 cartas cada una:
+`src/data/mentalCards.ts` — 5 categorías, 10 cartas cada una:
 
 | id | Nombre | Accent |
 |---|---|---|
-| `tilt` | Tilt | destructive (rojo) |
-| `focus` | Foco | primary (teal) |
-| `decisions` | Toma de decisiones | accent (deep) |
-| `discipline` | Disciplina | warning (amarillo) |
-| `resilience` | Resiliencia | primary (teal) |
+| `habits` | Formación de hábitos | primary (teal/verde) |
+| `focus` | Foco y concentración | info (azul) |
+| `mindfulness` | Mindfulness y Respiración | violet (violeta) |
+| `stress` | Manejo del estrés y Emociones | destructive (rojo) |
+| `performance` | Rendimiento mental | gold (dorado) |
 
-Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay backend para este contenido.
+Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay backend para este contenido.
 
 ## Protocolo Tilt (flujo completo)
 
@@ -222,7 +222,7 @@ Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay ba
 intro → pulse (pre_intensity) → breathe → grounding → state → check (post_intensity) → exit
 ```
 
-- Modes: `fast` (4·4, ~40s) / `deep` (4·7·8, ~90s)
+- Modes: `fast` (4·4·4, ~35s) / `deep` (4·7·8, ~90s)
 - Al llegar a `exit`, guarda un `reset_sessions` en Supabase
 - `sessionSavedRef` previene doble-guardado
 - Sonido via `playBong()` (Web Audio API), activable por el usuario

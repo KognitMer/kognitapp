@@ -14,7 +14,7 @@ type Phase = "in" | "hold" | "out";
 
 const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; label: string; cycles: number }> = {
   deep: { phases: ["in", "hold", "out"], secs: [4, 7, 8], label: "4 · 7 · 8", cycles: 3 },
-  fast: { phases: ["in", "out"], secs: [4, 4], label: "4 · 4", cycles: 4 },
+  fast: { phases: ["in", "hold", "out"], secs: [4, 4, 4], label: "4 · 4 · 4", cycles: 3 },
 };
 
 const PHASE_TEXT: Record<Phase, string> = { in: "Inhalar", hold: "Mantener", out: "Exhalar" };
@@ -22,19 +22,31 @@ const PHASE_TEXT: Record<Phase, string> = { in: "Inhalar", hold: "Mantener", out
 const GROUNDING_Q = [
   {
     q: "¿Dónde estás sentado ahora?",
-    options: ["Casa", "Sala / club", "Oficina", "Otro lugar"],
+    options: ["Casa", "Oficina", "Espacio compartido", "Otro lugar"],
   },
   {
     q: "¿Qué comiste hoy?",
     options: ["Una comida", "Dos o más", "Solo snacks", "Nada todavía"],
   },
   {
-    q: "¿Cuántas fichas / stack tenías al empezar?",
-    options: ["Más que ahora", "Igual", "Menos", "No recuerdo"],
+    q: "¿Qué objeto tenés más cerca?",
+    options: ["Vaso o taza", "El celular", "Una lapicera", "Otra cosa"],
   },
   {
-    q: "¿Qué hacías antes de esa mano?",
-    options: ["Jugando focalizado", "Distraído", "Hablando", "Otro"],
+    q: "¿Qué estabas haciendo hace una hora?",
+    options: ["Trabajando / estudiando", "Descansando", "Con otra gente", "No recuerdo bien"],
+  },
+  {
+    q: "¿Qué hora es, aproximadamente?",
+    options: ["Mañana", "Tarde", "Noche", "No tengo idea"],
+  },
+  {
+    q: "¿Qué sonido escuchás ahora?",
+    options: ["Silencio", "Voces", "Música", "Ruido de calle"],
+  },
+  {
+    q: "¿Cómo está la temperatura del ambiente?",
+    options: ["Frío", "Templado", "Calor", "No lo noté"],
   },
 ];
 
@@ -76,7 +88,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
   const primaryState = selectedStates[0] ?? null;
   const exitText = useMemo(() => {
-    const pool = primaryState ? STATE_MESSAGES[primaryState] : ["Volvé al juego con cabeza."];
+    const pool = primaryState ? STATE_MESSAGES[primaryState] : ["Volvé con cabeza."];
     return pool[Math.floor(Math.random() * pool.length)];
   }, [primaryState, stage === "exit"]);
 
@@ -190,8 +202,8 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             <button onClick={() => startBreath("fast")}
               className="w-full bg-gradient-emergency text-destructive-foreground rounded-2xl p-5 shadow-emergency text-left active:scale-[0.98] transition-transform">
               <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">Modo rápido</p>
-              <p className="text-2xl font-bold mt-0.5">4 · 4</p>
-              <p className="text-xs opacity-90 mt-1">Estás en mesa. ~40 segundos.</p>
+              <p className="text-2xl font-bold mt-0.5">4 · 4 · 4</p>
+              <p className="text-xs opacity-90 mt-1">Estás en mesa. ~35 segundos.</p>
             </button>
             <button onClick={() => startBreath("deep")}
               className="w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-5 text-left active:scale-[0.98] transition-transform">
@@ -392,7 +404,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         <div className="relative px-6 pt-8 flex flex-col items-center">
           <img src={mascot} alt="" aria-hidden="true" className="w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.4)]" />
           <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
-          <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé al juego con cabeza</h2>
+          <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé con cabeza</h2>
 
           <div className="mt-6 mx-2 p-5 rounded-3xl bg-white/10 backdrop-blur border border-white/15 w-full">
             <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
@@ -413,7 +425,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           <div className="mt-6 w-full space-y-3">
             <button onClick={onExit}
               className="w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
-              Volver al juego <ChevronRight size={18} />
+              Volver al inicio <ChevronRight size={18} />
             </button>
             <button onClick={() => {
               setStage("intro");
