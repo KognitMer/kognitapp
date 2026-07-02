@@ -6,15 +6,15 @@ import { PhoneFrame } from "@/components/kognit/PhoneFrame";
 import { HomeScreen } from "./kognit/Home";
 import { TiltScreen } from "./kognit/Tilt";
 import { CardsScreen } from "./kognit/Cards";
-import { TrackingScreen } from "./kognit/Tracking";
 import { CalendarScreen } from "./kognit/Calendar";
 import { ProfileScreen } from "./kognit/Profile";
 import { CommunityScreen } from "./kognit/Community";
 import { RitualScreen } from "./kognit/Ritual";
+import { MessagesScreen } from "./kognit/Messages";
 import { BottomNav } from "@/components/kognit/BottomNav";
 
-type Tab = "home" | "cards" | "calendar" | "track" | "profile";
-type View = Tab | "tilt" | "community" | "ritual";
+type Tab = "home" | "cards" | "calendar" | "community" | "profile";
+type View = Tab | "tilt" | "ritual" | "messages";
 
 interface Profile {
   display_name: string;
@@ -54,14 +54,14 @@ export default function MobileApp() {
         return <TiltScreen onExit={() => setView("home")} />;
       case "ritual":
         return <RitualScreen onExit={() => setView("home")} />;
+      case "messages":
+        return <MessagesScreen onBack={() => setView("community")} />;
       case "community":
-        return <CommunityScreen onBack={() => setView("home")} />;
+        return <CommunityScreen onBack={() => setView("home")} onMessages={() => setView("messages")} />;
       case "cards":
         return <CardsScreen onBack={() => setView("home")} />;
       case "calendar":
         return <CalendarScreen />;
-      case "track":
-        return <TrackingScreen />;
       case "profile":
         return <ProfileScreen
           name={profile?.display_name ?? "Usuario"}
@@ -78,9 +78,8 @@ export default function MobileApp() {
           name={profile?.display_name ?? "Usuario"}
           onTilt={goTilt}
           onCards={() => setView("cards")}
-          onTrack={() => setView("track")}
+          onProgress={() => setView("calendar")}
           onRitual={() => setView("ritual")}
-          onCommunity={() => setView("community")}
         />;
     }
   })();
@@ -90,7 +89,7 @@ export default function MobileApp() {
     <div className="min-h-screen bg-gradient-hero md:flex md:items-center md:justify-center md:py-8">
       <div className="md:hidden relative min-h-screen">
         {screen}
-        {view !== "tilt" && view !== "ritual" && (
+        {view !== "tilt" && view !== "ritual" && view !== "messages" && (
           <BottomNav
             active={view as Tab}
             onChange={(k) => setView(k)}
@@ -101,7 +100,7 @@ export default function MobileApp() {
         <PhoneFrame>
           <div className="relative h-full">
             {screen}
-            {view !== "tilt" && view !== "ritual" && (
+            {view !== "tilt" && view !== "ritual" && view !== "messages" && (
               <BottomNav active={view as Tab} onChange={(k) => setView(k)} />
             )}
           </div>

@@ -1,9 +1,14 @@
-import { ChevronLeft, ChevronRight, Plus, Sparkles, Lock, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Sparkles, Lock, Users, TrendingUp } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
+
+const week = [
+  { d: "L", v: 60 }, { d: "M", v: 75 }, { d: "M", v: 50 },
+  { d: "J", v: 80 }, { d: "V", v: 90 }, { d: "S", v: 65 }, { d: "D", v: 85 },
+];
 
 const days = ["L", "M", "M", "J", "V", "S", "D"];
 const MONTH_NAMES = [
@@ -123,6 +128,27 @@ export const CalendarScreen = () => {
         <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
           <Sparkles size={20} />
         </div>
+      </div>
+    </div>
+
+    {/* Foco esta semana */}
+    <div className="mx-6 mt-4 p-4 rounded-3xl bg-card shadow-card">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">Foco esta semana</p>
+          <p className="text-xl font-bold mt-0.5">72,4 <span className="text-sm text-muted-foreground font-medium">prom</span></p>
+        </div>
+        <div className="flex items-center gap-1 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold">
+          <TrendingUp size={14} /> +8%
+        </div>
+      </div>
+      <div className="mt-4 flex items-end justify-between h-20 gap-2">
+        {week.map((d, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center gap-2">
+            <div className="w-full rounded-lg bg-gradient-to-t from-primary-glow to-accent" style={{ height: `${d.v}%` }} />
+            <span className="text-[10px] text-muted-foreground font-semibold">{d.d}</span>
+          </div>
+        ))}
       </div>
     </div>
 

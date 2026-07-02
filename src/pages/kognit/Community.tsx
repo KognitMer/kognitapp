@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, Lock } from "lucide-react";
+import { ChevronLeft, Lock, MessageCircle, Send, ImagePlus } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
+import { ReplyComposer } from "@/components/kognit/ReplyComposer";
+import { timeAgo } from "@/lib/utils";
 
-interface Props { onBack?: () => void; }
+interface Props { onBack?: () => void; onMessages?: () => void; }
 
 const REACTIONS = [
   { key: "breathe", emoji: "🫁", label: "Me ayudó a respirar" },
@@ -21,31 +23,40 @@ interface NoteRow {
   title: string | null;
   content: string;
   mood: string | null;
+  image_url: string | null;
   created_at: string;
   author?: string;
   reactions: Record<string, number>;
   myReaction?: string | null;
+  imageSignedUrl?: string | null;
 }
 
-const timeAgo = (iso: string) => {
-  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
-  if (diff < 60) return "Ahora";
-  if (diff < 3600) return `${Math.floor(diff / 60)}m`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
-  return `${Math.floor(diff / 86400)}d`;
-};
+// "note-images" es un bucket privado: image_url guarda el path del objeto,
+// no una URL pública. Acá se cambian todos los paths de la tanda por URLs
+// firmadas temporales en una sola llamada.
+const IMAGE_URL_TTL = 60 * 60 * 24; // 24hs
 
-export const CommunityScreen = ({ onBack }: Props) => {
+async function signImagePaths(list: NoteRow[]): Promise<Map<string, string>> {
+  const paths = list.map(n => n.image_url).filter((p): p is string => !!p);
+  if (!paths.length) return new Map();
+  const { data } = await supabase.storage.from("note-images").createSignedUrls(paths, IMAGE_URL_TTL);
+  const map = new Map<string, string>();
+  (data ?? []).forEach(d => { if (d.signedUrl && d.path) map.set(d.path, d.signedUrl); });
+  return map;
+}
+
+export const CommunityScreen = ({ onBack, onMessages }: Props) => {
   const { user } = useAuth();
   const [notes, setNotes] = useState<NoteRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [composerOpen, setComposerOpen] = useState(false);
+  const [replyTarget, setReplyTarget] = useState<NoteRow | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     const { data: ns } = await supabase
       .from("notes")
-      .select("id, user_id, title, content, mood, created_at")
+      .select("id, user_id, title, content, mood, image_url, created_at")
       .eq("visibility", "public")
       .order("created_at", { ascending: false })
       .limit(50);
@@ -72,11 +83,16 @@ export const CommunityScreen = ({ onBack }: Props) => {
       if (user && r.user_id === user.id) mine[r.note_id] = r.reaction;
     });
 
-    setNotes(list.map(n => ({
+    const withMeta = list.map(n => ({
       ...n,
       author: nameById.get(n.user_id) ?? "Usuario",
       reactions: counts[n.id] ?? {},
       myReaction: mine[n.id] ?? null,
+    }));
+    const signedByPath = await signImagePaths(withMeta);
+    setNotes(withMeta.map(n => ({
+      ...n,
+      imageSignedUrl: n.image_url ? signedByPath.get(n.image_url) ?? null : null,
     })));
     setLoading(false);
   }, [user]);
@@ -106,14 +122,19 @@ export const CommunityScreen = ({ onBack }: Props) => {
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Comunidad</p>
           <p className="text-xs font-bold">Momentos de Conexión</p>
         </div>
-        <div className="w-10" />
+        <button onClick={onMessages} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+          <MessageCircle size={18} />
+        </button>
       </div>
 
       <div className="mx-6 mt-4 p-4 rounded-3xl bg-gradient-deep text-primary-foreground shadow-card">
-        <p className="text-xs opacity-80">Un espacio tranquilo para compartir lo que aprendemos.</p>
+        <p className="text-xs opacity-80">Momentos reales. Una mente en evolución.</p>
         <button onClick={() => setComposerOpen(true)}
-          className="mt-3 w-full bg-white/15 backdrop-blur text-xs font-bold py-2.5 rounded-xl">
-          Compartir un momento
+          className="mt-3 w-full bg-white/15 backdrop-blur rounded-full py-2.5 pl-4 pr-2 flex items-center justify-between gap-2 active:scale-[0.98] transition-transform">
+          <span className="text-xs font-semibold opacity-80">¿Qué hizo la diferencia hoy?</span>
+          <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <ImagePlus size={14} />
+          </span>
         </button>
       </div>
 
@@ -140,31 +161,59 @@ export const CommunityScreen = ({ onBack }: Props) => {
             </div>
             {n.title && <p className="mt-3 text-xs font-bold">{n.title}</p>}
             <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{n.content}</p>
+            {n.imageSignedUrl && (
+              <img
+                src={n.imageSignedUrl}
+                alt=""
+                loading="lazy"
+                className="mt-3 w-full max-h-64 object-cover rounded-2xl"
+              />
+            )}
 
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {REACTIONS.map(r => {
-                const active = n.myReaction === r.key;
-                const count = n.reactions[r.key] ?? 0;
-                return (
-                  <button key={r.key} onClick={() => react(n.id, r.key, n.myReaction)}
-                    title={r.label}
-                    className={`px-2.5 py-1 rounded-full text-xs flex items-center gap-1 transition-all border ${
-                      active
-                        ? "bg-primary/10 text-primary border-primary/30 font-bold"
-                        : "bg-secondary text-muted-foreground border-transparent"
-                    }`}>
-                    <span>{r.emoji}</span>
-                    {count > 0 && <span className="text-[10px] font-bold">{count}</span>}
-                  </button>
-                );
-              })}
+            <div className="mt-3 pt-3 border-t border-border flex items-center justify-between gap-2">
+              <div className="flex flex-wrap gap-1.5">
+                {REACTIONS.map(r => {
+                  const active = n.myReaction === r.key;
+                  const count = n.reactions[r.key] ?? 0;
+                  return (
+                    <button key={r.key} onClick={() => react(n.id, r.key, n.myReaction)}
+                      title={r.label}
+                      className={`px-2.5 py-1 rounded-full text-xs flex items-center gap-1 transition-all border ${
+                        active
+                          ? "bg-primary/10 text-primary border-primary/30 font-bold"
+                          : "bg-secondary text-muted-foreground border-transparent"
+                      }`}>
+                      <span>{r.emoji}</span>
+                      {count > 0 && <span className="text-[10px] font-bold">{count}</span>}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {user && n.user_id !== user.id && (
+                <button
+                  onClick={() => setReplyTarget(n)}
+                  className="shrink-0 px-2.5 py-1.5 rounded-full text-[10px] font-bold bg-secondary text-foreground flex items-center gap-1">
+                  <Send size={11} /> Responder
+                </button>
+              )}
             </div>
           </div>
         ))}
       </div>
 
       <NoteComposer open={composerOpen} onClose={() => setComposerOpen(false)} onSaved={load} />
-      <BottomNav active="home" />
+      {replyTarget && (
+        <ReplyComposer
+          open={!!replyTarget}
+          onClose={() => setReplyTarget(null)}
+          recipientId={replyTarget.user_id}
+          recipientName={replyTarget.author ?? "Usuario"}
+          noteId={replyTarget.id}
+          onSent={() => setReplyTarget(null)}
+        />
+      )}
+      <BottomNav active="community" />
     </div>
   );
 };

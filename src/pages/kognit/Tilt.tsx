@@ -4,6 +4,7 @@ import mascot from "@/assets/kognit-mascot.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { playBong } from "@/lib/sound";
+import { getSoundEnabled, getVibrationEnabled } from "@/lib/preferences";
 
 
 interface TiltProps { onExit?: () => void; }
@@ -68,7 +69,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const { user } = useAuth();
   const [stage, setStage] = useState<Stage>("intro");
   const [mode, setMode] = useState<Mode>("deep");
-  const [sound, setSound] = useState(false);
+  const [sound, setSound] = useState(getSoundEnabled);
 
   // breathing state
   const [cycle, setCycle] = useState(0);
@@ -118,6 +119,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   };
 
   const vibrate = (ms: number | number[]) => {
+    if (!getVibrationEnabled()) return;
     try { (navigator as any).vibrate?.(ms); } catch {}
   };
 
@@ -220,22 +222,23 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         <div className="relative px-6">
           <div className="mt-5 flex justify-center gap-1.5">
             {Array.from({ length: totalCycles }).map((_, i) => (
-              <div key={i} className={`h-1 rounded-full transition-all ${i < cycle ? "w-8 bg-primary-glow" : i === cycle ? "w-10 bg-primary-glow/70" : "w-4 bg-white/15"}`} />
+              <div key={i} className={`h-1.5 rounded-full transition-all ${i < cycle ? "w-8 bg-primary-glow" : i === cycle ? "w-10 bg-primary-glow shadow-glow" : "w-4 bg-white/25"}`} />
             ))}
           </div>
 
           <div className="mt-10 flex justify-center">
             <div className="relative w-64 h-64 flex items-center justify-center">
+              <div className="absolute -inset-10 rounded-full bg-primary-glow/25 blur-3xl" />
               <div
-                className="absolute inset-0 rounded-full bg-primary-glow/15"
+                className="absolute inset-0 rounded-full bg-primary-glow/25"
                 style={{ transform: `scale(${scale})`, transition: `transform 1s ease-in-out` }}
               />
               <div
-                className="absolute inset-6 rounded-full bg-primary-glow/25"
+                className="absolute inset-6 rounded-full bg-primary-glow/40"
                 style={{ transform: `scale(${scale})`, transition: `transform 1s ease-in-out` }}
               />
               <div
-                className="absolute inset-12 rounded-full bg-gradient-primary shadow-glow"
+                className="absolute inset-12 rounded-full bg-gradient-primary shadow-glow ring-4 ring-primary-glow/30"
                 style={{ transform: `scale(${scale})`, transition: `transform 1s ease-in-out` }}
               />
               <div className="relative text-center">

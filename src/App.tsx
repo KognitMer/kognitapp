@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -10,10 +11,14 @@ import ResetPassword from "./pages/ResetPassword.tsx";
 import MobileApp from "./pages/MobileApp.tsx";
 import TiltStandalone from "./pages/TiltStandalone.tsx";
 import { AuthProvider } from "./contexts/AuthContext";
+import { applyStoredDarkMode } from "./lib/preferences";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  useEffect(() => { applyStoredDarkMode(); }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -32,6 +37,7 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;

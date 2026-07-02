@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { X, Lock, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { X, Lock, Users, Image as ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/sonner";
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const MOODS = ["🧘", "🎯", "😐", "😤", "🔥", "✨"];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
   const { user } = useAuth();
@@ -19,18 +20,69 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
   const [mood, setMood] = useState<string>("🎯");
   const [visibility, setVisibility] = useState<"private" | "public">("private");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => () => { if (imagePreview) URL.revokeObjectURL(imagePreview); }, [imagePreview]);
 
   if (!open) return null;
+
+  const onPickImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("El archivo debe ser una imagen");
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      toast.error("La imagen no puede superar 5MB");
+      return;
+    }
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const removeImage = () => {
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImageFile(null);
+    setImagePreview(null);
+  };
 
   const save = async () => {
     if (!user || !content.trim()) return;
     setSaving(true);
+
+    // El bucket "note-images" es privado (workspace bloquea buckets públicos),
+    // así que acá guardamos el path del objeto, no una URL. Community.tsx
+    // genera una signed URL temporal al mostrar cada nota.
+    let image_url: string | null = null;
+    if (imageFile) {
+      setUploading(true);
+      const ext = imageFile.name.split(".").pop() || "jpg";
+      const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("note-images")
+        .upload(path, imageFile, { cacheControl: "3600", upsert: false });
+      setUploading(false);
+      if (uploadError) {
+        setSaving(false);
+        toast.error("No se pudo subir la imagen");
+        return;
+      }
+      image_url = path;
+    }
+
     const { error } = await supabase.from("notes").insert({
       user_id: user.id,
       title: title.trim() || null,
       content: content.trim(),
       mood,
       visibility,
+      image_url,
     });
     setSaving(false);
     if (error) {
@@ -38,7 +90,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
       return;
     }
     toast.success(visibility === "public" ? "Compartida con la comunidad" : "Nota guardada");
-    setTitle(""); setContent(""); setMood("🎯"); setVisibility("private");
+    setTitle(""); setContent(""); setMood("🎯"); setVisibility("private"); removeImage();
     onSaved?.();
     onClose();
   };
@@ -76,6 +128,33 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
           ))}
         </div>
 
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={onPickImage}
+          className="hidden"
+        />
+        {!imagePreview ? (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="mt-3 w-full flex items-center justify-center gap-2 bg-secondary/40 rounded-2xl py-3 text-xs font-bold text-muted-foreground">
+            <ImageIcon size={15} />
+            Agregar imagen (opcional)
+          </button>
+        ) : (
+          <div className="mt-3 relative">
+            <img src={imagePreview} alt="Vista previa" className="w-full max-h-48 object-cover rounded-2xl" />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute top-2 right-2 w-7 h-7 rounded-full bg-foreground/70 text-background flex items-center justify-center">
+              <X size={13} />
+            </button>
+          </div>
+        )}
+
         <p className="mt-4 text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Privacidad</p>
         <div className="mt-2 grid grid-cols-2 gap-2">
           <button onClick={() => setVisibility("private")}
@@ -100,7 +179,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
           onClick={save}
           disabled={!content.trim() || saving}
           className="mt-5 w-full bg-foreground text-background font-bold py-3.5 rounded-2xl text-sm shadow-card disabled:opacity-40">
-          {saving ? "Guardando..." : "Guardar"}
+          {uploading ? "Subiendo imagen..." : saving ? "Guardando..." : "Guardar"}
         </button>
       </div>
     </div>

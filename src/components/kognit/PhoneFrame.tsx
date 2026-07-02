@@ -7,7 +7,7 @@ interface Props {
 
 export const PhoneFrame = ({ children, label }: Props) => (
   <div className="flex flex-col items-center gap-3">
-    <div className="relative w-[380px] h-[780px] rounded-[3rem] bg-foreground/90 p-3 shadow-card">
+    <div className="relative transform w-[380px] h-[780px] rounded-[3rem] bg-foreground/90 p-3 shadow-card">
       <div className="absolute inset-0 rounded-[3rem] ring-1 ring-foreground/10 pointer-events-none" />
       <div className="relative w-full h-full rounded-[2.4rem] overflow-hidden bg-background">
         {/* Notch */}

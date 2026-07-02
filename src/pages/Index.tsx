@@ -6,9 +6,9 @@ import { OnboardingScreen } from "./kognit/Onboarding";
 import { HomeScreen } from "./kognit/Home";
 import { TiltScreen } from "./kognit/Tilt";
 import { CardsScreen } from "./kognit/Cards";
-import { TrackingScreen } from "./kognit/Tracking";
 import { CalendarScreen } from "./kognit/Calendar";
 import { ProfileScreen } from "./kognit/Profile";
+import { CommunityScreen } from "./kognit/Community";
 
 const Index = () => {
   return (
@@ -34,7 +34,7 @@ const Index = () => {
 
         <div className="mt-12">
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-            ● REGISTRO EMOCIONAL - ENTRENAMIENTO MENTAL - COMUNIDAD
+            ● DIARIO MENTAL - ENTRENAMIENTO MENTAL - COMUNIDAD
           </span>
           <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
             <span className="block">Vuelve al foco</span>
@@ -80,7 +80,7 @@ const Index = () => {
           <PhoneFrame label={"03 · RESET\u00a0"}><TiltScreen /></PhoneFrame>
           <PhoneFrame label="04 · Cartas Mentales"><CardsScreen /></PhoneFrame>
           <PhoneFrame label="05 · Diario · Calendario"><CalendarScreen /></PhoneFrame>
-          <PhoneFrame label="06 · Registro Emocional"><TrackingScreen /></PhoneFrame>
+          <PhoneFrame label="06 · Comunidad"><CommunityScreen /></PhoneFrame>
           <PhoneFrame label="07 · Perfil del Usuario"><ProfileScreen /></PhoneFrame>
           </div>
         </div>

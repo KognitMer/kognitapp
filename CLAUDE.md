@@ -51,11 +51,11 @@ bun lint         # eslint
 `MobileApp.tsx` maneja todo el estado de navegación con un `useState<View>`. No usa React Router para las sub-pantallas — el cambio de vista es imperativo via callbacks.
 
 ```
-View = "home" | "cards" | "calendar" | "track" | "profile" | "tilt" | "community" | "ritual"
-Tab  = "home" | "cards" | "calendar" | "track" | "profile"  ← visible en BottomNav
+View = "home" | "cards" | "calendar" | "community" | "profile" | "tilt" | "ritual" | "messages"
+Tab  = "home" | "cards" | "calendar" | "community" | "profile"  ← visible en BottomNav
 ```
 
-`BottomNav` se oculta en las vistas `tilt` y `ritual` (pantallas de flujo completo).
+`BottomNav` se oculta en las vistas `tilt`, `ritual` y `messages` (pantallas de flujo completo).
 
 ### Pantallas (`src/pages/kognit/`)
 
@@ -65,10 +65,10 @@ Tab  = "home" | "cards" | "calendar" | "track" | "profile"  ← visible en Botto
 | `Tilt.tsx` | `tilt` | Protocolo de reset: respiración 4·7·8 o 4·4·4 → grounding → estado emocional → check |
 | `Ritual.tsx` | `ritual` | Ritual diario de 7 pasos: energía, tensión, estado emocional, reflexión, gratitud, intención |
 | `Cards.tsx` | `cards` | Cartas de coaching mental por categoría |
-| `Tracking.tsx` | `track` | Registro emocional semanal con gráfico de barras |
-| `Calendar.tsx` | `calendar` | Diario / calendario |
+| `Calendar.tsx` | `calendar` | Diario mental: calendario, notas rápidas y gráfico de foco semanal |
 | `Profile.tsx` | `profile` | Perfil con estadísticas del jugador |
-| `Community.tsx` | `community` | Feed de notas públicas con reacciones emoji |
+| `Community.tsx` | `community` | Feed de notas públicas con reacciones emoji, imágenes opcionales y respuesta privada por mensaje directo |
+| `Messages.tsx` | `messages` | Bandeja de mensajes directos: lista de conversaciones + vista de hilo |
 | `Onboarding.tsx` | — | Solo usado en la landing `/` |
 
 ## Base de datos (Supabase)
@@ -99,7 +99,7 @@ reflection, gratitude, intention, created_at
 
 **`notes`** — notas de la comunidad
 ```
-id, user_id, title, content, mood, tag,
+id, user_id, title, content, mood, tag, image_url,
 visibility ("public"|"private"), created_at, updated_at
 ```
 
@@ -107,6 +107,19 @@ visibility ("public"|"private"), created_at, updated_at
 ```
 id, note_id (→notes), user_id, reaction, created_at
 ```
+
+**`messages`** — mensajes directos entre usuarios (bandeja de "Mensajes")
+```
+id, sender_id, recipient_id, note_id (→notes, nullable),
+content, read, created_at
+```
+
+### Storage
+
+Bucket público `note-images` (imágenes opcionales adjuntas a notas de comunidad).
+Path de objetos: `{user_id}/{uuid}.{ext}`. RLS de `storage.objects`: lectura pública,
+escritura/borrado restringidos a la carpeta del propio usuario
+(`storage.foldername(name)[1] = auth.uid()`).
 
 ### Cliente Supabase
 
@@ -149,6 +162,7 @@ src/
 │   ├── kognit/
 │   │   ├── BottomNav.tsx          # Barra de navegación inferior
 │   │   ├── NoteComposer.tsx       # Modal para escribir nota de comunidad
+│   │   ├── ReplyComposer.tsx      # Modal para responder a un autor por mensaje directo
 │   │   └── PhoneFrame.tsx         # Wrapper visual de "teléfono" para la landing
 │   ├── ui/                        # Componentes shadcn/ui (no editar manualmente)
 │   └── NavLink.tsx
@@ -164,7 +178,7 @@ src/
 │   └── types.ts                   # Tipos generados — NO editar a mano
 ├── lib/
 │   ├── sound.ts                   # playBong() — Web Audio API
-│   └── utils.ts                   # cn() helper
+│   └── utils.ts                   # cn() helper + timeAgo() formatter
 └── pages/
     ├── Auth.tsx
     ├── Index.tsx                  # Landing pública
@@ -181,7 +195,7 @@ src/
 Gradientes:
 - `bg-gradient-hero` — fondo principal de la app (oscuro/neutro)
 - `bg-gradient-primary` — teal/verde azulado (acción primaria)
-- `bg-gradient-emergency` — rojo (protocolo tilt/reset)
+- `bg-gradient-emergency` — azul cobalto (protocolo tilt/reset)
 - `bg-gradient-deep` — oscuro profundo (pantallas de flujo: Tilt, Ritual)
 
 Sombras: `shadow-card`, `shadow-soft`, `shadow-glow`, `shadow-emergency`
@@ -208,10 +222,10 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 
 | id | Nombre | Accent |
 |---|---|---|
-| `habits` | Formación de hábitos | primary (teal/verde) |
+| `habits` | Formación de hábitos | seafoam (verde agua) |
 | `focus` | Foco y concentración | info (azul) |
 | `mindfulness` | Mindfulness y Respiración | violet (violeta) |
-| `stress` | Manejo del estrés y Emociones | destructive (rojo) |
+| `stress` | Manejo del estrés y Emociones | destructive (azul cobalto) |
 | `performance` | Rendimiento mental | gold (dorado) |
 
 Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay backend para este contenido.

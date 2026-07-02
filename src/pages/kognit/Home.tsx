@@ -1,4 +1,4 @@
-import { AlertOctagon, Layers, ChevronRight, Bell, TrendingUp, Sparkles, Users } from "lucide-react";
+import { AlertOctagon, Layers, ChevronRight, Bell, TrendingUp, Sparkles } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import mascot from "@/assets/kognit-mascot.png";
 
@@ -13,12 +13,11 @@ interface HomeProps {
   name?: string;
   onTilt?: () => void;
   onCards?: () => void;
-  onTrack?: () => void;
+  onProgress?: () => void;
   onRitual?: () => void;
-  onCommunity?: () => void;
 }
 
-export const HomeScreen = ({ name = "\n", onTilt, onCards, onTrack, onRitual, onCommunity }: HomeProps) => (
+export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual }: HomeProps) => (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
@@ -67,26 +66,27 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onTrack, onRitual, on
       </button>
     </div>
 
-    {/* SECUNDARIAS — máximo 2 */}
+    {/* SECUNDARIAS */}
     <div className="px-6 mt-5 grid grid-cols-2 gap-3">
       <ToolCard icon={Sparkles} title="Ritual diario" subtitle="1 min para escucharte" onClick={onRitual} gradient />
-      <ToolCard icon={Users} title="Comunidad" subtitle="Momentos de conexión" onClick={onCommunity} />
-    </div>
-    <div className="px-6 mt-3 grid grid-cols-2 gap-3">
       <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} />
-      <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · control" onClick={onTrack} />
+    </div>
+    <div className="px-6 mt-3">
+      <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · calma · tu diario semanal" onClick={onProgress} wide />
     </div>
 
     <BottomNav active="home" />
   </div>
 );
 
-const ToolCard = ({ icon: Icon, title, subtitle, gradient, onClick }: any) => (
-  <button onClick={onClick} className={`p-4 rounded-2xl text-left transition-all active:scale-95 ${gradient ? "bg-gradient-primary text-primary-foreground shadow-soft" : "bg-card shadow-soft"}`}>
-    <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${gradient ? "bg-white/20" : "bg-secondary text-primary"}`}>
+const ToolCard = ({ icon: Icon, title, subtitle, gradient, wide, onClick }: any) => (
+  <button onClick={onClick} className={`p-4 rounded-2xl text-left transition-all active:scale-95 ${gradient ? "bg-gradient-primary text-primary-foreground shadow-soft" : "bg-card shadow-soft"} ${wide ? "w-full flex items-center gap-3" : ""}`}>
+    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${wide ? "shrink-0" : "mb-3"} ${gradient ? "bg-white/20" : "bg-secondary text-primary"}`}>
       <Icon size={18} />
     </div>
-    <p className="text-sm font-bold leading-tight">{title}</p>
-    <p className={`text-[11px] mt-0.5 ${gradient ? "opacity-90" : "text-muted-foreground"}`}>{subtitle}</p>
+    <div>
+      <p className="text-sm font-bold leading-tight">{title}</p>
+      <p className={`text-[11px] mt-0.5 ${gradient ? "opacity-90" : "text-muted-foreground"}`}>{subtitle}</p>
+    </div>
   </button>
 );

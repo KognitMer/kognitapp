@@ -10,7 +10,7 @@ export function playBong(freq = 660) {
     const master = ctx.createGain();
     master.gain.setValueAtTime(0.0001, now);
     master.gain.exponentialRampToValueAtTime(0.08, now + 0.03);
-    master.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 3.2);
     master.connect(ctx.destination);
 
     const partials = [
@@ -28,7 +28,7 @@ export function playBong(freq = 660) {
       o.connect(pg);
       pg.connect(master);
       o.start(now);
-      o.stop(now + 2.3);
+      o.stop(now + 3.3);
     });
   } catch {}
 }

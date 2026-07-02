@@ -69,11 +69,6 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
     setCardIdx(next.cardIdx);
   };
 
-  const selectCategory = (i: number) => {
-    setCatIdx(i);
-    setCardIdx(Math.floor(Math.random() * CATEGORIES[i].cards.length));
-  };
-
   return (
     <div className="min-h-full bg-gradient-hero pb-28">
       <div className="px-6 pt-3 flex items-center justify-between">
@@ -87,25 +82,15 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
         <div className="w-10" />
       </div>
 
-      {/* Selector de categoría */}
-      <div className="mt-4 px-6 flex gap-2 overflow-x-auto no-scrollbar pb-1">
-        {CATEGORIES.map((c, i) => (
-          <button key={c.id}
-            onClick={() => selectCategory(i)}
-            className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all ${
-              i === catIdx ? "bg-foreground text-background border-transparent" : "bg-card text-muted-foreground border-border"
-            }`}>
-            {c.name}
-          </button>
-        ))}
-      </div>
+      {/* Tagline de la categoría */}
+      <p className="mt-5 px-6 text-sm font-bold leading-tight">{cat.tagline}</p>
 
       {/* Carta */}
-      <div className="relative mt-5 mx-6 h-[400px]" style={{ perspective: 1400 }}>
-        <div className="absolute inset-x-8 top-6 h-[360px] rounded-3xl bg-card shadow-soft opacity-50" />
-        <div className="absolute inset-x-4 top-3 h-[380px] rounded-3xl bg-card shadow-card" />
+      <div className="relative mt-4 mx-6 h-[480px]" style={{ perspective: 1400 }}>
+        <div className="absolute inset-x-8 top-6 h-[440px] rounded-3xl bg-card shadow-soft opacity-50" />
+        <div className="absolute inset-x-4 top-3 h-[460px] rounded-3xl bg-card shadow-card" />
         <motion.div
-          className="absolute inset-x-0 top-0 h-[390px] cursor-grab active:cursor-grabbing"
+          className="absolute inset-x-0 top-0 h-[470px] cursor-grab active:cursor-grabbing"
           style={{ transformStyle: "preserve-3d", rotateY }}
           onPan={handlePan}
           onPanEnd={handlePanEnd}
@@ -159,10 +144,6 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
           <Shuffle size={16} /> Sacar carta
         </button>
       </div>
-
-      <p className="text-center mt-4 text-[11px] text-muted-foreground px-8">
-        {cat.tagline}
-      </p>
 
       <BottomNav active="cards" />
     </div>
