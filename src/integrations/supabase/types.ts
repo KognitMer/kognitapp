@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          note_id: string | null
+          read: boolean
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          note_id?: string | null
+          read?: boolean
+          recipient_id: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          note_id?: string | null
+          read?: boolean
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       note_reactions: {
         Row: {
           created_at: string
@@ -51,6 +89,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          image_url: string | null
           mood: string | null
           tag: string | null
           title: string | null
@@ -62,6 +101,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          image_url?: string | null
           mood?: string | null
           tag?: string | null
           title?: string | null
@@ -73,6 +113,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          image_url?: string | null
           mood?: string | null
           tag?: string | null
           title?: string | null
