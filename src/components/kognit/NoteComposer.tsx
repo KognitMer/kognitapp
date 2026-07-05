@@ -3,6 +3,8 @@ import { X, Lock, Users, Image as ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/sonner";
+import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
+import { MoodIcon } from "@/components/kognit/MoodIcon";
 
 interface Props {
   open: boolean;
@@ -10,14 +12,13 @@ interface Props {
   onSaved?: () => void;
 }
 
-const MOODS = ["🧘", "🎯", "😐", "😤", "🔥", "✨"];
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [mood, setMood] = useState<string>("🎯");
+  const [mood, setMood] = useState<MoodId>("focus");
   const [visibility, setVisibility] = useState<"private" | "public">("private");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -90,7 +91,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
       return;
     }
     toast.success(visibility === "public" ? "Compartida con la comunidad" : "Nota guardada");
-    setTitle(""); setContent(""); setMood("🎯"); setVisibility("private"); removeImage();
+    setTitle(""); setContent(""); setMood("focus"); setVisibility("private"); removeImage();
     onSaved?.();
     onClose();
   };
@@ -120,11 +121,13 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
         />
 
         <div className="mt-3 flex items-center gap-2">
-          {MOODS.map(e => (
-            <button key={e} onClick={() => setMood(e)}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg transition-all ${
-                mood === e ? "bg-gradient-primary text-primary-foreground shadow-soft scale-110" : "bg-secondary"
-              }`}>{e}</button>
+          {MOOD_OPTIONS.map(({ id, label }) => (
+            <button key={id} onClick={() => setMood(id)} aria-label={label} aria-pressed={mood === id}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
+                mood === id ? "bg-gradient-primary text-primary-foreground shadow-soft scale-110" : "bg-secondary text-foreground"
+              }`}>
+              <MoodIcon mood={id} size={20} />
+            </button>
           ))}
         </div>
 

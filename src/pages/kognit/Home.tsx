@@ -1,13 +1,12 @@
+import { useEffect, useState } from "react";
 import { AlertOctagon, Layers, ChevronRight, Bell, TrendingUp, Sparkles } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
+import { MoodIcon, moodMascotSrc } from "@/components/kognit/MoodIcon";
+import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/components/ui/sonner";
 import mascot from "@/assets/kognit-mascot.png";
-
-const states = [
-  { key: "focus", label: "Foco", c: "bg-primary text-primary-foreground" },
-  { key: "neutral", label: "Tranquilo", c: "bg-secondary text-foreground" },
-  { key: "tense", label: "Tenso", c: "bg-warning/80 text-warning-foreground" },
-  { key: "tilt", label: "Desbordado", c: "bg-destructive text-destructive-foreground" },
-];
 
 interface HomeProps {
   name?: string;
@@ -17,7 +16,46 @@ interface HomeProps {
   onRitual?: () => void;
 }
 
-export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual }: HomeProps) => (
+export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual }: HomeProps) => {
+  const { user } = useAuth();
+  const [mood, setMood] = useState<MoodId | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+    supabase
+      .from("notes")
+      .select("mood")
+      .eq("user_id", user.id)
+      .gte("created_at", startOfDay.toISOString())
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => data?.mood && setMood(data.mood as MoodId));
+  }, [user]);
+
+  const pickMood = async (id: MoodId) => {
+    if (!user || saving) return;
+    const label = MOOD_OPTIONS.find(m => m.id === id)?.label ?? id;
+    setMood(id);
+    setSaving(true);
+    const { error } = await supabase.from("notes").insert({
+      user_id: user.id,
+      mood: id,
+      content: `Estado mental: ${label}`,
+      visibility: "private",
+    });
+    setSaving(false);
+    if (error) {
+      toast.error("No se pudo guardar tu estado");
+      return;
+    }
+    toast.success("Quedó fijado en tu diario mental");
+  };
+
+  return (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
@@ -29,10 +67,15 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual 
       </button>
     </div>
 
-    {/* Mascota protagonista */}
+    {/* Mascota protagonista — refleja el estado mental elegido */}
     <div className="flex justify-center mt-2 relative">
       <div className="absolute top-6 w-44 h-44 rounded-full bg-primary-glow/25 blur-3xl" />
-      <img src={mascot} alt="Kognit" className="relative w-32 h-32 object-contain animate-float-slow" />
+      <img
+        key={mood ?? "default"}
+        src={mood ? moodMascotSrc(mood) : mascot}
+        alt="kognit"
+        className="relative w-32 h-32 object-contain animate-float-slow"
+      />
     </div>
 
     <div className="mx-6 mt-2 p-5 rounded-3xl bg-card shadow-card">
@@ -40,10 +83,19 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual 
         <p className="text-sm font-bold">Estado mental actual</p>
         <span className="text-[10px] text-muted-foreground font-semibold">Toca para fijar</span>
       </div>
-      <div className="mt-3 grid grid-cols-4 gap-2">
-        {states.map((s, i) => (
-          <button key={s.key} className={`py-2.5 rounded-2xl text-xs font-bold transition-all ${i === 0 ? `${s.c} shadow-soft` : "bg-secondary text-muted-foreground"}`}>
-            {s.label}
+      <div className="mt-3 grid grid-cols-5 gap-1.5">
+        {MOOD_OPTIONS.map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => pickMood(id)}
+            disabled={saving}
+            aria-pressed={mood === id}
+            className={`flex flex-col items-center gap-1 py-2 rounded-2xl transition-all disabled:opacity-60 ${
+              mood === id ? "bg-gradient-primary text-primary-foreground shadow-soft scale-[1.03]" : "bg-secondary text-muted-foreground"
+            }`}
+          >
+            <MoodIcon mood={id} size={18} />
+            <span className="text-[9px] font-bold leading-none">{label}</span>
           </button>
         ))}
       </div>
@@ -77,7 +129,8 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual 
 
     <BottomNav active="home" />
   </div>
-);
+  );
+};
 
 const ToolCard = ({ icon: Icon, title, subtitle, gradient, wide, onClick }: any) => (
   <button onClick={onClick} className={`p-4 rounded-2xl text-left transition-all active:scale-95 ${gradient ? "bg-gradient-primary text-primary-foreground shadow-soft" : "bg-card shadow-soft"} ${wide ? "w-full flex items-center gap-3" : ""}`}>

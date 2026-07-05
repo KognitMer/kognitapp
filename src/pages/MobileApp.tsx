@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { PhoneFrame } from "@/components/kognit/PhoneFrame";
+import { SplashScreen } from "@/components/kognit/SplashScreen";
 import { HomeScreen } from "./kognit/Home";
 import { TiltScreen } from "./kognit/Tilt";
 import { CardsScreen } from "./kognit/Cards";
@@ -36,7 +37,7 @@ export default function MobileApp() {
       .then(({ data }) => data && setProfile(data as any));
   }, [user]);
 
-  if (loading) return <div className="min-h-screen bg-gradient-hero" />;
+  if (loading) return <SplashScreen />;
   if (!user) return <Navigate to="/auth" replace />;
 
   const goTilt = async () => {
@@ -87,7 +88,7 @@ export default function MobileApp() {
   // Mobile-first: full screen on phones, framed on desktop
   return (
     <div className="min-h-screen bg-gradient-hero md:flex md:items-center md:justify-center md:py-8">
-      <div className="md:hidden relative min-h-screen">
+      <div className={`md:hidden relative ${view === "cards" || view === "tilt" ? "h-dvh overflow-hidden" : "min-h-screen"}`}>
         {screen}
         {view !== "tilt" && view !== "ritual" && view !== "messages" && (
           <BottomNav

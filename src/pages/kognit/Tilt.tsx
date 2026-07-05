@@ -175,12 +175,12 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const delta = preIntensity - postIntensity;
 
   return (
-    <div className="min-h-full bg-gradient-deep text-primary-foreground relative overflow-hidden">
+    <div className="h-full flex flex-col overflow-hidden bg-gradient-deep text-primary-foreground relative">
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[420px] rounded-full bg-primary-glow/20 blur-3xl" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/30 blur-3xl" />
 
       {/* Header */}
-      <div className="relative px-6 pt-3 flex items-center justify-between">
+      <div className="relative shrink-0 px-6 pt-3 flex items-center justify-between">
         <button onClick={onExit} aria-label="Salir del reset" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           <X size={18} />
         </button>
@@ -192,34 +192,44 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* INTRO — pick mode */}
       {stage === "intro" && (
-        <div className="relative px-6 pt-6">
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-4">
           <div className="flex justify-center">
-          <img src={mascot} alt="" aria-hidden="true" className="w-40 h-40 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.35)]" />
+          <img src={mascot} alt="" aria-hidden="true" className="mascot-light animate-float-slow w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.35)]" />
           </div>
-          <p className="mt-2 text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Protocolo</p>
-          <h1 className="mt-2 text-center text-2xl font-bold leading-tight">Conectá con vos</h1>
-          <p className="mt-3 text-center text-sm opacity-85 px-4 whitespace-pre-line">Bajá el pulso.{"\n"}Volvé a decidir desde el equilibrio interno</p>
 
-          <div className="mt-7 space-y-3">
-            <button onClick={() => startBreath("fast")}
-              className="w-full bg-gradient-emergency text-destructive-foreground rounded-2xl p-5 shadow-emergency text-left active:scale-[0.98] transition-transform">
-              <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">Modo rápido</p>
-              <p className="text-2xl font-bold mt-0.5">4 · 4 · 4</p>
-              <p className="text-xs opacity-90 mt-1">Estás en mesa. ~35 segundos.</p>
-            </button>
-            <button onClick={() => startBreath("deep")}
-              className="w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-5 text-left active:scale-[0.98] transition-transform">
-              <p className="text-[10px] uppercase tracking-[0.25em] opacity-80 font-bold">Modo profundo</p>
-              <p className="text-2xl font-bold mt-0.5">4 · 7 · 8</p>
+          <div className="mt-5 space-y-3">
+            <div className="w-full bg-gradient-emergency text-destructive-foreground rounded-2xl p-4 shadow-emergency text-center">
+              <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-2 border-current animate-breathe" style={{ animationDuration: "8s" }} />
+                <span className="text-xs font-bold tracking-widest">4 · 4 · 4</span>
+              </div>
+              <p className="mt-2 text-lg font-bold">Modo Rápido</p>
+              <p className="text-xs opacity-90 mt-1">Reset breve. ~35 segundos.</p>
+              <button onClick={() => startBreath("fast")}
+                className="mt-4 w-full bg-white/15 backdrop-blur font-bold py-3 rounded-xl active:scale-[0.98] transition-transform">
+                Respirar Ahora
+              </button>
+            </div>
+
+            <div className="w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-4 text-center">
+              <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-2 border-primary-glow animate-breathe" style={{ animationDuration: "15s" }} />
+                <span className="text-xs font-bold tracking-widest">4 · 7 · 8</span>
+              </div>
+              <p className="mt-2 text-lg font-bold">Modo Profundo</p>
               <p className="text-xs opacity-80 mt-1">Tenés 90 segundos. Reset completo.</p>
-            </button>
+              <button onClick={() => startBreath("deep")}
+                className="mt-4 w-full bg-primary-foreground text-foreground font-bold py-3 rounded-xl active:scale-[0.98] transition-transform">
+                Respirar Ahora
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {/* BREATHING */}
       {stage === "breathe" && (
-        <div className="relative px-6">
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6">
           <div className="mt-5 flex justify-center gap-1.5">
             {Array.from({ length: totalCycles }).map((_, i) => (
               <div key={i} className={`h-1.5 rounded-full transition-all ${i < cycle ? "w-8 bg-primary-glow" : i === cycle ? "w-10 bg-primary-glow shadow-glow" : "w-4 bg-white/25"}`} />
@@ -269,7 +279,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "grounding" && (() => {
         const q = groundingQs[gIdx];
         return (
-          <div className="relative px-6 pt-6">
+          <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-6">
             <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Recuperación de control · {gIdx + 1}/2</p>
             <h2 className="mt-3 text-center text-2xl font-bold leading-tight px-2">{q.q}</h2>
             <p className="mt-3 text-center text-xs opacity-75 px-4">No pienses mucho la respuesta. Tocá la primera que te parezca.</p>
@@ -296,7 +306,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* STATE — pick what you're feeling */}
       {stage === "state" && (
-        <div className="relative px-6 pt-6">
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-6">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
           <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo. Podés marcar varios.</p>
@@ -335,7 +345,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* PULSE — pre intensity */}
       {stage === "pulse" && (
-        <div className="relative px-6 pt-8">
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Pulso actual</p>
           <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué tan acelerado estás?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">Sé honesto. Vamos a comparar al final.</p>
@@ -365,7 +375,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* CHECK — post intensity */}
       {stage === "check" && (
-        <div className="relative px-6 pt-8">
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8">
           <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Después del reset</p>
           <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Cómo estás ahora?</h2>
           <p className="mt-2 text-center text-xs opacity-75 px-6">No tiene que ser cero. Solo más estable que al empezar.</p>
@@ -404,8 +414,8 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* EXIT */}
       {stage === "exit" && (
-        <div className="relative px-6 pt-8 flex flex-col items-center">
-          <img src={mascot} alt="" aria-hidden="true" className="w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(94,234,212,0.4)]" />
+        <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8 flex flex-col items-center">
+          <img src={mascot} alt="" aria-hidden="true" className="mascot-light animate-float-slow w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.4)]" />
           <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
           <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé con cabeza</h2>
 

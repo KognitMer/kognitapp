@@ -17,7 +17,7 @@ App de entrenamiento mental para jugadores de poker. Mobile-first PWA, todo el U
 | Animación | Framer Motion |
 | Charts | Recharts |
 | Iconos | Lucide React |
-| Fuentes | Archivo Black (display) · Hind (body) via `@fontsource` |
+| Fuentes | Poppins (display) · Hind (body) · EB Garamond (cartas) via `@fontsource` |
 | Sonido | Web Audio API — `src/lib/sound.ts` |
 | Tests | Vitest + Testing Library |
 | Linter | ESLint v9 |
@@ -206,8 +206,9 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 
 ### Fuentes
 
-- Display / headings: `font-display` → Archivo Black
-- Body / UI: `font-sans` → Hind (weights: 300 · 400 · 500 · 600 · 700)
+- Display / headings (`h1`-`h4`, `.font-display`): Poppins bold, tracking negativo (`-0.02em`)
+- Body / UI: `font-sans` → Hind (weights: 300 · 400 · 500 · 600 · 700), tracking negativo leve (`-0.011em` global en `body`)
+- Cartas mentales (`Cards.tsx`): `font-serif` → EB Garamond (weights: 400 · 500 · 600 + italic 400) — transmite sabiduría, se usa en título, mensaje y acción de cada carta
 
 ### Convenciones de UI
 

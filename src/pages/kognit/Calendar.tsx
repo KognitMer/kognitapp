@@ -4,32 +4,30 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
-
-const week = [
-  { d: "L", v: 60 }, { d: "M", v: 75 }, { d: "M", v: 50 },
-  { d: "J", v: 80 }, { d: "V", v: 90 }, { d: "S", v: 65 }, { d: "D", v: 85 },
-];
+import { MoodIcon } from "@/components/kognit/MoodIcon";
+import type { MoodId } from "@/data/moods";
 
 const days = ["L", "M", "M", "J", "V", "S", "D"];
 const MONTH_NAMES = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 ];
+const WEEKDAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-const moodByDay: Record<number, { c: string; e: string }> = {
-  3: { c: "bg-accent/40", e: "🧘" },
-  5: { c: "bg-primary/30", e: "🎯" },
-  8: { c: "bg-destructive/30", e: "🔥" },
-  12: { c: "bg-primary/30", e: "🎯" },
-  14: { c: "bg-warning/40", e: "😤" },
-  17: { c: "bg-accent/40", e: "🧘" },
-  18: { c: "bg-primary/40", e: "🎯" },
+const moodByDay: Record<number, { c: string; mood: MoodId }> = {
+  3: { c: "bg-accent/40", mood: "calm" },
+  5: { c: "bg-primary/30", mood: "focus" },
+  8: { c: "bg-destructive/30", mood: "tilt" },
+  12: { c: "bg-primary/30", mood: "focus" },
+  14: { c: "bg-warning/40", mood: "frustrated" },
+  17: { c: "bg-accent/40", mood: "calm" },
+  18: { c: "bg-primary/40", mood: "focus" },
 };
 
 const fallbackNotes = [
   {
     time: "20:30",
-    mood: "🎯",
+    mood: "focus" as MoodId,
     title: "Sesión NL50 — 2 horas",
     body: "Buen control en spots difíciles. Foldeé un set en river leído, no me sacó del eje el resultado.",
     tag: "Foco",
@@ -37,7 +35,7 @@ const fallbackNotes = [
   },
   {
     time: "15:10",
-    mood: "🔥",
+    mood: "tilt" as MoodId,
     title: "Recuperación post bad beat",
     body: "Set vs runner-runner flush. Hice respiración 4-7-8 y volví limpio en 6 minutos.",
     tag: "Reset",
@@ -45,7 +43,7 @@ const fallbackNotes = [
   },
   {
     time: "09:00",
-    mood: "✨",
+    mood: "calm" as MoodId,
     title: "Ritual pre-sesión",
     body: "Visualicé 3 manos clave de ayer. Definí stop-loss: 3 buy-ins.",
     tag: "Ritual",
@@ -70,6 +68,9 @@ export const CalendarScreen = () => {
   const [composerOpen, setComposerOpen] = useState(false);
   const [rows, setRows] = useState<Row[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [focusWeek, setFocusWeek] = useState(days.map(d => ({ d, v: 0 })));
+  const [focusAvg, setFocusAvg] = useState<number | null>(null);
+  const [focusTrend, setFocusTrend] = useState<number | null>(null);
   const today = new Date();
   const [cursor, setCursor] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
 
@@ -82,6 +83,17 @@ export const CalendarScreen = () => {
   const monthDays = Array.from({ length: totalCells }, (_, i) => i - firstDay + 1);
   const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
   const todayDate = today.getDate();
+
+  const [selectedDay, setSelectedDay] = useState(todayDate);
+  useEffect(() => {
+    setSelectedDay(isCurrentMonth ? todayDate : 1);
+  }, [year, month, isCurrentMonth, todayDate]);
+
+  const selectedWeekday = WEEKDAY_NAMES[new Date(year, month, selectedDay).getDay()];
+  const dayRows = rows.filter(r => {
+    const d = new Date(r.created_at);
+    return d.getFullYear() === year && d.getMonth() === month && d.getDate() === selectedDay;
+  });
 
   const goPrev = () => setCursor(new Date(year, month - 1, 1));
   const goNext = () => setCursor(new Date(year, month + 1, 1));
@@ -100,6 +112,54 @@ export const CalendarScreen = () => {
 
   useEffect(() => { load(); }, [load]);
 
+  const loadFocusWeek = useCallback(async () => {
+    if (!user) return;
+    const now = new Date();
+    const dayIdx = (now.getDay() + 6) % 7; // Lunes = 0
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayIdx);
+    const twoWeeksAgo = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() - 7);
+    const nextMonday = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 7);
+
+    const { data } = await supabase
+      .from("reset_sessions")
+      .select("post_intensity, created_at")
+      .eq("user_id", user.id)
+      .gte("created_at", twoWeeksAgo.toISOString())
+      .lt("created_at", nextMonday.toISOString());
+
+    const sums = Array(7).fill(0);
+    const counts = Array(7).fill(0);
+    let lastWeekSum = 0;
+    let lastWeekCount = 0;
+
+    (data ?? []).forEach(row => {
+      if (row.post_intensity == null) return;
+      // Pulso post-reset (1-10, menor = más foco) → score de foco 0-100
+      const score = (10 - row.post_intensity) * 10;
+      const d = new Date(row.created_at);
+      if (d >= monday) {
+        const idx = (d.getDay() + 6) % 7;
+        sums[idx] += score;
+        counts[idx] += 1;
+      } else {
+        lastWeekSum += score;
+        lastWeekCount += 1;
+      }
+    });
+
+    setFocusWeek(days.map((d, i) => ({ d, v: counts[i] ? Math.round(sums[i] / counts[i]) : 0 })));
+
+    const totalSum = sums.reduce((a, b) => a + b, 0);
+    const totalCount = counts.reduce((a, b) => a + b, 0);
+    const thisAvg = totalCount ? totalSum / totalCount : null;
+    setFocusAvg(thisAvg);
+
+    const lastAvg = lastWeekCount ? lastWeekSum / lastWeekCount : null;
+    setFocusTrend(thisAvg != null && lastAvg ? Math.round(((thisAvg - lastAvg) / lastAvg) * 100) : null);
+  }, [user]);
+
+  useEffect(() => { loadFocusWeek(); }, [loadFocusWeek]);
+
   return (
   <div className="min-h-full bg-gradient-hero pb-28">
     {/* Header */}
@@ -109,7 +169,7 @@ export const CalendarScreen = () => {
       </button>
       <div className="text-center">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Diario mental</p>
-        <p className="text-sm font-bold">{MONTH_NAMES[month]} {year}</p>
+        <p className="text-sm font-bold">{selectedWeekday} {selectedDay} · {MONTH_NAMES[month]} {year}</p>
       </div>
       <button onClick={goNext} aria-label="Mes siguiente" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <ChevronRight size={18} />
@@ -136,16 +196,22 @@ export const CalendarScreen = () => {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">Foco esta semana</p>
-          <p className="text-xl font-bold mt-0.5">72,4 <span className="text-sm text-muted-foreground font-medium">prom</span></p>
+          <p className="text-xl font-bold mt-0.5">
+            {focusAvg != null ? focusAvg.toFixed(1).replace(".", ",") : "—"} <span className="text-sm text-muted-foreground font-medium">prom</span>
+          </p>
         </div>
-        <div className="flex items-center gap-1 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold">
-          <TrendingUp size={14} /> +8%
-        </div>
+        {focusTrend != null && (
+          <div className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold ${
+            focusTrend >= 0 ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
+          }`}>
+            <TrendingUp size={14} className={focusTrend < 0 ? "rotate-180" : ""} /> {focusTrend >= 0 ? "+" : ""}{focusTrend}%
+          </div>
+        )}
       </div>
-      <div className="mt-4 flex items-end justify-between h-20 gap-2">
-        {week.map((d, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center gap-2">
-            <div className="w-full rounded-lg bg-gradient-to-t from-primary-glow to-accent" style={{ height: `${d.v}%` }} />
+      <div className="mt-3 flex items-end justify-between h-12 gap-2">
+        {focusWeek.map((d, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+            <div className="w-full rounded-lg bg-gradient-to-t from-primary-glow to-accent" style={{ height: `${Math.max(d.v, 4)}%` }} />
             <span className="text-[10px] text-muted-foreground font-semibold">{d.d}</span>
           </div>
         ))}
@@ -161,12 +227,15 @@ export const CalendarScreen = () => {
         {monthDays.map((n, i) => {
           if (n < 1 || n > daysInMonth) return <span key={i} />;
           const isToday = isCurrentMonth && n === todayDate;
+          const isSelected = n === selectedDay;
           const mood = moodByDay[n];
           return (
             <button
               key={i}
+              onClick={() => setSelectedDay(n)}
+              aria-pressed={isSelected}
               className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-xs font-semibold transition-all ${
-                isToday
+                isSelected
                   ? "bg-gradient-primary text-primary-foreground shadow-soft"
                   : mood
                   ? `${mood.c} text-foreground`
@@ -174,8 +243,8 @@ export const CalendarScreen = () => {
               }`}
             >
               <span>{n}</span>
-              {mood && !isToday && <span className="text-[9px] leading-none mt-0.5">{mood.e}</span>}
-              {isToday && <span className="absolute bottom-1 w-1 h-1 rounded-full bg-white" />}
+              {mood && !isSelected && <MoodIcon mood={mood.mood} size={12} className="mt-0.5" />}
+              {isToday && <span className={`absolute bottom-1 w-1 h-1 rounded-full ${isSelected ? "bg-white" : "bg-primary"}`} />}
             </button>
           );
         })}
@@ -190,12 +259,9 @@ export const CalendarScreen = () => {
       </div>
     </div>
 
-    {/* Día seleccionado */}
-    <div className="px-6 mt-5 flex items-end justify-between">
-      <div>
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Día seleccionado</p>
-        <h3 className="text-base font-bold">Miércoles 18</h3>
-      </div>
+    {/* Notas del día seleccionado */}
+    <div className="px-6 mt-5 flex items-center justify-between">
+      <h3 className="text-sm font-bold">Notas · {selectedWeekday} {selectedDay}</h3>
       <button onClick={() => setComposerOpen(true)} className="flex items-center gap-1.5 bg-gradient-primary text-primary-foreground text-xs font-bold px-3.5 py-2 rounded-full shadow-soft">
         <Plus size={14} /> Nueva nota
       </button>
@@ -203,11 +269,11 @@ export const CalendarScreen = () => {
 
     {/* Notas */}
     <div className="px-6 mt-3 space-y-3">
-      {loaded && rows.length === 0 && fallbackNotes.map((n, i) => (
+      {loaded && dayRows.length === 0 && fallbackNotes.map((n, i) => (
         <div key={i} className="p-4 rounded-2xl bg-card shadow-soft opacity-70">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-lg">{n.mood}</div>
+              <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center"><MoodIcon mood={n.mood} size={20} /></div>
               <div>
                 <p className="text-[10px] text-muted-foreground font-semibold">{n.time} · ejemplo</p>
                 <p className="text-sm font-bold leading-tight">{n.title}</p>
@@ -218,11 +284,11 @@ export const CalendarScreen = () => {
           <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">{n.body}</p>
         </div>
       ))}
-      {rows.map(n => (
+      {dayRows.map(n => (
         <div key={n.id} className="p-4 rounded-2xl bg-card shadow-soft">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-lg">{n.mood ?? "📝"}</div>
+              <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center"><MoodIcon mood={n.mood} size={20} /></div>
               <div>
                 <p className="text-[10px] text-muted-foreground font-semibold">{formatTime(n.created_at)}</p>
                 <p className="text-sm font-bold leading-tight">{n.title ?? "Nota"}</p>
@@ -243,8 +309,10 @@ export const CalendarScreen = () => {
       <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Agregar nota rápida</p>
       <p className="mt-1.5 text-sm text-muted-foreground italic">¿Qué pasó por tu cabeza hoy?</p>
       <div className="mt-3 flex items-center gap-2">
-        {["🧘","🎯","😐","😤","🔥"].map(e => (
-          <button key={e} className="w-8 h-8 rounded-xl bg-secondary text-base flex items-center justify-center hover:scale-110 transition-transform">{e}</button>
+        {(["calm", "focus", "neutral", "frustrated", "tilt"] as const).map(id => (
+          <button key={id} onClick={() => setComposerOpen(true)} className="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center hover:scale-110 transition-transform">
+            <MoodIcon mood={id} size={18} />
+          </button>
         ))}
         <button onClick={() => setComposerOpen(true)} className="ml-auto w-9 h-9 rounded-xl bg-gradient-primary text-primary-foreground flex items-center justify-center shadow-soft">
           <Plus size={16} />

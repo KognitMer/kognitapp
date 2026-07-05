@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Archivo Black", "system-ui", "sans-serif"],
+        display: ["Poppins", "system-ui", "sans-serif"],
         sans: ["Hind", "system-ui", "sans-serif"],
+        serif: ["EB Garamond", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",

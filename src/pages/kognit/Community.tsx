@@ -5,17 +5,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
 import { ReplyComposer } from "@/components/kognit/ReplyComposer";
+import { MoodIcon, ReactionIcon } from "@/components/kognit/MoodIcon";
+import { REACTIONS } from "@/data/moods";
 import { timeAgo } from "@/lib/utils";
 
 interface Props { onBack?: () => void; onMessages?: () => void; }
-
-const REACTIONS = [
-  { key: "breathe", emoji: "🫁", label: "Me ayudó a respirar" },
-  { key: "focus", emoji: "🎯", label: "Me ayudó a enfocarme" },
-  { key: "inspire", emoji: "🌱", label: "Me inspira" },
-  { key: "reflect", emoji: "💭", label: "Me hizo reflexionar" },
-  { key: "identify", emoji: "🤝", label: "Me siento identificado" },
-];
 
 interface NoteRow {
   id: string;
@@ -157,7 +151,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
                 <p className="text-xs font-bold leading-tight">{n.author}</p>
                 <p className="text-[10px] text-muted-foreground">{timeAgo(n.created_at)}</p>
               </div>
-              {n.mood && <span className="text-lg">{n.mood}</span>}
+              {n.mood && <MoodIcon mood={n.mood} size={22} />}
             </div>
             {n.title && <p className="mt-3 text-xs font-bold">{n.title}</p>}
             <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{n.content}</p>
@@ -173,17 +167,17 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
             <div className="mt-3 pt-3 border-t border-border flex items-center justify-between gap-2">
               <div className="flex flex-wrap gap-1.5">
                 {REACTIONS.map(r => {
-                  const active = n.myReaction === r.key;
-                  const count = n.reactions[r.key] ?? 0;
+                  const active = n.myReaction === r.id;
+                  const count = n.reactions[r.id] ?? 0;
                   return (
-                    <button key={r.key} onClick={() => react(n.id, r.key, n.myReaction)}
+                    <button key={r.id} onClick={() => react(n.id, r.id, n.myReaction)}
                       title={r.label}
                       className={`px-2.5 py-1 rounded-full text-xs flex items-center gap-1 transition-all border ${
                         active
                           ? "bg-primary/10 text-primary border-primary/30 font-bold"
                           : "bg-secondary text-muted-foreground border-transparent"
                       }`}>
-                      <span>{r.emoji}</span>
+                      <ReactionIcon reaction={r.id} size={16} />
                       {count > 0 && <span className="text-[10px] font-bold">{count}</span>}
                     </button>
                   );
