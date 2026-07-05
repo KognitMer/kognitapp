@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { X, ChevronRight, Volume2, VolumeX, Plus } from "lucide-react";
 import mascot from "@/assets/kognit-mascot.png";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,59 +14,16 @@ type Mode = "deep" | "fast";
 type Stage = "intro" | "pulse" | "breathe" | "grounding" | "state" | "check" | "exit";
 type Phase = "in" | "hold" | "out";
 
-const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; label: string; cycles: number }> = {
-  deep: { phases: ["in", "hold", "out"], secs: [4, 7, 8], label: "4 · 7 · 8", cycles: 3 },
-  fast: { phases: ["in", "hold", "out"], secs: [4, 4, 4], label: "4 · 4 · 4", cycles: 3 },
+const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; cycles: number }> = {
+  deep: { phases: ["in", "hold", "out"], secs: [4, 7, 8], cycles: 3 },
+  fast: { phases: ["in", "hold", "out"], secs: [4, 4, 4], cycles: 3 },
 };
 
-const PHASE_TEXT: Record<Phase, string> = { in: "Inhalar", hold: "Mantener", out: "Exhalar" };
-
-const GROUNDING_Q = [
-  {
-    q: "¿Dónde estás sentado ahora?",
-    options: ["Casa", "Oficina", "Espacio compartido", "Otro lugar"],
-  },
-  {
-    q: "¿Qué comiste hoy?",
-    options: ["Una comida", "Dos o más", "Solo snacks", "Nada todavía"],
-  },
-  {
-    q: "¿Qué objeto tenés más cerca?",
-    options: ["Vaso o taza", "El celular", "Una lapicera", "Otra cosa"],
-  },
-  {
-    q: "¿Qué estabas haciendo hace una hora?",
-    options: ["Trabajando / estudiando", "Descansando", "Con otra gente", "No recuerdo bien"],
-  },
-  {
-    q: "¿Qué hora es, aproximadamente?",
-    options: ["Mañana", "Tarde", "Noche", "No tengo idea"],
-  },
-  {
-    q: "¿Qué sonido escuchás ahora?",
-    options: ["Silencio", "Voces", "Música", "Ruido de calle"],
-  },
-  {
-    q: "¿Cómo está la temperatura del ambiente?",
-    options: ["Frío", "Templado", "Calor", "No lo noté"],
-  },
-];
-
-const STATE_OPTIONS = [
-  "Frustración", "Ansiedad", "Impaciencia", "Fatiga", "Exceso de confianza", "Distracción", "Miedo",
-];
-
-const STATE_MESSAGES: Record<string, string[]> = {
-  Frustración: ["Una mano no define tu sesión.", "Volvé a la decisión, no al resultado."],
-  Ansiedad: ["Respirá. Observá. Continuá.", "No necesitás recuperar nada ahora."],
-  Impaciencia: ["Tu próximo paso es lo único que importa.", "Esperá una ronda antes de volver al ritmo."],
-  Fatiga: ["Si el cuerpo pide pausa, escuchalo.", "Jugar sólido pesa más que jugar mucho."],
-  "Exceso de confianza": ["Volvé a tu rango por posición.", "El proceso es más confiable que la racha."],
-  Distracción: ["Una decisión a la vez.", "Cerrá lo que no es la mesa."],
-  Miedo: ["Decidí desde el plan, no desde el miedo.", "El resultado no juega esta mano: tu lectura sí."],
-};
+const STATE_IDS = ["frustration", "anxiety", "impatience", "fatigue", "overconfidence", "distraction", "fear"] as const;
 
 export const TiltScreen = ({ onExit }: TiltProps) => {
+  const { t } = useTranslation();
+  const GROUNDING_Q = useMemo(() => t("tilt.grounding.questions", { returnObjects: true }) as { q: string; options: string[] }[], [t]);
   const { user } = useAuth();
   const [stage, setStage] = useState<Stage>("intro");
   const [mode, setMode] = useState<Mode>("deep");
@@ -78,7 +36,9 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const [extraCycles, setExtraCycles] = useState(0);
 
   // grounding state
-  const groundingQs = useMemo(() => [GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)], GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)]], [stage === "grounding"]);
+  const enteredGrounding = stage === "grounding";
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- enteredGrounding intentionally re-triggers the random pick on entering this stage
+  const groundingQs = useMemo(() => [GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)], GROUNDING_Q[Math.floor(Math.random() * GROUNDING_Q.length)]], [enteredGrounding, GROUNDING_Q]);
   const [gIdx, setGIdx] = useState(0);
 
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
@@ -89,9 +49,11 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
   const primaryState = selectedStates[0] ?? null;
   const exitText = useMemo(() => {
-    const pool = primaryState ? STATE_MESSAGES[primaryState] : ["Volvé con cabeza."];
+    const pool = primaryState
+      ? (t(`tilt.state.messages.${primaryState}`, { returnObjects: true }) as string[])
+      : [t("tilt.defaultExitMessage")];
     return pool[Math.floor(Math.random() * pool.length)];
-  }, [primaryState, stage === "exit"]);
+  }, [primaryState, stage === "exit", t]);
 
   const toggleState = (s: string) => {
     setSelectedStates(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
@@ -139,7 +101,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       vibrate(phaseIdx === 1 ? 25 : 60);
     }
     if (count >= secs) {
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         const nextPhase = phaseIdx + 1;
         if (nextPhase >= pattern.phases.length) {
           const nextCycle = cycle + 1;
@@ -153,10 +115,10 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           setPhaseIdx(nextPhase); setCount(1);
         }
       }, 1000);
-      return () => clearTimeout(t);
+      return () => clearTimeout(timer);
     }
-    const t = setTimeout(() => setCount(c => c + 1), 1000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setCount(c => c + 1), 1000);
+    return () => clearTimeout(timer);
   }, [stage, count, phaseIdx, cycle, mode, extraCycles]);
 
   const startBreath = (m: Mode) => {
@@ -181,11 +143,11 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
 
       {/* Header */}
       <div className="relative shrink-0 px-6 pt-3 flex items-center justify-between">
-        <button onClick={onExit} aria-label="Salir del reset" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
+        <button onClick={onExit} aria-label={t("tilt.exitAria")} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           <X size={18} />
         </button>
-        <span className="text-[10px] font-bold opacity-80 tracking-[0.25em]">RESET MENTAL</span>
-        <button onClick={() => setSound(s => !s)} aria-label={sound ? "Silenciar sonido" : "Activar sonido"} aria-pressed={sound} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
+        <span className="text-[10px] font-bold opacity-80 tracking-[0.25em]">{t("tilt.header")}</span>
+        <button onClick={() => setSound(s => !s)} aria-label={sound ? t("tilt.muteAria") : t("tilt.unmuteAria")} aria-pressed={sound} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
           {sound ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
       </div>
@@ -201,26 +163,26 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             <div className="w-full bg-gradient-emergency text-destructive-foreground rounded-2xl p-4 shadow-emergency text-center">
               <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-2 border-current animate-breathe" style={{ animationDuration: "8s" }} />
-                <span className="text-xs font-bold tracking-widest">4 · 4 · 4</span>
+                <span className="text-xs font-bold tracking-widest">{t("tilt.patternLabels.fast")}</span>
               </div>
-              <p className="mt-2 text-lg font-bold">Modo Rápido</p>
-              <p className="text-xs opacity-90 mt-1">Reset breve. ~35 segundos.</p>
+              <p className="mt-2 text-lg font-bold">{t("tilt.fastMode.title")}</p>
+              <p className="text-xs opacity-90 mt-1">{t("tilt.fastMode.subtitle")}</p>
               <button onClick={() => startBreath("fast")}
                 className="mt-4 w-full bg-white/15 backdrop-blur font-bold py-3 rounded-xl active:scale-[0.98] transition-transform">
-                Respirar Ahora
+                {t("tilt.fastMode.cta")}
               </button>
             </div>
 
             <div className="w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-4 text-center">
               <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-2 border-primary-glow animate-breathe" style={{ animationDuration: "15s" }} />
-                <span className="text-xs font-bold tracking-widest">4 · 7 · 8</span>
+                <span className="text-xs font-bold tracking-widest">{t("tilt.patternLabels.deep")}</span>
               </div>
-              <p className="mt-2 text-lg font-bold">Modo Profundo</p>
-              <p className="text-xs opacity-80 mt-1">Tenés 90 segundos. Reset completo.</p>
+              <p className="mt-2 text-lg font-bold">{t("tilt.deepMode.title")}</p>
+              <p className="text-xs opacity-80 mt-1">{t("tilt.deepMode.subtitle")}</p>
               <button onClick={() => startBreath("deep")}
                 className="mt-4 w-full bg-primary-foreground text-foreground font-bold py-3 rounded-xl active:scale-[0.98] transition-transform">
-                Respirar Ahora
+                {t("tilt.deepMode.cta")}
               </button>
             </div>
           </div>
@@ -252,24 +214,24 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
                 style={{ transform: `scale(${scale})`, transition: `transform 1s ease-in-out` }}
               />
               <div className="relative text-center">
-                <p className="text-[10px] uppercase tracking-[0.3em] opacity-80 font-bold">{PHASE_TEXT[phase]}</p>
+                <p className="text-[10px] uppercase tracking-[0.3em] opacity-80 font-bold">{t(`tilt.phases.${phase}`)}</p>
                 <p className="text-6xl font-bold mt-1">{count}</p>
-                <p className="text-[10px] opacity-70 mt-1">de {phaseSecs}</p>
+                <p className="text-[10px] opacity-70 mt-1">{t("tilt.of")} {phaseSecs}</p>
               </div>
             </div>
           </div>
 
-          <p className="mt-8 text-center text-xs opacity-70 font-semibold tracking-widest">PATRÓN {pattern.label} · CICLO {cycle + 1}/{totalCycles}</p>
+          <p className="mt-8 text-center text-xs opacity-70 font-semibold tracking-widest">{t("tilt.patternCycleLabel", { pattern: t(`tilt.patternLabels.${mode}`), current: cycle + 1, total: totalCycles })}</p>
 
           <div className="mt-6 flex flex-col items-center gap-3">
             <button
               onClick={() => setExtraCycles(n => n + 1)}
-              aria-label="Extender un ciclo más"
+              aria-label={t("tilt.extendCycleAria")}
               className="inline-flex items-center gap-1.5 text-xs opacity-90 bg-white/10 backdrop-blur border border-white/15 rounded-full px-3 py-1.5">
-              <Plus size={12} /> Un ciclo más
+              <Plus size={12} /> {t("tilt.extendCycle")}
             </button>
             <button onClick={() => setStage("grounding")} className="text-xs opacity-80 underline-offset-4 underline">
-              Saltar al grounding →
+              {t("tilt.skipToGrounding")}
             </button>
           </div>
         </div>
@@ -280,9 +242,9 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         const q = groundingQs[gIdx];
         return (
           <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-6">
-            <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Recuperación de control · {gIdx + 1}/2</p>
+            <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">{t("tilt.grounding.eyebrow")} · {gIdx + 1}/2</p>
             <h2 className="mt-3 text-center text-2xl font-bold leading-tight px-2">{q.q}</h2>
-            <p className="mt-3 text-center text-xs opacity-75 px-4">No pienses mucho la respuesta. Tocá la primera que te parezca.</p>
+            <p className="mt-3 text-center text-xs opacity-75 px-4">{t("tilt.grounding.hint")}</p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
               {q.options.map(opt => (
@@ -298,7 +260,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             </div>
 
             <p className="mt-8 text-center text-[11px] opacity-60 px-6">
-              Estás bajando del modo emocional al modo racional.
+              {t("tilt.grounding.footer")}
             </p>
           </div>
         );
@@ -307,19 +269,19 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {/* STATE — pick what you're feeling */}
       {stage === "state" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-6">
-          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Estado actual</p>
-          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué sentís ahora mismo?</h2>
-          <p className="mt-2 text-center text-xs opacity-75 px-6">Nombrarlo ya es regularlo. Podés marcar varios.</p>
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">{t("tilt.state.eyebrow")}</p>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">{t("tilt.state.title")}</h2>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">{t("tilt.state.subtitle")}</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
-            {STATE_OPTIONS.map(s => {
-              const active = selectedStates.includes(s);
+            {STATE_IDS.map(id => {
+              const active = selectedStates.includes(id);
               return (
-                <button key={s} onClick={() => toggleState(s)} aria-pressed={active}
+                <button key={id} onClick={() => toggleState(id)} aria-pressed={active}
                   className={`p-4 rounded-2xl border text-sm font-bold active:scale-95 transition-all ${
                     active ? "bg-info/30 border-info shadow-glow" : "bg-white/10 backdrop-blur border-white/15"
                   }`}>
-                  {s}
+                  {t(`tilt.state.options.${id}`)}
                 </button>
               );
             })}
@@ -328,7 +290,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
           <textarea
             value={customNote}
             onChange={e => setCustomNote(e.target.value)}
-            placeholder="Otra cosa que quieras anotar (opcional)"
+            placeholder={t("tilt.state.notePlaceholder")}
             rows={2}
             maxLength={200}
             className="mt-4 w-full bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-3 text-sm placeholder:text-white/50 focus:outline-none resize-none"
@@ -338,7 +300,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
             onClick={confirmStates}
             disabled={selectedStates.length === 0}
             className="mt-4 w-full bg-primary-foreground text-foreground font-bold py-3.5 rounded-2xl disabled:opacity-40">
-            Continuar
+            {t("tilt.state.continue")}
           </button>
         </div>
       )}
@@ -346,29 +308,29 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {/* PULSE — pre intensity */}
       {stage === "pulse" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8">
-          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Pulso actual</p>
-          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Qué tan acelerado estás?</h2>
-          <p className="mt-2 text-center text-xs opacity-75 px-6">Sé honesto. Vamos a comparar al final.</p>
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">{t("tilt.pulse.eyebrow")}</p>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">{t("tilt.pulse.title")}</h2>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">{t("tilt.pulse.subtitle")}</p>
 
           <div className="mt-10 text-center">
             <p className="text-7xl font-bold leading-none">{preIntensity}</p>
-            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">de 10</p>
+            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">{t("tilt.of")} 10</p>
           </div>
 
           <input
             type="range" min={1} max={10} value={preIntensity}
             onChange={e => setPreIntensity(parseInt(e.target.value, 10))}
-            aria-label="Nivel de pulso actual"
+            aria-label={t("tilt.pulse.sliderAria")}
             className="mt-8 w-full accent-primary-glow"
           />
           <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
-            <span>Tranquilo</span><span>Desbordado</span>
+            <span>{t("tilt.pulse.low")}</span><span>{t("tilt.pulse.high")}</span>
           </div>
 
           <button
             onClick={() => setStage("breathe")}
             className="mt-8 w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
-            Empezar respiración <ChevronRight size={18} />
+            {t("tilt.pulse.cta")} <ChevronRight size={18} />
           </button>
         </div>
       )}
@@ -376,38 +338,38 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {/* CHECK — post intensity */}
       {stage === "check" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8">
-          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Después del reset</p>
-          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">¿Cómo estás ahora?</h2>
-          <p className="mt-2 text-center text-xs opacity-75 px-6">No tiene que ser cero. Solo más estable que al empezar.</p>
+          <p className="text-center text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">{t("tilt.check.eyebrow")}</p>
+          <h2 className="mt-2 text-center text-xl font-bold leading-tight px-4">{t("tilt.check.title")}</h2>
+          <p className="mt-2 text-center text-xs opacity-75 px-6">{t("tilt.check.subtitle")}</p>
 
           <div className="mt-8 text-center">
             <p className="text-7xl font-bold leading-none">{postIntensity}</p>
-            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">de 10</p>
+            <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70 font-bold">{t("tilt.of")} 10</p>
           </div>
 
           <input
             type="range" min={1} max={10} value={postIntensity}
             onChange={e => setPostIntensity(parseInt(e.target.value, 10))}
-            aria-label="Nivel de pulso después del reset"
+            aria-label={t("tilt.check.sliderAria")}
             className="mt-6 w-full accent-primary-glow"
           />
           <div className="mt-1 flex justify-between text-[10px] opacity-60 font-semibold">
-            <span>Tranquilo</span><span>Desbordado</span>
+            <span>{t("tilt.check.low")}</span><span>{t("tilt.check.high")}</span>
           </div>
 
           <div className="mt-6 p-4 rounded-2xl bg-white/10 backdrop-blur border border-white/15 text-center">
-            <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Cambio</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">{t("tilt.check.changeLabel")}</p>
             <p className="mt-1 text-2xl font-bold">
-              {delta > 0 ? `−${delta}` : delta < 0 ? `+${Math.abs(delta)}` : "0"} puntos
+              {delta > 0 ? `−${delta}` : delta < 0 ? `+${Math.abs(delta)}` : "0"} {t("tilt.check.points")}
             </p>
             <p className="text-[11px] opacity-75 mt-0.5">
-              {delta >= 3 ? "Reset sólido. Buen trabajo." : delta > 0 ? "Bajaste el pulso. Sigue." : "A veces solo nombrarlo alcanza."}
+              {delta >= 3 ? t("tilt.check.feedbackStrong") : delta > 0 ? t("tilt.check.feedbackSome") : t("tilt.check.feedbackNone")}
             </p>
           </div>
 
           <button onClick={finishReset}
             className="mt-6 w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
-            Cerrar reset <ChevronRight size={18} />
+            {t("tilt.check.cta")} <ChevronRight size={18} />
           </button>
         </div>
       )}
@@ -416,36 +378,36 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "exit" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8 flex flex-col items-center">
           <img src={mascot} alt="" aria-hidden="true" className="animate-float-slow w-28 h-28 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.4)]" />
-          <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
-          <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé con cabeza</h2>
+          <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">{t("tilt.exit.eyebrow")}</p>
+          <h2 className="mt-2 text-2xl font-bold text-center leading-tight">{t("tilt.exit.title")}</h2>
 
           <div className="mt-6 mx-2 p-5 rounded-3xl bg-white/10 backdrop-blur border border-white/15 w-full">
-            <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">Instrucción</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-70 font-bold">{t("tilt.exit.instructionLabel")}</p>
             <p className="mt-2 text-lg font-bold leading-snug">"{exitText}"</p>
             {selectedStates.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {selectedStates.map(s => (
-                  <span key={s} className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15">{s}</span>
+                  <span key={s} className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15">{t(`tilt.state.options.${s}`)}</span>
                 ))}
               </div>
             )}
             <div className="mt-3 flex justify-between text-[10px] opacity-70 font-semibold">
-              <span>Antes: {preIntensity}/10</span>
-              <span>Ahora: {postIntensity}/10</span>
+              <span>{t("tilt.exit.before", { value: preIntensity })}</span>
+              <span>{t("tilt.exit.after", { value: postIntensity })}</span>
             </div>
           </div>
 
           <div className="mt-6 w-full space-y-3">
             <button onClick={onExit}
               className="w-full bg-primary-foreground text-foreground font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-glow">
-              Volver al inicio <ChevronRight size={18} />
+              {t("tilt.exit.backHome")} <ChevronRight size={18} />
             </button>
             <button onClick={() => {
               setStage("intro");
               setSelectedStates([]); setCustomNote(""); setExtraCycles(0);
               sessionSavedRef.current = false;
             }} className="w-full text-sm opacity-80 font-medium py-2">
-              Repetir reset
+              {t("tilt.exit.repeat")}
             </button>
           </div>
         </div>

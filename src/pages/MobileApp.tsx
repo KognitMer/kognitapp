@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { PhoneFrame } from "@/components/kognit/PhoneFrame";
@@ -27,6 +28,7 @@ interface Profile {
 
 export default function MobileApp() {
   const { user, loading, signOut } = useAuth();
+  const { t } = useTranslation();
   const [view, setView] = useState<View>("home");
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -62,8 +64,8 @@ export default function MobileApp() {
         return <CalendarScreen />;
       case "profile":
         return <ProfileScreen
-          name={profile?.display_name ?? "Usuario"}
-          email={user.email || "Cuenta de invitado"}
+          name={profile?.display_name ?? t("common.defaultUserName")}
+          email={user.email || t("common.guestAccount")}
           focusLevel={profile?.focus_level ?? 60}
           emotionalControl={profile?.emotional_control ?? 60}
           totalResets={profile?.total_resets ?? 0}
@@ -73,7 +75,7 @@ export default function MobileApp() {
         />;
       default:
         return <HomeScreen
-          name={profile?.display_name ?? "Usuario"}
+          name={profile?.display_name ?? t("common.defaultUserName")}
           onTilt={goTilt}
           onCards={() => setView("cards")}
           onProgress={() => setView("calendar")}

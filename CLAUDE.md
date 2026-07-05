@@ -168,10 +168,14 @@ src/
 ├── contexts/
 │   └── AuthContext.tsx
 ├── data/
-│   └── mentalCards.ts             # Contenido estático de las 5 categorías × 5 cartas
+│   ├── mentalCards.ts             # Estructura (id, accent, cardCount) de las 5 categorías × 10 cartas — el texto vive en i18n/locales/es.json
+│   └── moods.ts                   # Ids de MOOD_OPTIONS y REACTIONS — el texto vive en i18n/locales/es.json
 ├── hooks/
 │   ├── use-mobile.tsx
 │   └── use-toast.ts
+├── i18n/
+│   ├── index.ts                   # Inicialización de i18next (react-i18next), locale único "es"
+│   └── locales/es.json            # Todos los strings de la UI, namespaced por pantalla/componente
 ├── integrations/supabase/
 │   ├── client.ts                  # createClient singleton
 │   └── types.ts                   # Tipos generados — NO editar a mano
@@ -228,7 +232,34 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 | `stress` | Manejo del estrés y Emociones | destructive (azul cobalto) |
 | `performance` | Rendimiento mental | primary (teal/verde azulado) |
 
-Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay backend para este contenido.
+Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. El texto (nombre/tagline de categoría, título/mensaje/acción de cada carta) vive en `i18n/locales/es.json` bajo `mentalCards.categories.<id>`; para agregar una carta, sumar la entrada en `CATEGORIES` (`mentalCards.ts`) **y** el texto correspondiente en el JSON. No hay backend para este contenido.
+
+## Internacionalización (i18n)
+
+`i18next` + `react-i18next`. Idioma por defecto: `es` (fallback siempre `es`).
+
+Idiomas soportados (`src/lib/preferences.ts` → `SUPPORTED_LANGUAGES`, cada uno con su JSON en `src/i18n/locales/`):
+
+| Código | Idioma |
+|---|---|
+| `es` | Español (default) |
+| `en` | English |
+| `pt` | Português |
+| `it` | Italiano |
+| `hi` | हिन्दी |
+| `fr` | Français |
+| `de` | Deutsch |
+| `zh-CN` | 简体中文 |
+| `zh-TW` | 繁體中文 (Taiwán) |
+| `ja` | 日本語 |
+
+- Todos los strings de UI viven en `src/i18n/locales/<código>.json`, namespaced por pantalla/componente (`auth.*`, `tilt.*`, `profile.*`, `mentalCards.*`, `moods.*`, etc.) — mismas keys en los 10 archivos.
+- El usuario elige idioma en **Perfil → Preferencias → Idioma** (`Profile.tsx`). La elección persiste en `localStorage` vía `getLanguage()`/`setLanguage()` (`lib/preferences.ts`) y se aplica con `i18n.changeLanguage(code)`; `src/i18n/index.ts` lee `getLanguage()` como `lng` inicial al bootear la app.
+- Los componentes usan `const { t } = useTranslation()` y `t("namespace.key")`. Interpolación con `{{variable}}` (ej. `t("tilt.exit.before", { value: preIntensity })`).
+- Arrays/objetos anidados (preguntas de grounding, cartas mentales, notas de ejemplo del calendario) se leen con `t(key, { returnObjects: true })`. Como esto devuelve una referencia nueva en cada llamada, siempre memoizar con `useMemo(() => t(key, { returnObjects: true }), [t])` si el resultado entra en un array de dependencias de otro hook — de lo contrario se re-crean callbacks/efectos en cada render.
+- Texto con markup embebido (ej. `<b>ELIMINAR</b>`/`<b>DELETE</b>`/etc. en el diálogo de borrar cuenta) usa el componente `<Trans i18nKey="..." components={{ b: <span /> }} />` en vez de `t()`. La palabra de confirmación (`profile.deleteAccount.confirmWord`) está traducida por idioma y debe coincidir exactamente con la que aparece dentro de `<b>` en `confirmPrompt` para ese mismo idioma, porque el código compara el input del usuario contra `confirmWord`.
+- `data/mentalCards.ts` y `data/moods.ts` sólo contienen ids/estructura — nunca texto en ningún idioma; el texto siempre se resuelve vía `t()` en el componente usando el id como parte de la key.
+- Al agregar/editar un string: hay que tocar los 10 JSON (o al menos `es.json`; el resto cae al fallback en español hasta traducirse, pero conviene mantenerlos sincronizados).
 
 ## Protocolo Tilt (flujo completo)
 

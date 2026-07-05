@@ -1,11 +1,11 @@
 export type MoodId = "calm" | "focus" | "neutral" | "frustrated" | "tilt";
 
-export const MOOD_OPTIONS: { id: MoodId; label: string }[] = [
-  { id: "calm", label: "Tranquilo" },
-  { id: "focus", label: "Enfocado" },
-  { id: "neutral", label: "Neutral" },
-  { id: "frustrated", label: "Frustrado" },
-  { id: "tilt", label: "Tilt" },
+export const MOOD_OPTIONS: { id: MoodId }[] = [
+  { id: "calm" },
+  { id: "focus" },
+  { id: "neutral" },
+  { id: "frustrated" },
+  { id: "tilt" },
 ];
 
 // Notas guardadas antes del paquete de mascota tienen el mood como emoji plano.
@@ -26,10 +26,10 @@ export function resolveMoodId(stored: string | null | undefined): MoodId | null 
 
 export type ReactionId = "breathe" | "focus" | "inspire" | "reflect" | "identify";
 
-export const REACTIONS: { id: ReactionId; label: string }[] = [
-  { id: "breathe", label: "Me ayudó a respirar" },
-  { id: "focus", label: "Me ayudó a enfocarme" },
-  { id: "inspire", label: "Me inspira" },
-  { id: "reflect", label: "Me hizo reflexionar" },
-  { id: "identify", label: "Me siento identificado" },
+export const REACTIONS: { id: ReactionId }[] = [
+  { id: "breathe" },
+  { id: "focus" },
+  { id: "inspire" },
+  { id: "reflect" },
+  { id: "identify" },
 ];

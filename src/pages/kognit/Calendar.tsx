@@ -1,18 +1,12 @@
 import { ChevronLeft, ChevronRight, Plus, Sparkles, Lock, Users, TrendingUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { BottomNav } from "@/components/kognit/BottomNav";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
 import { MoodIcon } from "@/components/kognit/MoodIcon";
 import type { MoodId } from "@/data/moods";
-
-const days = ["L", "M", "M", "J", "V", "S", "D"];
-const MONTH_NAMES = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-];
-const WEEKDAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 const moodByDay: Record<number, { c: string; mood: MoodId }> = {
   3: { c: "bg-accent/40", mood: "calm" },
@@ -24,32 +18,7 @@ const moodByDay: Record<number, { c: string; mood: MoodId }> = {
   18: { c: "bg-primary/40", mood: "focus" },
 };
 
-const fallbackNotes = [
-  {
-    time: "20:30",
-    mood: "focus" as MoodId,
-    title: "Sesión NL50 — 2 horas",
-    body: "Buen control en spots difíciles. Foldeé un set en river leído, no me sacó del eje el resultado.",
-    tag: "Foco",
-    color: "text-primary",
-  },
-  {
-    time: "15:10",
-    mood: "tilt" as MoodId,
-    title: "Recuperación post bad beat",
-    body: "Set vs runner-runner flush. Hice respiración 4-7-8 y volví limpio en 6 minutos.",
-    tag: "Reset",
-    color: "text-destructive",
-  },
-  {
-    time: "09:00",
-    mood: "calm" as MoodId,
-    title: "Ritual pre-sesión",
-    body: "Visualicé 3 manos clave de ayer. Definí stop-loss: 3 buy-ins.",
-    tag: "Ritual",
-    color: "text-accent",
-  },
-];
+const FALLBACK_NOTE_COLORS = ["text-primary", "text-destructive", "text-accent"];
 
 interface Row {
   id: string;
@@ -65,6 +34,13 @@ const formatTime = (iso: string) =>
 
 export const CalendarScreen = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
+  const days = useMemo(() => t("calendar.days", { returnObjects: true }) as string[], [t]);
+  const MONTH_NAMES = useMemo(() => t("calendar.months", { returnObjects: true }) as string[], [t]);
+  const WEEKDAY_NAMES = useMemo(() => t("calendar.weekdays", { returnObjects: true }) as string[], [t]);
+  const fallbackNotes = useMemo(() => t("calendar.fallbackNotes", { returnObjects: true }) as {
+    time: string; mood: MoodId; title: string; body: string; tag: string;
+  }[], [t]);
   const [composerOpen, setComposerOpen] = useState(false);
   const [rows, setRows] = useState<Row[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -156,7 +132,7 @@ export const CalendarScreen = () => {
 
     const lastAvg = lastWeekCount ? lastWeekSum / lastWeekCount : null;
     setFocusTrend(thisAvg != null && lastAvg ? Math.round(((thisAvg - lastAvg) / lastAvg) * 100) : null);
-  }, [user]);
+  }, [user, days]);
 
   useEffect(() => { loadFocusWeek(); }, [loadFocusWeek]);
 
@@ -164,14 +140,14 @@ export const CalendarScreen = () => {
   <div className="min-h-full bg-gradient-hero pb-28">
     {/* Header */}
     <div className="px-6 pt-3 flex items-center justify-between">
-      <button onClick={goPrev} aria-label="Mes anterior" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+      <button onClick={goPrev} aria-label={t("calendar.prevMonthAria")} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <ChevronLeft size={18} />
       </button>
       <div className="text-center">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Diario mental</p>
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">{t("calendar.eyebrow")}</p>
         <p className="text-sm font-bold">{selectedWeekday} {selectedDay} · {MONTH_NAMES[month]} {year}</p>
       </div>
-      <button onClick={goNext} aria-label="Mes siguiente" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+      <button onClick={goNext} aria-label={t("calendar.nextMonthAria")} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
         <ChevronRight size={18} />
       </button>
     </div>
@@ -181,9 +157,9 @@ export const CalendarScreen = () => {
       <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-primary-glow/25 blur-2xl" />
       <div className="relative flex items-center justify-between">
         <div>
-          <p className="text-xs opacity-70 uppercase tracking-widest font-semibold">Este mes</p>
-          <p className="text-xl font-bold mt-0.5">14 días enfocado</p>
-          <p className="text-[11px] opacity-80 mt-0.5">3 resets · 9 sesiones registradas</p>
+          <p className="text-xs opacity-70 uppercase tracking-widest font-semibold">{t("calendar.thisMonth")}</p>
+          <p className="text-xl font-bold mt-0.5">{t("calendar.monthSummary")}</p>
+          <p className="text-[11px] opacity-80 mt-0.5">{t("calendar.monthDetail")}</p>
         </div>
         <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
           <Sparkles size={20} />
@@ -195,9 +171,9 @@ export const CalendarScreen = () => {
     <div className="mx-6 mt-4 p-4 rounded-3xl bg-card shadow-card">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">Foco esta semana</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{t("calendar.focusWeek")}</p>
           <p className="text-xl font-bold mt-0.5">
-            {focusAvg != null ? focusAvg.toFixed(1).replace(".", ",") : "—"} <span className="text-sm text-muted-foreground font-medium">prom</span>
+            {focusAvg != null ? focusAvg.toFixed(1).replace(".", ",") : "—"} <span className="text-sm text-muted-foreground font-medium">{t("calendar.focusAvgSuffix")}</span>
           </p>
         </div>
         {focusTrend != null && (
@@ -253,9 +229,9 @@ export const CalendarScreen = () => {
 
     {/* Notas del día seleccionado */}
     <div className="px-6 mt-5 flex items-center justify-between">
-      <h3 className="text-sm font-bold">Notas · {selectedWeekday} {selectedDay}</h3>
+      <h3 className="text-sm font-bold">{t("calendar.notesTitle", { weekday: selectedWeekday, day: selectedDay })}</h3>
       <button onClick={() => setComposerOpen(true)} className="flex items-center gap-1.5 bg-gradient-primary text-primary-foreground text-xs font-bold px-3.5 py-2 rounded-full shadow-soft">
-        <Plus size={14} /> Nueva nota
+        <Plus size={14} /> {t("calendar.newNote")}
       </button>
     </div>
 
@@ -267,11 +243,11 @@ export const CalendarScreen = () => {
             <div className="flex items-center gap-2">
               <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center"><MoodIcon mood={n.mood} size={20} /></div>
               <div>
-                <p className="text-[10px] text-muted-foreground font-semibold">{n.time} · ejemplo</p>
+                <p className="text-[10px] text-muted-foreground font-semibold">{n.time} · {t("calendar.exampleSuffix")}</p>
                 <p className="text-sm font-bold leading-tight">{n.title}</p>
               </div>
             </div>
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${n.color}`}>{n.tag}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${FALLBACK_NOTE_COLORS[i % FALLBACK_NOTE_COLORS.length]}`}>{n.tag}</span>
           </div>
           <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">{n.body}</p>
         </div>
@@ -283,12 +259,12 @@ export const CalendarScreen = () => {
               <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center"><MoodIcon mood={n.mood} size={20} /></div>
               <div>
                 <p className="text-[10px] text-muted-foreground font-semibold">{formatTime(n.created_at)}</p>
-                <p className="text-sm font-bold leading-tight">{n.title ?? "Nota"}</p>
+                <p className="text-sm font-bold leading-tight">{n.title ?? t("calendar.defaultNoteTitle")}</p>
               </div>
             </div>
             <span className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider ${n.visibility === "public" ? "text-primary" : "text-muted-foreground"}`}>
               {n.visibility === "public" ? <Users size={11} /> : <Lock size={11} />}
-              {n.visibility === "public" ? "Pública" : "Privada"}
+              {n.visibility === "public" ? t("calendar.public") : t("calendar.private")}
             </span>
           </div>
           <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{n.content}</p>
@@ -298,8 +274,8 @@ export const CalendarScreen = () => {
 
     {/* Input rápido */}
     <div className="mx-6 mt-4 p-4 rounded-2xl bg-card shadow-soft border border-dashed border-border">
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Agregar nota rápida</p>
-      <p className="mt-1.5 text-sm text-muted-foreground italic">¿Qué pasó por tu cabeza hoy?</p>
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">{t("calendar.quickAddTitle")}</p>
+      <p className="mt-1.5 text-sm text-muted-foreground italic">{t("calendar.quickAddSubtitle")}</p>
       <div className="mt-3 flex items-center gap-2">
         {(["calm", "focus", "neutral", "frustrated", "tilt"] as const).map(id => (
           <button key={id} onClick={() => setComposerOpen(true)} className="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center hover:scale-110 transition-transform">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Check, Brain, Heart, Target, Zap } from "lucide-react";
 import mascot from "@/assets/kognit-mascot.png";
 import mascotAngry from "@/assets/mascot-angry.png";
@@ -7,23 +8,24 @@ import mascotOverthinking from "@/assets/mascot-overthinking.png";
 import mascotOverwhelmed from "@/assets/mascot-overwhelmed.png";
 import mascotFrustrated from "@/assets/mascot-frustrated.png";
 
-const GOALS = [
-  { id: "calm", icon: Heart, label: "Mantener la calma bajo presión" },
-  { id: "recover", icon: Zap, label: "Recuperarme más rápido\u00a0" },
-  { id: "decide", icon: Target, label: "Afilar mis decisiones" },
-  { id: "resilience", icon: Brain, label: "Construir resistencia mental" },
-];
+const GOAL_META = [
+  { id: "calm", icon: Heart },
+  { id: "recover", icon: Zap },
+  { id: "decide", icon: Target },
+  { id: "resilience", icon: Brain },
+] as const;
 
-const EMOTIONS = [
-  { id: "frustration", name: "Frustración", face: mascotFrustrated, description: "Cuando las cosas no salen como esperaba" },
-  { id: "fear", name: "Miedo", face: mascotFear, description: "Ante decisiones o pérdidas potenciales" },
-  { id: "overthinking", name: "Análisis excesivo", face: mascotOverthinking, description: "Cuando no puedo dejar de pensar" },
-  { id: "tilt", name: "Tilt / Rabia", face: mascotAngry, description: "Pérdida de control emocional rápida" },
-  { id: "unmotivated", name: "Desmotivación", face: mascotFrustrated, description: "Falta de energía o propósito" },
-  { id: "overwhelm", name: "Abrumación", face: mascotOverwhelmed, description: "Todo se siente demasiado" },
+const EMOTION_META = [
+  { id: "frustration", face: mascotFrustrated },
+  { id: "fear", face: mascotFear },
+  { id: "overthinking", face: mascotOverthinking },
+  { id: "tilt", face: mascotAngry },
+  { id: "unmotivated", face: mascotFrustrated },
+  { id: "overwhelm", face: mascotOverwhelmed },
 ] as const;
 
 export const OnboardingScreen = () => {
+  const { t } = useTranslation();
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [step, setStep] = useState<"form" | "welcome">("form");
@@ -45,10 +47,10 @@ export const OnboardingScreen = () => {
           <img src={mascot} alt="" aria-hidden="true" className="relative w-24 h-24 object-contain animate-breathe" />
         </div>
         <h1 className="mt-10 text-[26px] leading-tight font-bold text-foreground">
-          Bienvenido/a a la <span className="text-gradient">introspección</span>
+          {t("onboarding.welcomeTitlePrefix")}<span className="text-gradient">{t("onboarding.welcomeTitleHighlight")}</span>
         </h1>
         <p className="mt-3 text-sm text-muted-foreground max-w-[280px]">
-          Ya personalizamos kognit con lo que sentís y lo que querés lograr.
+          {t("onboarding.welcomeSubtitle")}
         </p>
       </div>
     );
@@ -57,16 +59,16 @@ export const OnboardingScreen = () => {
   return (
   <div className="min-h-full bg-gradient-hero px-6 pt-6 pb-10">
     <div className="flex justify-center">
-      <img src={mascot} alt="Mascota kognit" className="w-28 h-28 object-contain animate-float-slow" />
+      <img src={mascot} alt={t("onboarding.mascotAlt")} className="w-28 h-28 object-contain animate-float-slow" />
     </div>
 
     <h1 className="mt-2 text-[26px] leading-tight font-bold text-foreground">
-      ¿Qué suele <span className="text-gradient">sacarte del foco?</span>
+      {t("onboarding.questionPrefix")}<span className="text-gradient">{t("onboarding.questionHighlight")}</span>
     </h1>
-    <p className="mt-2 text-sm text-muted-foreground">Podés elegir varias. Nos ayuda a personalizar tus resets.</p>
+    <p className="mt-2 text-sm text-muted-foreground">{t("onboarding.questionSubtitle")}</p>
 
     <div className="mt-5 grid grid-cols-2 gap-3">
-      {EMOTIONS.map(emotion => {
+      {EMOTION_META.map(emotion => {
         const selected = selectedEmotions.includes(emotion.id);
         return (
           <button
@@ -88,16 +90,16 @@ export const OnboardingScreen = () => {
               aria-hidden="true"
               className="w-14 h-14 object-contain"
             />
-            <span className="text-sm font-bold leading-tight">{emotion.name}</span>
-            <span className="text-[11px] text-muted-foreground leading-snug">{emotion.description}</span>
+            <span className="text-sm font-bold leading-tight">{t(`onboarding.emotions.${emotion.id}.name`)}</span>
+            <span className="text-[11px] text-muted-foreground leading-snug">{t(`onboarding.emotions.${emotion.id}.description`)}</span>
           </button>
         );
       })}
     </div>
 
-    <h2 className="mt-7 text-sm font-semibold">¿Qué querés mejorar?</h2>
+    <h2 className="mt-7 text-sm font-semibold">{t("onboarding.goalsTitle")}</h2>
     <div className="mt-3 space-y-2.5">
-      {GOALS.map(({ id, icon: Icon, label }) => {
+      {GOAL_META.map(({ id, icon: Icon }) => {
         const selected = selectedGoals.includes(id);
         return (
           <button
@@ -111,7 +113,7 @@ export const OnboardingScreen = () => {
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${selected ? "bg-gradient-info text-info-foreground" : "bg-secondary text-primary"}`}>
               <Icon size={18} />
             </div>
-            <span className="flex-1 text-sm font-medium text-left">{label}</span>
+            <span className="flex-1 text-sm font-medium text-left">{t(`onboarding.goals.${id}`)}</span>
             {selected && <Check size={18} className="text-info" />}
           </button>
         );
@@ -122,7 +124,7 @@ export const OnboardingScreen = () => {
       disabled={selectedEmotions.length === 0 || selectedGoals.length === 0}
       onClick={() => setStep("welcome")}
       className="mt-7 w-full bg-gradient-primary text-primary-foreground font-semibold py-4 rounded-2xl shadow-soft flex items-center justify-center gap-2 disabled:opacity-40">
-      Continuar <ArrowRight size={18} />
+      {t("onboarding.continue")} <ArrowRight size={18} />
     </button>
   </div>
   );

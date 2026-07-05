@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertOctagon, Layers, ChevronRight, UserRound, TrendingUp } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { MoodIcon, moodMascotSrc } from "@/components/kognit/MoodIcon";
@@ -18,6 +19,7 @@ interface HomeProps {
 
 export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile }: HomeProps) => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [mood, setMood] = useState<MoodId | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -40,30 +42,30 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
     if (saving) return;
     setMood(id);
     if (!user) return; // showcase sin login (landing): solo cambia el personaje, no persiste
-    const label = MOOD_OPTIONS.find(m => m.id === id)?.label ?? id;
+    const label = t(`moods.options.${id}`);
     setSaving(true);
     const { error } = await supabase.from("notes").insert({
       user_id: user.id,
       mood: id,
-      content: `Estado mental: ${label}`,
+      content: t("home.moodNoteContent", { label }),
       visibility: "private",
     });
     setSaving(false);
     if (error) {
-      toast.error("No se pudo guardar tu estado");
+      toast.error(t("home.toasts.saveError"));
       return;
     }
-    toast.success("Quedó fijado en tu diario mental");
+    toast.success(t("home.toasts.saveSuccess"));
   };
 
   return (
   <div className="min-h-full bg-gradient-hero pb-28">
     <div className="px-6 pt-3 flex items-center justify-between">
       <div>
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Sesión activa</p>
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("home.activeSession")}</p>
         <h1 className="text-xl font-bold">{name}</h1>
       </div>
-      <button onClick={onProfile} aria-label="Perfil y configuración" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center text-primary">
+      <button onClick={onProfile} aria-label={t("home.profileAria")} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center text-primary">
         {name.trim() ? (
           <span className="text-sm font-bold">{name.trim().charAt(0).toUpperCase()}</span>
         ) : (
@@ -85,11 +87,11 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
 
     <div className="mx-6 mt-2 p-5 rounded-3xl bg-card shadow-card">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-bold">Estado mental actual</p>
-        <span className="text-[10px] text-muted-foreground font-semibold">Toca para fijar</span>
+        <p className="text-sm font-bold">{t("home.currentMoodTitle")}</p>
+        <span className="text-[10px] text-muted-foreground font-semibold">{t("home.currentMoodHint")}</span>
       </div>
       <div className="mt-3 grid grid-cols-5 gap-1.5">
-        {MOOD_OPTIONS.map(({ id, label }) => (
+        {MOOD_OPTIONS.map(({ id }) => (
           <button
             key={id}
             onClick={() => pickMood(id)}
@@ -100,7 +102,7 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
             }`}
           >
             <MoodIcon mood={id} size={18} />
-            <span className="text-[9px] font-bold leading-none">{label}</span>
+            <span className="text-[9px] font-bold leading-none">{t(`moods.options.${id}`)}</span>
           </button>
         ))}
       </div>
@@ -115,9 +117,9 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
           <AlertOctagon size={32} strokeWidth={2.4} />
         </div>
         <div className="flex-1 text-left">
-          <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">PROTOCOLO&nbsp;</p>
-          <p className="text-xl font-bold leading-tight mt-0.5">Reset&nbsp;</p>
-          <p className="text-xs opacity-90 mt-0.5">Respirá, recuperá foco</p>
+          <p className="text-[10px] uppercase tracking-[0.25em] opacity-90 font-bold">{t("home.protocolLabel")}</p>
+          <p className="text-xl font-bold leading-tight mt-0.5">{t("home.resetTitle")}</p>
+          <p className="text-xs opacity-90 mt-0.5">{t("home.resetSubtitle")}</p>
         </div>
         <ChevronRight size={26} />
       </button>
@@ -125,10 +127,10 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
 
     {/* SECUNDARIAS */}
     <div className="px-6 mt-5">
-      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} wide />
+      <ToolCard icon={Layers} title={t("home.mentalCardsTitle")} subtitle={t("home.mentalCardsSubtitle")} onClick={onCards} wide />
     </div>
     <div className="px-6 mt-3">
-      <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · calma · tu diario semanal" onClick={onProgress} wide />
+      <ToolCard icon={TrendingUp} title={t("home.progressTitle")} subtitle={t("home.progressSubtitle")} onClick={onProgress} wide />
     </div>
 
     <BottomNav active="home" />

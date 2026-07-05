@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, ArrowRight, Loader2 } from "lucide-react";
@@ -15,6 +16,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,25 +35,25 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        toast({ title: "Revisá tu email", description: "Si el email está disponible, te enviamos un link de confirmación." });
+        toast({ title: t("auth.toasts.signupSuccessTitle"), description: t("auth.toasts.signupSuccessDescription") });
         setMode("login");
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) throw error;
-        toast({ title: "Email enviado", description: "Si el email está registrado, recibirás un link para resetear tu clave." });
+        toast({ title: t("auth.toasts.forgotSuccessTitle"), description: t("auth.toasts.forgotSuccessDescription") });
         setMode("login");
       }
     } catch (err: any) {
       console.error("[auth]", err);
       const generic =
         mode === "login"
-          ? "Email o contraseña inválidos."
+          ? t("auth.toasts.genericLogin")
           : mode === "signup"
-          ? "No pudimos completar el registro. Probá nuevamente."
-          : "No pudimos procesar la solicitud. Probá nuevamente.";
-      toast({ title: "Error", description: generic, variant: "destructive" });
+          ? t("auth.toasts.genericSignup")
+          : t("auth.toasts.genericForgot");
+      toast({ title: t("auth.toasts.errorTitle"), description: generic, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -60,12 +62,12 @@ export default function Auth() {
   const guest = async () => {
     setLoading(true);
     const { error } = await supabase.auth.signInAnonymously({
-      options: { data: { display_name: "Usuario" } },
+      options: { data: { display_name: t("auth.guestDisplayName") } },
     });
     setLoading(false);
     if (error) {
       console.error("[auth:guest]", error);
-      toast({ title: "Error", description: "No pudimos crear la sesión de invitado.", variant: "destructive" });
+      toast({ title: t("auth.toasts.errorTitle"), description: t("auth.toasts.guestError"), variant: "destructive" });
     } else {
       navigate("/app");
     }
@@ -83,8 +85,8 @@ export default function Auth() {
             <img src={logo} alt="kognit" className="relative w-12 h-12 object-contain" />
           </div>
           <div>
-            <p className="text-xl font-bold tracking-tight">kognit</p>
-            <p className="text-xs text-muted-foreground font-medium tracking-wide">La ventaja está en tu mente.</p>
+            <p className="text-xl font-bold tracking-tight">{t("app.name")}</p>
+            <p className="text-xs text-muted-foreground font-medium tracking-wide">{t("app.tagline")}</p>
           </div>
         </div>
 
@@ -95,61 +97,61 @@ export default function Auth() {
                 className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${
                   mode === m ? "bg-gradient-info text-info-foreground shadow-soft" : "text-muted-foreground"
                 }`}>
-                {m === "login" ? "Ingresar" : "Crear cuenta"}
+                {m === "login" ? t("auth.tabs.login") : t("auth.tabs.signup")}
               </button>
             ))}
           </div>
 
           <h1 className={`font-bold ${mode === "login" ? "text-2xl tracking-tight mb-5" : "text-xl mb-1"}`}>
-            {mode === "login" && "Tu rendimiento empieza acá."}
-            {mode === "signup" && "Recuperá el foco"}
-            {mode === "forgot" && "Recuperar acceso"}
+            {mode === "login" && t("auth.titles.login")}
+            {mode === "signup" && t("auth.titles.signup")}
+            {mode === "forgot" && t("auth.titles.forgot")}
           </h1>
           {mode !== "login" && (
             <p className="text-sm text-muted-foreground mb-5">
-              {mode === "signup" && "Empezá a entrenar foco y control bajo presión."}
-              {mode === "forgot" && "Te enviamos un link para resetear tu clave."}
+              {mode === "signup" && t("auth.subtitles.signup")}
+              {mode === "forgot" && t("auth.subtitles.forgot")}
             </p>
           )}
 
           <form onSubmit={submit} className="space-y-3">
             {mode === "signup" && (
-              <input value={name} onChange={e => setName(e.target.value)} placeholder="Nombre de jugador"
+              <input value={name} onChange={e => setName(e.target.value)} placeholder={t("auth.placeholders.name")}
                 className="w-full px-4 py-3 rounded-2xl bg-secondary text-sm font-medium outline-none focus:ring-2 focus:ring-primary" />
             )}
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={t("auth.placeholders.email")}
               className="w-full px-4 py-3 rounded-2xl bg-secondary text-sm font-medium outline-none focus:ring-2 focus:ring-primary" />
             {mode !== "forgot" && (
-              <input type="password" required minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña"
+              <input type="password" required minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder={t("auth.placeholders.password")}
                 className="w-full px-4 py-3 rounded-2xl bg-secondary text-sm font-medium outline-none focus:ring-2 focus:ring-primary" />
             )}
 
             <button disabled={loading} type="submit"
               className="w-full bg-gradient-primary text-primary-foreground font-bold py-3.5 rounded-2xl shadow-glow flex items-center justify-center gap-2 disabled:opacity-60">
               {loading ? <Loader2 className="animate-spin" size={18} /> : <>
-                {mode === "login" ? "Entrar al juego" : mode === "signup" ? "Crear cuenta" : "Enviar link"} <ArrowRight size={16} />
+                {mode === "login" ? t("auth.submit.login") : mode === "signup" ? t("auth.submit.signup") : t("auth.submit.forgot")} <ArrowRight size={16} />
               </>}
             </button>
           </form>
 
           <div className="mt-4 flex items-center justify-between text-xs">
             {mode === "login" ? (
-              <button onClick={() => setMode("forgot")} className="text-primary font-semibold">¿Olvidaste tu clave?</button>
+              <button onClick={() => setMode("forgot")} className="text-primary font-semibold">{t("auth.forgotPassword")}</button>
             ) : (
-              <button onClick={() => setMode("login")} className="text-primary font-semibold">← Volver</button>
+              <button onClick={() => setMode("login")} className="text-primary font-semibold">{t("auth.back")}</button>
             )}
             <button onClick={guest} disabled={loading} className="text-muted-foreground font-semibold hover:text-primary">
-              Continuar como invitado →
+              {t("auth.guest")}
             </button>
           </div>
 
           <Link to="/tilt"
             className="mt-5 block text-center text-xs font-bold text-destructive bg-destructive/10 py-2.5 rounded-2xl">
-            Reset sin login →
+            {t("auth.resetNoLogin")}
           </Link>
         </div>
 
-        <Link to="/" className="mt-5 block text-center text-xs text-muted-foreground">Ver demo del prototipo</Link>
+        <Link to="/" className="mt-5 block text-center text-xs text-muted-foreground">{t("auth.viewDemo")}</Link>
       </div>
     </div>
   );

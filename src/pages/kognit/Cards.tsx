@@ -1,24 +1,30 @@
 import { ChevronLeft, Shuffle, RotateCw } from "lucide-react";
 import { motion, useMotionValue, animate, type PanInfo } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { BottomNav } from "@/components/kognit/BottomNav";
-import { CATEGORIES, MentalCard } from "@/data/mentalCards";
+import { CATEGORIES } from "@/data/mentalCards";
 import { useState, useRef, useEffect } from "react";
 
 interface CardsProps { onBack?: () => void; }
 
 function getRandomCard() {
   const randomCat = Math.floor(Math.random() * CATEGORIES.length);
-  const randomCard = Math.floor(Math.random() * CATEGORIES[randomCat].cards.length);
+  const randomCard = Math.floor(Math.random() * CATEGORIES[randomCat].cardCount);
   return { catIdx: randomCat, cardIdx: randomCard };
 }
 
 export const CardsScreen = ({ onBack }: CardsProps) => {
+  const { t } = useTranslation();
   const initial = getRandomCard();
   const [catIdx, setCatIdx] = useState(initial.catIdx);
   const [cardIdx, setCardIdx] = useState(initial.cardIdx);
 
   const cat = CATEGORIES[catIdx];
-  const card: MentalCard = cat.cards[cardIdx];
+  const catName = t(`mentalCards.categories.${cat.id}.name`);
+  const catTagline = t(`mentalCards.categories.${cat.id}.tagline`);
+  const cardTitle = t(`mentalCards.categories.${cat.id}.cards.${cardIdx}.title`);
+  const cardMessage = t(`mentalCards.categories.${cat.id}.cards.${cardIdx}.message`);
+  const cardAction = t(`mentalCards.categories.${cat.id}.cards.${cardIdx}.action`);
 
   const rotateY = useMotionValue(0);
   const wasDragged = useRef(false);
@@ -90,14 +96,14 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
           <ChevronLeft size={18} />
         </button>
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Cartas Mentales</p>
-          <p className="text-sm font-bold">{cat.name}</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("cards.eyebrow")}</p>
+          <p className="text-sm font-bold">{catName}</p>
         </div>
         <div className="w-10" />
       </div>
 
       {/* Tagline de la categoría */}
-      <p className="mt-3 px-6 text-sm font-bold leading-tight shrink-0">{cat.tagline}</p>
+      <p className="mt-3 px-6 text-sm font-bold leading-tight shrink-0">{catTagline}</p>
 
       {/* Carta */}
       <div className="relative mt-4 mx-6 flex-1 min-h-0" style={{ perspective: 1400 }}>
@@ -116,11 +122,11 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             style={{ backfaceVisibility: "hidden", ...cardGlowStyle }}
           >
             <div className="flex-1 min-h-0 flex items-center justify-center text-center">
-              <h2 className="font-serif text-3xl font-semibold leading-tight">{card.title}</h2>
+              <h2 className="font-serif text-3xl font-semibold leading-tight">{cardTitle}</h2>
             </div>
             <div className="flex items-center justify-center gap-2 opacity-80">
               <RotateCw size={14} />
-              <p className="text-[11px] uppercase tracking-widest font-bold">Deslizá para dar vuelta</p>
+              <p className="text-[11px] uppercase tracking-widest font-bold">{t("cards.flipHint")}</p>
             </div>
           </div>
 
@@ -130,11 +136,11 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", ...cardGlowStyle }}
           >
             <div className="flex-1 flex flex-col justify-center">
-              <p className="font-serif text-base opacity-90 leading-relaxed">{card.message}</p>
+              <p className="font-serif text-base opacity-90 leading-relaxed">{cardMessage}</p>
             </div>
             <div className="mt-4 pl-4 pr-3 py-3 border-l-4 border-white/50 bg-white/5 rounded-r-xl shrink-0">
-              <p className="text-[10px] uppercase tracking-widest opacity-80 font-bold">Acción concreta</p>
-              <p className="font-serif mt-1 text-base font-semibold leading-snug">{card.action}</p>
+              <p className="text-[10px] uppercase tracking-widest opacity-80 font-bold">{t("cards.actionLabel")}</p>
+              <p className="font-serif mt-1 text-base font-semibold leading-snug">{cardAction}</p>
             </div>
           </div>
         </motion.div>
@@ -143,7 +149,7 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
       <div className="px-6 mt-4 shrink-0">
         <button onClick={drawCard}
           className="w-full py-3.5 rounded-2xl bg-foreground text-background text-sm font-bold flex items-center justify-center gap-2 shadow-card hover:opacity-90 transition-opacity">
-          <Shuffle size={16} /> Sacar carta
+          <Shuffle size={16} /> {t("cards.drawCard")}
         </button>
       </div>
 

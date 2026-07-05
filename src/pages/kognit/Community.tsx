@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, Lock, MessageCircle, Send, ImagePlus } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,6 +42,7 @@ async function signImagePaths(list: NoteRow[]): Promise<Map<string, string>> {
 
 export const CommunityScreen = ({ onBack, onMessages }: Props) => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [notes, setNotes] = useState<NoteRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [composerOpen, setComposerOpen] = useState(false);
@@ -79,7 +81,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
 
     const withMeta = list.map(n => ({
       ...n,
-      author: nameById.get(n.user_id) ?? "Usuario",
+      author: nameById.get(n.user_id) ?? t("community.defaultAuthor"),
       reactions: counts[n.id] ?? {},
       myReaction: mine[n.id] ?? null,
     }));
@@ -89,7 +91,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
       imageSignedUrl: n.image_url ? signedByPath.get(n.image_url) ?? null : null,
     })));
     setLoading(false);
-  }, [user]);
+  }, [user, t]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -113,8 +115,8 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
           <ChevronLeft size={18} />
         </button>
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Comunidad</p>
-          <p className="text-xs font-bold">Momentos de Conexión</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("community.eyebrow")}</p>
+          <p className="text-xs font-bold">{t("community.title")}</p>
         </div>
         <button onClick={onMessages} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
           <MessageCircle size={18} />
@@ -124,7 +126,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
       <div className="mx-6 mt-4 p-4 rounded-3xl bg-gradient-primary text-primary-foreground shadow-card">
         <button onClick={() => setComposerOpen(true)}
           className="w-full bg-white/15 backdrop-blur rounded-full py-2.5 pl-4 pr-2 flex items-center justify-between gap-2 active:scale-[0.98] transition-transform">
-          <span className="text-xs font-semibold opacity-80">¿Qué hizo la diferencia hoy?</span>
+          <span className="text-xs font-semibold opacity-80">{t("community.composerPrompt")}</span>
           <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
             <ImagePlus size={14} />
           </span>
@@ -132,12 +134,12 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
       </div>
 
       <div className="px-6 mt-5 space-y-3">
-        {loading && <p className="text-xs text-muted-foreground text-center py-10">Cargando…</p>}
+        {loading && <p className="text-xs text-muted-foreground text-center py-10">{t("community.loading")}</p>}
         {!loading && notes.length === 0 && (
           <div className="text-center py-10 px-4">
             <Lock size={20} className="mx-auto text-muted-foreground" />
-            <p className="mt-3 text-xs font-bold">Todavía no hay momentos compartidos</p>
-            <p className="mt-1 text-xs text-muted-foreground">Sé el primero en compartir una reflexión.</p>
+            <p className="mt-3 text-xs font-bold">{t("community.empty.title")}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("community.empty.subtitle")}</p>
           </div>
         )}
         {notes.map(n => (
@@ -170,7 +172,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
                   const count = n.reactions[r.id] ?? 0;
                   return (
                     <button key={r.id} onClick={() => react(n.id, r.id, n.myReaction)}
-                      title={r.label}
+                      title={t(`moods.reactions.${r.id}`)}
                       className={`px-2.5 py-1 rounded-full text-xs flex items-center gap-1 transition-all border ${
                         active
                           ? "bg-info/10 text-info border-info/30 font-bold"
@@ -187,7 +189,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
                 <button
                   onClick={() => setReplyTarget(n)}
                   className="shrink-0 px-2.5 py-1.5 rounded-full text-[10px] font-bold bg-secondary text-foreground flex items-center gap-1">
-                  <Send size={11} /> Responder
+                  <Send size={11} /> {t("community.reply")}
                 </button>
               )}
             </div>
@@ -201,7 +203,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
           open={!!replyTarget}
           onClose={() => setReplyTarget(null)}
           recipientId={replyTarget.user_id}
-          recipientName={replyTarget.author ?? "Usuario"}
+          recipientName={replyTarget.author ?? t("community.defaultAuthor")}
           noteId={replyTarget.id}
           onSent={() => setReplyTarget(null)}
         />

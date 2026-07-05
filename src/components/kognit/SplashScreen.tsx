@@ -1,9 +1,11 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import mascot from "@/assets/kognit-mascot.png";
 
 const PARTICLE_COUNT = 20;
 
 export const SplashScreen = () => {
+  const { t } = useTranslation();
   const particles = useMemo(
     () =>
       Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -37,8 +39,8 @@ export const SplashScreen = () => {
           />
         </div>
 
-        <h1 className="mt-6 font-display text-4xl tracking-wide">kognit</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Entrená tu mente</p>
+        <h1 className="mt-6 font-display text-4xl tracking-wide">{t("app.name")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("splash.subtitle")}</p>
 
         <div className="mt-8 mx-auto w-48 h-0.5 rounded-full bg-primary/10 overflow-hidden">
           <div className="h-full bg-gradient-primary animate-progress-load" />

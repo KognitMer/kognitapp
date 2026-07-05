@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -26,6 +27,7 @@ interface Conversation {
 
 export const MessagesScreen = ({ onBack }: Props) => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [allMessages, setAllMessages] = useState<MessageRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,7 @@ export const MessagesScreen = ({ onBack }: Props) => {
       if (!existing) {
         grouped.set(peerId, {
           peerId,
-          peerName: nameById.get(peerId) ?? "Usuario",
+          peerName: nameById.get(peerId) ?? t("messages.defaultPeerName"),
           lastMessage: m.content,
           lastAt: m.created_at,
           unreadCount: isUnreadForMe ? 1 : 0,
@@ -73,7 +75,7 @@ export const MessagesScreen = ({ onBack }: Props) => {
     setConversations(Array.from(grouped.values()));
     setAllMessages(list);
     setLoading(false);
-  }, [user]);
+  }, [user, t]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -120,7 +122,7 @@ export const MessagesScreen = ({ onBack }: Props) => {
           <button onClick={() => setSelectedPeerId(null)} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
             <ChevronLeft size={18} />
           </button>
-          <p className="text-xs font-bold">{peer?.peerName ?? "Usuario"}</p>
+          <p className="text-xs font-bold">{peer?.peerName ?? t("messages.defaultPeerName")}</p>
           <div className="w-10" />
         </div>
 
@@ -140,7 +142,7 @@ export const MessagesScreen = ({ onBack }: Props) => {
           <input
             value={draft}
             onChange={e => setDraft(e.target.value)}
-            placeholder="Escribí un mensaje..."
+            placeholder={t("messages.inputPlaceholder")}
             className="flex-1 bg-secondary/40 rounded-full px-4 py-2.5 text-xs focus:outline-none"
           />
           <button
@@ -160,14 +162,14 @@ export const MessagesScreen = ({ onBack }: Props) => {
         <button onClick={onBack} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
           <ChevronLeft size={18} />
         </button>
-        <p className="text-xs font-bold">Mensajes</p>
+        <p className="text-xs font-bold">{t("messages.title")}</p>
         <div className="w-10" />
       </div>
 
       <div className="px-6 mt-5 space-y-2">
-        {loading && <p className="text-xs text-muted-foreground text-center py-10">Cargando…</p>}
+        {loading && <p className="text-xs text-muted-foreground text-center py-10">{t("messages.loading")}</p>}
         {!loading && conversations.length === 0 && (
-          <p className="text-xs text-muted-foreground text-center py-10">Todavía no tenés mensajes</p>
+          <p className="text-xs text-muted-foreground text-center py-10">{t("messages.empty")}</p>
         )}
         {conversations.map(c => (
           <button key={c.peerId} onClick={() => openThread(c.peerId)}
