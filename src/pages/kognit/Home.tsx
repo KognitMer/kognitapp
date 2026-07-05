@@ -79,7 +79,7 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile
         key={mood ?? "default"}
         src={mood ? moodMascotSrc(mood) : mascot}
         alt="kognit"
-        className="relative w-32 h-32 object-contain animate-float-slow"
+        className="relative w-28 h-28 object-contain animate-float-slow"
       />
     </div>
 

@@ -226,7 +226,7 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 | `focus` | Foco y concentración | info (azul) |
 | `mindfulness` | Mindfulness y Respiración | violet (violeta) |
 | `stress` | Manejo del estrés y Emociones | destructive (azul cobalto) |
-| `performance` | Rendimiento mental | gold (dorado) |
+| `performance` | Rendimiento mental | primary (teal/verde azulado) |
 
 Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. Para agregar cartas: editar el array `CATEGORIES` en `mentalCards.ts`. No hay backend para este contenido.
 

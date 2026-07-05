@@ -194,7 +194,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {stage === "intro" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-4">
           <div className="flex justify-center">
-          <img src={mascot} alt="" aria-hidden="true" className="mascot-light animate-float-slow w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.35)]" />
+          <img src={mascot} alt="" aria-hidden="true" className="animate-float-slow w-28 h-28 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.35)]" />
           </div>
 
           <div className="mt-5 space-y-3">
@@ -415,7 +415,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
       {/* EXIT */}
       {stage === "exit" && (
         <div className="relative flex-1 min-h-0 overflow-y-auto px-6 pt-8 flex flex-col items-center">
-          <img src={mascot} alt="" aria-hidden="true" className="mascot-light animate-float-slow w-32 h-32 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.4)]" />
+          <img src={mascot} alt="" aria-hidden="true" className="animate-float-slow w-28 h-28 object-contain drop-shadow-[0_8px_30px_rgba(86,179,210,0.4)]" />
           <p className="mt-3 text-[10px] uppercase tracking-[0.3em] opacity-70 font-bold">Reset completado</p>
           <h2 className="mt-2 text-2xl font-bold text-center leading-tight">Volvé con cabeza</h2>
 

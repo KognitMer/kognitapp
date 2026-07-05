@@ -115,14 +115,6 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-hidden ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", ...cardGlowStyle }}
           >
-            <div className="flex items-center justify-center">
-              <span
-                className="text-[10px] uppercase tracking-widest font-bold bg-white/20 backdrop-blur px-3 py-1 rounded-full"
-                style={{ boxShadow: `0 0 15px hsl(${glow} / 0.25)` }}
-              >
-                {cat.name}
-              </span>
-            </div>
             <div className="flex-1 min-h-0 flex items-center justify-center text-center">
               <h2 className="font-serif text-3xl font-semibold leading-tight">{card.title}</h2>
             </div>
@@ -137,14 +129,6 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-y-auto no-scrollbar ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", ...cardGlowStyle }}
           >
-            <div className="flex items-center justify-center shrink-0">
-              <span
-                className="text-[10px] uppercase tracking-widest font-bold bg-white/20 backdrop-blur px-3 py-1 rounded-full"
-                style={{ boxShadow: `0 0 15px hsl(${glow} / 0.25)` }}
-              >
-                {cat.name}
-              </span>
-            </div>
             <div className="flex-1 flex flex-col justify-center">
               <p className="font-serif text-base opacity-90 leading-relaxed">{card.message}</p>
             </div>

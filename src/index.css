@@ -177,6 +177,3 @@
 
 /* Recolorea las variantes de mascota (originalmente verde/turquesa) al azul de la app */
 .mascot-recolor { filter: hue-rotate(55deg) saturate(0.8) brightness(1.04) contrast(0.96); }
-
-/* Mascota en tono más claro — solo para el protocolo de Reset Mental (Tilt) */
-.mascot-light { filter: brightness(1.4) saturate(0.75) contrast(0.95); }

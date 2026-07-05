@@ -89,7 +89,7 @@ export const CATEGORIES: CardCategory[] = [
     id: "performance",
     name: "Rendimiento mental",
     tagline: "La excelencia se entrena, no se improvisa.",
-    accent: "gold",
+    accent: "primary",
     cards: [
       { title: "El equilibrio del flow", message: "El flujo aparece en el punto exacto donde el desafío iguala tu habilidad: ni tan fácil que te aburra, ni tan difícil que te angustie. — Mihaly Csikszentmihalyi", action: "Subí o bajá la dificultad de tu tarea actual hasta sentir ese punto." },
       { title: "Práctica deliberada", message: "Concentrate en una destreza específica, repetila y buscá feedback inmediato. Así se acelera el aprendizaje real. — Anders Ericsson", action: "Elegí una sola destreza para practicar con feedback hoy." },

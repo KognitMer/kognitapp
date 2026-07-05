@@ -57,7 +57,7 @@ export const OnboardingScreen = () => {
   return (
   <div className="min-h-full bg-gradient-hero px-6 pt-6 pb-10">
     <div className="flex justify-center">
-      <img src={mascot} alt="Mascota kognit" className="w-32 h-32 object-contain animate-float-slow" />
+      <img src={mascot} alt="Mascota kognit" className="w-28 h-28 object-contain animate-float-slow" />
     </div>
 
     <h1 className="mt-2 text-[26px] leading-tight font-bold text-foreground">

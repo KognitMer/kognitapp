@@ -121,10 +121,9 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
         </button>
       </div>
 
-      <div className="mx-6 mt-4 p-4 rounded-3xl bg-gradient-deep text-primary-foreground shadow-card">
-        <p className="text-xs opacity-80">Momentos reales. Una mente en evolución.</p>
+      <div className="mx-6 mt-4 p-4 rounded-3xl bg-gradient-primary text-primary-foreground shadow-card">
         <button onClick={() => setComposerOpen(true)}
-          className="mt-3 w-full bg-white/15 backdrop-blur rounded-full py-2.5 pl-4 pr-2 flex items-center justify-between gap-2 active:scale-[0.98] transition-transform">
+          className="w-full bg-white/15 backdrop-blur rounded-full py-2.5 pl-4 pr-2 flex items-center justify-between gap-2 active:scale-[0.98] transition-transform">
           <span className="text-xs font-semibold opacity-80">¿Qué hizo la diferencia hoy?</span>
           <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
             <ImagePlus size={14} />
