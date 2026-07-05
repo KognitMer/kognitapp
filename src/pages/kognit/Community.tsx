@@ -174,7 +174,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
                       title={r.label}
                       className={`px-2.5 py-1 rounded-full text-xs flex items-center gap-1 transition-all border ${
                         active
-                          ? "bg-primary/10 text-primary border-primary/30 font-bold"
+                          ? "bg-info/10 text-info border-info/30 font-bold"
                           : "bg-secondary text-muted-foreground border-transparent"
                       }`}>
                       <ReactionIcon reaction={r.id} size={16} />

@@ -124,7 +124,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
           {MOOD_OPTIONS.map(({ id, label }) => (
             <button key={id} onClick={() => setMood(id)} aria-label={label} aria-pressed={mood === id}
               className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
-                mood === id ? "bg-gradient-primary text-primary-foreground shadow-soft scale-110" : "bg-secondary text-foreground"
+                mood === id ? "bg-gradient-info text-info-foreground shadow-soft scale-110" : "bg-secondary text-foreground"
               }`}>
               <MoodIcon mood={id} size={20} />
             </button>
@@ -162,7 +162,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
         <div className="mt-2 grid grid-cols-2 gap-2">
           <button onClick={() => setVisibility("private")}
             className={`p-3 rounded-2xl text-left transition-all border ${
-              visibility === "private" ? "bg-gradient-primary text-primary-foreground border-transparent shadow-soft" : "bg-card border-border text-muted-foreground"
+              visibility === "private" ? "bg-gradient-info text-info-foreground border-transparent shadow-soft" : "bg-card border-border text-muted-foreground"
             }`}>
             <Lock size={14} />
             <p className="mt-1.5 text-xs font-bold">Privada</p>

@@ -81,6 +81,7 @@ export default function MobileApp() {
           onCards={() => setView("cards")}
           onProgress={() => setView("calendar")}
           onRitual={() => setView("ritual")}
+          onProfile={() => setView("profile")}
         />;
     }
   })();
@@ -94,6 +95,7 @@ export default function MobileApp() {
           <BottomNav
             active={view as Tab}
             onChange={(k) => setView(k)}
+            onReset={goTilt}
           />
         )}
       </div>
@@ -102,7 +104,7 @@ export default function MobileApp() {
           <div className="relative h-full">
             {screen}
             {view !== "tilt" && view !== "ritual" && view !== "messages" && (
-              <BottomNav active={view as Tab} onChange={(k) => setView(k)} />
+              <BottomNav active={view as Tab} onChange={(k) => setView(k)} onReset={goTilt} />
             )}
           </div>
         </PhoneFrame>

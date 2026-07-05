@@ -317,7 +317,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
               return (
                 <button key={s} onClick={() => toggleState(s)} aria-pressed={active}
                   className={`p-4 rounded-2xl border text-sm font-bold active:scale-95 transition-all ${
-                    active ? "bg-primary-glow/30 border-primary-glow shadow-glow" : "bg-white/10 backdrop-blur border-white/15"
+                    active ? "bg-info/30 border-info shadow-glow" : "bg-white/10 backdrop-blur border-white/15"
                   }`}>
                   {s}
                 </button>

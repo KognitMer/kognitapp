@@ -1,34 +1,59 @@
-import { Home, Layers, Calendar, Users, User } from "lucide-react";
+import { Home, SquareStack, NotebookPen, UsersRound, AlertOctagon } from "lucide-react";
 
 type Key = "home" | "cards" | "calendar" | "community" | "profile";
-interface Props { active: Key; onChange?: (k: Key) => void; }
+interface Props { active: Key; onChange?: (k: Key) => void; onReset?: () => void; }
 
-const items = [
-  { key: "home", icon: Home, label: "Inicio" },
-  { key: "cards", icon: Layers, label: "Cartas" },
-  { key: "calendar", icon: Calendar, label: "Diario" },
-  { key: "community", icon: Users, label: "Comunidad" },
-  { key: "profile", icon: User, label: "Perfil" },
+const leftItems = [
+  { key: "home", icon: Home },
+  { key: "cards", icon: SquareStack },
 ] as const;
 
-export const BottomNav = ({ active, onChange }: Props) => (
-  <div className="fixed bottom-0 inset-x-0 px-3 pb-4 pt-2 z-20">
-    <div className="bg-card/90 backdrop-blur-xl border border-border rounded-[1.75rem] shadow-card flex justify-around py-2.5 px-2">
-      {items.map(({ key, icon: Icon, label }) => {
-        const isActive = key === active;
-        return (
+const rightItems = [
+  { key: "community", icon: UsersRound },
+  { key: "calendar", icon: NotebookPen },
+] as const;
+
+export const BottomNav = ({ active, onChange, onReset }: Props) => {
+  const renderItem = ({ key, icon: Icon }: { key: Key; icon: typeof Home }) => {
+    const isActive = key === active;
+    return (
+      <button
+        key={key}
+        onClick={() => onChange?.(key)}
+        aria-label={key}
+        aria-pressed={isActive}
+        className={`flex items-center justify-center w-12 h-12 rounded-2xl transition-all ${
+          isActive ? "bg-gradient-info text-info-foreground shadow-soft" : "text-muted-foreground"
+        }`}
+      >
+        <Icon size={20} strokeWidth={2.2} />
+      </button>
+    );
+  };
+
+  return (
+    <div className="fixed bottom-0 inset-x-0 px-3 pb-4 pt-2 z-20">
+      <div className="relative bg-card/50 backdrop-blur-2xl border border-border/50 rounded-[1.75rem] shadow-card flex items-center py-2.5 px-2">
+        <div className="flex-1 flex items-center justify-evenly">
+          {renderItem(leftItems[0])}
+          {renderItem(leftItems[1])}
+        </div>
+        <div className="w-14 shrink-0" aria-hidden="true" />
+        <div className="flex-1 flex items-center justify-evenly">
+          {renderItem(rightItems[0])}
+          {renderItem(rightItems[1])}
+        </div>
+
+        <div className="absolute left-1/2 -top-2.5 -translate-x-1/2 w-14 h-14 p-1 bg-background [clip-path:polygon(29.3%_0%,70.7%_0%,100%_29.3%,100%_70.7%,70.7%_100%,29.3%_100%,0%_70.7%,0%_29.3%)]">
           <button
-            key={key}
-            onClick={() => onChange?.(key as Key)}
-            className={`flex flex-col items-center gap-1 px-2.5 py-1.5 rounded-2xl transition-all ${
-              isActive ? "bg-gradient-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
-            }`}
+            onClick={onReset}
+            aria-label="Iniciar reset"
+            className="w-full h-full flex items-center justify-center bg-gradient-info text-info-foreground active:scale-95 transition-transform [clip-path:polygon(29.3%_0%,70.7%_0%,100%_29.3%,100%_70.7%,70.7%_100%,29.3%_100%,0%_70.7%,0%_29.3%)]"
           >
-            <Icon size={17} strokeWidth={2.2} />
-            <span className="text-[9px] font-semibold">{label}</span>
+            <AlertOctagon size={20} strokeWidth={2.2} />
           </button>
-        );
-      })}
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};

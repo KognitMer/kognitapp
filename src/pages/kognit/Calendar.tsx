@@ -236,7 +236,7 @@ export const CalendarScreen = () => {
               aria-pressed={isSelected}
               className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-xs font-semibold transition-all ${
                 isSelected
-                  ? "bg-gradient-primary text-primary-foreground shadow-soft"
+                  ? "bg-gradient-info text-info-foreground shadow-soft"
                   : mood
                   ? `${mood.c} text-foreground`
                   : "hover:bg-secondary text-foreground"
@@ -248,14 +248,6 @@ export const CalendarScreen = () => {
             </button>
           );
         })}
-      </div>
-
-      {/* Leyenda */}
-      <div className="mt-3 flex items-center justify-between text-[10px] text-muted-foreground font-medium pt-3 border-t border-border">
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-primary" />Foco</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent" />Calma</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-warning" />Tenso</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-destructive" />Desbordado</span>
       </div>
     </div>
 

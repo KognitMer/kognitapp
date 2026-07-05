@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AlertOctagon, Layers, ChevronRight, Bell, TrendingUp, Sparkles } from "lucide-react";
+import { AlertOctagon, Layers, ChevronRight, UserRound, TrendingUp, Sparkles } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { MoodIcon, moodMascotSrc } from "@/components/kognit/MoodIcon";
 import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
@@ -14,9 +14,10 @@ interface HomeProps {
   onCards?: () => void;
   onProgress?: () => void;
   onRitual?: () => void;
+  onProfile?: () => void;
 }
 
-export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual }: HomeProps) => {
+export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual, onProfile }: HomeProps) => {
   const { user } = useAuth();
   const [mood, setMood] = useState<MoodId | null>(null);
   const [saving, setSaving] = useState(false);
@@ -62,8 +63,12 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual 
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Sesión activa</p>
         <h1 className="text-xl font-bold">{name}</h1>
       </div>
-      <button aria-label="Notificaciones" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
-        <Bell size={16} />
+      <button onClick={onProfile} aria-label="Perfil y configuración" className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center text-primary">
+        {name.trim() ? (
+          <span className="text-sm font-bold">{name.trim().charAt(0).toUpperCase()}</span>
+        ) : (
+          <UserRound size={16} />
+        )}
       </button>
     </div>
 
@@ -91,7 +96,7 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual 
             disabled={saving}
             aria-pressed={mood === id}
             className={`flex flex-col items-center gap-1 py-2 rounded-2xl transition-all disabled:opacity-60 ${
-              mood === id ? "bg-gradient-primary text-primary-foreground shadow-soft scale-[1.03]" : "bg-secondary text-muted-foreground"
+              mood === id ? "bg-gradient-info text-info-foreground shadow-soft scale-[1.03]" : "bg-secondary text-muted-foreground"
             }`}
           >
             <MoodIcon mood={id} size={18} />

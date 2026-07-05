@@ -96,7 +96,7 @@ export default function Auth() {
             {(["login","signup"] as Mode[]).map(m => (
               <button key={m} onClick={() => setMode(m)}
                 className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${
-                  mode === m ? "bg-gradient-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
+                  mode === m ? "bg-gradient-info text-info-foreground shadow-soft" : "text-muted-foreground"
                 }`}>
                 {m === "login" ? "Ingresar" : "Crear cuenta"}
               </button>

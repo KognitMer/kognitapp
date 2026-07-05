@@ -23,7 +23,7 @@ const Scale = ({ value, onChange, label }: { value: number | null; onChange: (n:
       {[1, 2, 3, 4, 5].map(n => (
         <button key={n} onClick={() => onChange(n)}
           className={`flex-1 aspect-square rounded-2xl text-xl font-bold transition-all ${
-            value === n ? "bg-gradient-primary text-primary-foreground shadow-glow scale-105" : "bg-white/10 backdrop-blur border border-white/15"
+            value === n ? "bg-gradient-info text-info-foreground shadow-glow scale-105" : "bg-white/10 backdrop-blur border border-white/15"
           }`}>
           {n}
         </button>
@@ -105,7 +105,7 @@ export const RitualScreen = ({ onExit }: Props) => {
               {STATES.map(s => (
                 <button key={s} onClick={() => setEmo(s)}
                   className={`py-4 rounded-2xl text-sm font-bold transition-all ${
-                    emo === s ? "bg-gradient-primary text-primary-foreground shadow-glow" : "bg-white/10 backdrop-blur border border-white/15"
+                    emo === s ? "bg-gradient-info text-info-foreground shadow-glow" : "bg-white/10 backdrop-blur border border-white/15"
                   }`}>{s}</button>
               ))}
             </div>
