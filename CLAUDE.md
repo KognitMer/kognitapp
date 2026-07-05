@@ -51,11 +51,11 @@ bun lint         # eslint
 `MobileApp.tsx` maneja todo el estado de navegación con un `useState<View>`. No usa React Router para las sub-pantallas — el cambio de vista es imperativo via callbacks.
 
 ```
-View = "home" | "cards" | "calendar" | "community" | "profile" | "tilt" | "ritual" | "messages"
+View = "home" | "cards" | "calendar" | "community" | "profile" | "tilt" | "messages"
 Tab  = "home" | "cards" | "calendar" | "community" | "profile"  ← visible en BottomNav
 ```
 
-`BottomNav` se oculta en las vistas `tilt`, `ritual` y `messages` (pantallas de flujo completo).
+`BottomNav` se oculta en las vistas `tilt` y `messages` (pantallas de flujo completo).
 
 ### Pantallas (`src/pages/kognit/`)
 
@@ -63,7 +63,6 @@ Tab  = "home" | "cards" | "calendar" | "community" | "profile"  ← visible en B
 |---|---|---|
 | `Home.tsx` | `home` | Dashboard: selector de estado mental + acciones rápidas |
 | `Tilt.tsx` | `tilt` | Protocolo de reset: respiración 4·7·8 o 4·4·4 → grounding → estado emocional → check |
-| `Ritual.tsx` | `ritual` | Ritual diario de 7 pasos: energía, tensión, estado emocional, reflexión, gratitud, intención |
 | `Cards.tsx` | `cards` | Cartas de coaching mental por categoría |
 | `Calendar.tsx` | `calendar` | Diario mental: calendario, notas rápidas y gráfico de foco semanal |
 | `Profile.tsx` | `profile` | Perfil con estadísticas del jugador |
@@ -91,7 +90,7 @@ id, user_id, mode ("deep"|"fast"), state, states[],
 pre_intensity, post_intensity, note, created_at
 ```
 
-**`ritual_entries`** — cada ritual diario completado
+**`ritual_entries`** — legacy, la feature de Ritual diario fue eliminada; tabla sin escritura desde la app
 ```
 id, user_id, energy, body_tension, emotional_state,
 reflection, gratitude, intention, created_at
@@ -148,7 +147,7 @@ Definidas en `.env` (no commitear). El `.env` está en `.gitignore`.
 Modos de auth:
 - Email + password (login / signup)
 - Forgot password → email con redirect a `/reset-password`
-- **Guest mode**: signup con email `guest_<rand>@kognit.app` generado en cliente
+- **Guest mode**: `supabase.auth.signInAnonymously()` — requiere "Allow anonymous sign-ins" habilitado en el dashboard de Supabase
 
 ## Estructura de archivos
 
@@ -196,7 +195,7 @@ Gradientes:
 - `bg-gradient-hero` — fondo principal de la app (oscuro/neutro)
 - `bg-gradient-primary` — teal/verde azulado (acción primaria)
 - `bg-gradient-emergency` — azul cobalto (protocolo tilt/reset)
-- `bg-gradient-deep` — oscuro profundo (pantallas de flujo: Tilt, Ritual)
+- `bg-gradient-deep` — oscuro profundo (pantalla de flujo: Tilt)
 
 Sombras: `shadow-card`, `shadow-soft`, `shadow-glow`, `shadow-emergency`
 

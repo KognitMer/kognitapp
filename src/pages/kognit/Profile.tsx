@@ -331,7 +331,7 @@ export const ProfileScreen = ({
         </button>
         {openPrivacy && (
           <p className="mt-3 text-[11px] text-muted-foreground leading-relaxed">
-            Tus resets, rituales y notas privadas solo los ves vos. Las notas que marqués como públicas se muestran en Comunidad con tu nombre. Nunca compartimos tu información con terceros.
+            Tus resets y notas privadas solo los ves vos. Las notas que marqués como públicas se muestran en Comunidad con tu nombre. Nunca compartimos tu información con terceros.
           </p>
         )}
       </div>

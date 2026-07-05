@@ -59,10 +59,7 @@ export default function Auth() {
 
   const guest = async () => {
     setLoading(true);
-    const rand = Math.random().toString(36).slice(2, 10);
-    const { error } = await supabase.auth.signUp({
-      email: `guest_${rand}@kognit.app`,
-      password: `Guest_${rand}_${Date.now()}`,
+    const { error } = await supabase.auth.signInAnonymously({
       options: { data: { display_name: "Usuario" } },
     });
     setLoading(false);

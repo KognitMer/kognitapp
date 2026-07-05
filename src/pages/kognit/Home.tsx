@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AlertOctagon, Layers, ChevronRight, UserRound, TrendingUp, Sparkles } from "lucide-react";
+import { AlertOctagon, Layers, ChevronRight, UserRound, TrendingUp } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { MoodIcon, moodMascotSrc } from "@/components/kognit/MoodIcon";
 import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
@@ -13,11 +13,10 @@ interface HomeProps {
   onTilt?: () => void;
   onCards?: () => void;
   onProgress?: () => void;
-  onRitual?: () => void;
   onProfile?: () => void;
 }
 
-export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual, onProfile }: HomeProps) => {
+export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onProfile }: HomeProps) => {
   const { user } = useAuth();
   const [mood, setMood] = useState<MoodId | null>(null);
   const [saving, setSaving] = useState(false);
@@ -38,9 +37,10 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual,
   }, [user]);
 
   const pickMood = async (id: MoodId) => {
-    if (!user || saving) return;
-    const label = MOOD_OPTIONS.find(m => m.id === id)?.label ?? id;
+    if (saving) return;
     setMood(id);
+    if (!user) return; // showcase sin login (landing): solo cambia el personaje, no persiste
+    const label = MOOD_OPTIONS.find(m => m.id === id)?.label ?? id;
     setSaving(true);
     const { error } = await supabase.from("notes").insert({
       user_id: user.id,
@@ -124,9 +124,8 @@ export const HomeScreen = ({ name = "\n", onTilt, onCards, onProgress, onRitual,
     </div>
 
     {/* SECUNDARIAS */}
-    <div className="px-6 mt-5 grid grid-cols-2 gap-3">
-      <ToolCard icon={Sparkles} title="Ritual diario" subtitle="1 min para escucharte" onClick={onRitual} gradient />
-      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} />
+    <div className="px-6 mt-5">
+      <ToolCard icon={Layers} title="Cartas mentales" subtitle="Instrucción ahora" onClick={onCards} wide />
     </div>
     <div className="px-6 mt-3">
       <ToolCard icon={TrendingUp} title="Progreso" subtitle="Foco · calma · tu diario semanal" onClick={onProgress} wide />
