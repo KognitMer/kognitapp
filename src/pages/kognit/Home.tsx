@@ -8,6 +8,7 @@ import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/sonner";
+import { getCalmAnchorPhrase, setCalmAnchorPhrase } from "@/lib/preferences";
 import mascot from "@/assets/kognit-mascot.png";
 import calmAnchorIcon from "@/assets/achievements/calm-anchor.png";
 
@@ -25,6 +26,13 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
   const [mood, setMood] = useState<MoodId | null>(null);
   const [saving, setSaving] = useState(false);
   const [anchorInfoOpen, setAnchorInfoOpen] = useState(false);
+  const [anchorPhrase, setAnchorPhrase] = useState(() => getCalmAnchorPhrase());
+
+  const handleAnchorPhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAnchorPhrase(value);
+    setCalmAnchorPhrase(value);
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -148,7 +156,13 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
             <p className="text-sm font-bold leading-tight">{t("home.calmAnchor.title")}</p>
           </div>
         </div>
-        <p className="mt-2.5 text-[11px] text-muted-foreground leading-relaxed">{t("home.calmAnchor.subtitle")}</p>
+        <input
+          type="text"
+          value={anchorPhrase}
+          onChange={handleAnchorPhraseChange}
+          placeholder={t("home.calmAnchor.subtitle")}
+          className="mt-2.5 w-full bg-transparent text-[11px] text-foreground placeholder:text-muted-foreground leading-relaxed outline-none"
+        />
 
         {anchorInfoOpen && (
           <div className="mt-3 pt-3 border-t border-border space-y-2.5">

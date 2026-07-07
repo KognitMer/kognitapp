@@ -74,7 +74,7 @@ const Index = () => {
           </div>
 
           {/* Visual: respiración en tiempo real (patrón 4·7·8) */}
-          <div className="mt-14 flex flex-col items-center gap-4">
+          <div className="mt-14 flex flex-col items-center gap-8">
             <div className="relative w-48 h-48 md:w-56 md:h-56 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-primary/50 animate-breathe" />
               <div className="absolute inset-6 rounded-full bg-primary/10" />
@@ -101,8 +101,8 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-16">
           <PhoneFrame label={t("landing.frames.onboarding")}><OnboardingScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.home")}><HomeScreen /></PhoneFrame>
-          <PhoneFrame label={t("landing.frames.reset")}><TiltScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.cards")}><CardsScreen /></PhoneFrame>
+          <PhoneFrame label={t("landing.frames.reset")}><TiltScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.calendar")}><CalendarScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.community")}><CommunityScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.profile")}><ProfileScreen /></PhoneFrame>

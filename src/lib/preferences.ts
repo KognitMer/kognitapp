@@ -20,6 +20,7 @@ const KEYS = {
   language: "kognit:language",
   notificationsEnabled: "kognit:notifications-enabled",
   notificationSound: "kognit:notification-sound",
+  calmAnchorPhrase: "kognit:calm-anchor-phrase",
 } as const;
 
 export const NOTIFICATION_SOUNDS = ["soft", "classic", "alert"] as const;
@@ -78,4 +79,12 @@ export function getLanguage(): LanguageCode {
 
 export function setLanguage(code: LanguageCode) {
   localStorage.setItem(KEYS.language, code);
+}
+
+export function getCalmAnchorPhrase(): string {
+  return localStorage.getItem(KEYS.calmAnchorPhrase) ?? "";
+}
+
+export function setCalmAnchorPhrase(phrase: string) {
+  localStorage.setItem(KEYS.calmAnchorPhrase, phrase);
 }

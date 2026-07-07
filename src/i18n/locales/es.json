@@ -59,7 +59,7 @@
     "heroTitleLine2": "como un atleta",
     "heroSubtitle": "90 segundos. Una respiración. Tu mejor decisión.",
     "ctaStart": "Empezar Gratis",
-    "ctaNote": "Sin tarjeta. Sin compromiso.",
+    "ctaNote": "Sin tarjeta. Con compromiso.",
     "ctaPrototype": "Ver prototipo",
     "appStoreLabel": "Descargar en",
     "appStoreName": "App Store",
@@ -71,8 +71,8 @@
     "frames": {
       "onboarding": "01 · Onboarding",
       "home": "02 · Inicio",
-      "reset": "03 · RESET ",
-      "cards": "04 · Cartas Mentales",
+      "reset": "04 · RESET ",
+      "cards": "03 · Cartas Mentales",
       "calendar": "05 · Diario · Calendario",
       "community": "06 · Comunidad",
       "profile": "07 · Perfil del Usuario"
