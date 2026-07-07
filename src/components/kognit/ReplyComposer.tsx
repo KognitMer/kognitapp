@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
   recipientId: string;
   recipientName: string;
-  noteId: string;
+  noteId?: string;
   onSent?: () => void;
 }
 
@@ -25,11 +25,10 @@ export const ReplyComposer = ({ open, onClose, recipientId, recipientName, noteI
   const send = async () => {
     if (!user || !content.trim()) return;
     setSending(true);
-    const { error } = await supabase.from("messages").insert({
-      sender_id: user.id,
-      recipient_id: recipientId,
-      note_id: noteId,
-      content: content.trim(),
+    const { error } = await supabase.rpc("send_direct_message", {
+      p_recipient_id: recipientId,
+      p_content: content.trim(),
+      p_note_id: noteId ?? null,
     });
     setSending(false);
     if (error) {

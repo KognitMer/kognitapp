@@ -105,6 +105,17 @@
       "recover": "更快恢复状态",
       "decide": "让我的决策更精准",
       "resilience": "建立心理韧性"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "建议：{{mode}} · {{duration}}秒",
+      "reasons": {
+        "frustration": "挫败感需要深层的情绪处理。90秒可以让你降低激活水平，重新获得视角。",
+        "fear": "恐惧需要立即的清晰感。快速重置能在不放大情绪的情况下重新引导你的注意力。",
+        "overthinking": "打断思维循环。短时重置能打断令人瘫痪的过度分析，让你能够行动。",
+        "overwhelm": "不知所措需要立即专注于当下。短模式能重新校准分散的注意力。",
+        "unmotivated": "缺乏动力是能量层面的问题。90秒能帮你重新连接目标和意义。",
+        "tilt": "情绪失控（tilt）是极端的情绪激活。需要时间让神经系统完全平静下来。"
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "现在的指引",
     "progressTitle": "进度",
     "progressSubtitle": "专注 · 平静 · 你的每周日记",
+        "calmAnchor": {
+      "eyebrow": "注入逻辑 · 选择你的状态",
+      "title": "平静锚点",
+      "subtitle": "这个空间是让你设定一个可以回归的时刻。",
+      "infoAria": "如何使用平静锚点",
+      "steps": [
+          { "title": "深呼吸", "body": "主要目标是在你和情绪之间创造一个距离。这能阻止\"心理熵\"。" },
+          { "title": "激活锚点", "body": "在说出你要锚定的那句话时，做一个小的身体动作（比如按压拇指）。根据罗伯特·迪尔茨的说法，这就是\"锚定\"：一个特定的刺激会自动唤起之前关联的平静内在状态。这句话可能会让你想起一个地方、一个人、一种气味……" },
+          { "title": "注入逻辑", "body": "用这句话重新激活你理性的大脑。当情绪非常强烈时，大脑会阻断高级功能；呼吸并说出来能让你\"注入逻辑\"，重新找回注意力。" },
+          { "title": "专注当下", "body": "把你的心理能量导向一个小而立即的目标。当\"意识中有秩序\"时，幸福感就会出现，而这是通过把注意力集中在此时此地实现的。" }
+        ]
+    },
     "defaultName": "用户",
     "toasts": {
       "saveError": "无法保存你的状态",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "个人资料",
+    "settingsTitle": "设置",
+    "settingsAria": "打开设置",
     "defaultName": "用户",
+    "avatar": {
+      "changeAria": "更换头像",
+      "invalidType": "文件必须是图片格式",
+      "tooLarge": "图片大小不能超过5MB",
+      "uploadError": "无法上传照片",
+      "uploadSuccess": "头像已更新"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "连续天数", "resets": "重置次数", "xp": "XP" },
     "focusLevel": "专注等级",
     "emotionalControl": "情绪控制",
     "achievementsTitle": "成就",
-    "achievementsAll": "全部",
-    "achievements": [
-      { "emoji": "🛡", "title": "抗压不倒", "subtitle": "连续完成5次重置" },
-      { "emoji": "🌊", "title": "心流状态", "subtitle": "专注3小时" },
-      { "emoji": "♠", "title": "冷静头脑", "subtitle": "挺过了一次低谷期" }
-    ],
+    "achievementUnlocked": "已解锁",
+    "achievementLocked": "未解锁",
+    "achievementsList": {
+      "flowState": {
+        "title": "心流状态",
+        "criterion": "保持一项挑战与技能相匹配的活动至少20分钟。",
+        "reference": "挑战与技能的平衡会带来完全的沉浸感。"
+      },
+      "firstAlly": {
+        "title": "第一位伙伴",
+        "criterion": "邀请一位问责伙伴一起监督某个习惯。",
+        "reference": "社会承诺会提高成功的概率。"
+      },
+      "fiveDayStreak": {
+        "title": "连续5天",
+        "criterion": "连续5天记录习惯，且不能连续两次中断。",
+        "reference": "\"绝不连续跳过两次\"这句箴言能保护你的持续性。"
+      },
+      "unstoppable": {
+        "title": "什么都阻挡不了我",
+        "criterion": "在最初不利的环境中成功完成一项困难任务。",
+        "reference": "体现了在困难中也能找到心流的\"自成目标型人格\"。"
+      },
+      "twoMinuteRule": {
+        "title": "两分钟法则",
+        "criterion": "完成一个新习惯的简化版本，以克服最初的阻力。",
+        "reference": "让开始变得标准化，比优化结果更重要。"
+      },
+      "caterpillarEffect": {
+        "title": "毛毛虫效应",
+        "criterion": "找出并纠正你最常犯的错误（提升你的\"最差水平\"）。",
+        "reference": "真正的进步发生在你提升自己表现底线的时候。"
+      },
+      "onePercentBetter": {
+        "title": "每天进步1%",
+        "criterion": "记录某项具体技能上的一次小小改进或微小进步。",
+        "reference": "微小收益的积累会在长期内带来巨大的变化。"
+      },
+      "closingRitual": {
+        "title": "收工仪式",
+        "criterion": "完成收工的步骤，哪怕只是对自己说一句\"今天到此结束\"。",
+        "reference": "在休息时把大脑从蔡加尼克效应（未完成的任务）中释放出来。"
+      },
+      "calmAnchor": {
+        "title": "平静锚点",
+        "criterion": "在紧张时刻，用一个条件反射式的身体动作让自己平静下来。",
+        "reference": "锚定能让你随时唤回积极的内在状态。"
+      }
+    },
     "editProfile": {
       "label": "编辑资料",
       "nameLabel": "姓名",
@@ -324,6 +399,15 @@
       "enableHint": "一条温和的提醒，帮你倾听自己。",
       "scheduleLabel": "时间",
       "quote": "\"打牌之前，先倾听自己。你的表现始于你的心理状态。\""
+    },
+    "notifications": {
+      "label": "通知",
+      "off": "已关闭",
+      "enableLabel": "开启通知",
+      "enableHint": "应用提醒使用的提示音。",
+      "soundLabel": "声音",
+      "preview": "播放声音",
+      "sounds": { "soft": "柔和", "classic": "经典", "alert": "警示" }
     },
     "testSound": {
       "aria": "测试重置提示音",
@@ -377,17 +461,54 @@
     "reply": "回复"
   },
   "messages": {
-    "title": "消息",
-    "loading": "加载中…",
-    "empty": "你还没有消息",
-    "inputPlaceholder": "输入一条消息...",
-    "defaultPeerName": "用户"
+    "defaultPeerName": "用户",
+    "inbox": {
+      "title": "消息",
+      "searchPlaceholder": "搜索对话",
+      "tabMessages": "消息",
+      "tabRequests": "请求",
+      "loading": "加载中…",
+      "emptyMessages": "你还没有消息",
+      "emptyRequests": "没有待处理的请求"
+    },
+    "requests": { "accept": "接受", "decline": "拒绝" },
+    "thread": {
+      "inputPlaceholder": "输入一条消息...",
+      "audioPreview": "🎤 语音",
+      "sendError": "消息发送失败"
+    },
+    "recording": {
+      "recording": "正在录音",
+      "startAria": "录制语音",
+      "stopAria": "停止录音",
+      "cancelAria": "取消录音",
+      "permissionDenied": "无法访问麦克风",
+      "uploadError": "语音上传失败"
+    },
+    "settings": {
+      "mute": "静音",
+      "unmute": "开启通知",
+      "block": "拉黑",
+      "unblock": "取消拉黑",
+      "delete": "删除",
+      "blockedNotice": "你已拉黑此人，对方无法再给你发消息。",
+      "confirm": {
+        "block": { "title": "拉黑 {{name}}？", "body": "对方将无法再给你发消息。你可以随时取消拉黑。", "cta": "拉黑" },
+        "unblock": { "title": "取消拉黑 {{name}}？", "body": "对方将可以重新给你发消息。", "cta": "取消拉黑" },
+        "delete": { "title": "删除这个对话？", "body": "会从你的收件箱中移除。如果{{name}}再次给你发消息，它会重新出现。", "cta": "删除" }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "个人资料",
+    "admire": "欣赏"
   },
   "noteComposer": {
     "title": "新笔记",
     "titlePlaceholder": "标题（可选）",
     "contentPlaceholder": "你脑子里在想什么？",
     "addImage": "添加图片（可选）",
+    "addAudio": "录制语音（可选）",
     "imagePreviewAlt": "预览",
     "privacyLabel": "隐私",
     "private": { "label": "私密", "hint": "只有你能看到" },
@@ -399,6 +520,7 @@
       "invalidImageType": "文件必须是图片格式",
       "imageTooLarge": "图片大小不能超过5MB",
       "uploadError": "无法上传图片",
+      "audioUploadError": "语音上传失败",
       "saveError": "无法保存笔记",
       "sharedSuccess": "已分享到社区",
       "savedSuccess": "笔记已保存"

@@ -1,3 +1,23 @@
+import notificationSoft from "@/assets/sounds/notification-soft.wav";
+import notificationClassic from "@/assets/sounds/notification-classic.wav";
+import notificationAlert from "@/assets/sounds/notification-alert.wav";
+import type { NotificationSoundId } from "@/lib/preferences";
+
+const NOTIFICATION_SOUND_SRC: Record<NotificationSoundId, string> = {
+  soft: notificationSoft,
+  classic: notificationClassic,
+  alert: notificationAlert,
+};
+
+export function playNotificationSound(id: NotificationSoundId) {
+  try {
+    const audio = new Audio(NOTIFICATION_SOUND_SRC[id]);
+    void audio.play();
+  } catch {
+    /* el navegador bloqueó la reproducción automática; no es crítico */
+  }
+}
+
 export function playBong(freq = 660) {
   try {
     const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext;

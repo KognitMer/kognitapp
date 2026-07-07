@@ -6,6 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { playBong } from "@/lib/sound";
 import { getSoundEnabled, getVibrationEnabled } from "@/lib/preferences";
+import { computeFocusLevel, computeEmotionalControl } from "@/lib/stats";
+
+const STATS_WINDOW = 20;
 
 
 interface TiltProps { onExit?: () => void; }
@@ -76,6 +79,24 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
         post_intensity: postIntensity,
         note: customNote.trim() || null,
       });
+
+      // Recalcula foco/control emocional a partir de los últimos resets,
+      // para que queden persistidos en el perfil (lo lee Profile.tsx y
+      // también el perfil público de otros usuarios).
+      const { data: recent } = await supabase
+        .from("reset_sessions")
+        .select("pre_intensity, post_intensity")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(STATS_WINDOW);
+      const focus_level = computeFocusLevel(recent ?? []);
+      const emotional_control = computeEmotionalControl(recent ?? []);
+      if (focus_level != null || emotional_control != null) {
+        await supabase.from("profiles").update({
+          ...(focus_level != null ? { focus_level } : {}),
+          ...(emotional_control != null ? { emotional_control } : {}),
+        }).eq("id", user.id);
+      }
     }
     setStage("exit");
   };

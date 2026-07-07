@@ -105,6 +105,17 @@
       "recover": "更快恢復狀態 ",
       "decide": "讓決策更犀利",
       "resilience": "建立心理韌性"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "建議：{{mode}} · {{duration}}秒",
+      "reasons": {
+        "frustration": "挫折感需要深層的情緒處理。90秒能讓你降低激動程度，重新獲得視角。",
+        "fear": "恐懼需要立即的清晰感。快速重置能在不放大情緒的情況下重新引導你的注意力。",
+        "overthinking": "打斷思緒循環。短時重置能打斷令人癱瘓的過度分析，讓你能夠採取行動。",
+        "overwhelm": "不知所措需要立即專注於當下。短模式能重新校準分散的注意力。",
+        "unmotivated": "缺乏動力是能量層面的問題。90秒能幫你重新連結目標與意義。",
+        "tilt": "情緒失控（tilt）是極端的情緒激動。需要時間讓神經系統完全平靜下來。"
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "現在的指引",
     "progressTitle": "進度",
     "progressSubtitle": "專注力 · 平靜 · 你的每週日誌",
+        "calmAnchor": {
+      "eyebrow": "注入邏輯 · 選擇你的狀態",
+      "title": "平靜錨點",
+      "subtitle": "這個空間是讓你設定一個可以回歸的時刻。",
+      "infoAria": "如何使用平靜錨點",
+      "steps": [
+          { "title": "深呼吸", "body": "主要目標是在你和情緒之間創造一個距離。這能阻止「心理熵」。" },
+          { "title": "啟動錨點", "body": "在說出你要錨定的那句話時，做一個小的身體動作（比如按壓拇指）。根據羅伯特·迪爾茨的說法，這就是「錨定」：一個特定的刺激會自動喚起之前關聯的平靜內在狀態。這句話可能會讓你想起一個地方、一個人、一種氣味……" },
+          { "title": "注入邏輯", "body": "用這句話重新啟動你理性的大腦。當情緒非常強烈時，大腦會阻斷高階功能；呼吸並說出來能讓你「注入邏輯」，重新找回注意力。" },
+          { "title": "專注當下", "body": "把你的心理能量導向一個小而立即的目標。當「意識中有秩序」時，幸福感就會出現，而這是透過把注意力集中在此時此地實現的。" }
+        ]
+    },
     "defaultName": "使用者",
     "toasts": {
       "saveError": "無法儲存你的狀態",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "個人檔案",
+    "settingsTitle": "設定",
+    "settingsAria": "開啟設定",
     "defaultName": "使用者",
+    "avatar": {
+      "changeAria": "更換大頭貼",
+      "invalidType": "檔案必須是圖片",
+      "tooLarge": "圖片不能超過 5MB",
+      "uploadError": "無法上傳照片",
+      "uploadSuccess": "大頭貼已更新"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "連續天數", "resets": "重置次數", "xp": "經驗值" },
     "focusLevel": "專注力等級",
     "emotionalControl": "情緒控制力",
     "achievementsTitle": "成就",
-    "achievementsAll": "全部",
-    "achievements": [
-      { "emoji": "🛡", "title": "抗 Tilt 高手", "subtitle": "連續完成 5 次重置" },
-      { "emoji": "🌊", "title": "心流狀態", "subtitle": "3 小時專注" },
-      { "emoji": "♠", "title": "冷靜頭腦", "subtitle": "撐過了一次連敗低潮" }
-    ],
+    "achievementUnlocked": "已解鎖",
+    "achievementLocked": "未解鎖",
+    "achievementsList": {
+      "flowState": {
+        "title": "心流狀態",
+        "criterion": "保持一項挑戰與技能相符的活動至少20分鐘。",
+        "reference": "挑戰與技能的平衡會帶來完全的沉浸感。"
+      },
+      "firstAlly": {
+        "title": "第一位夥伴",
+        "criterion": "邀請一位問責夥伴一起監督某個習慣。",
+        "reference": "社會承諾會提高成功的機率。"
+      },
+      "fiveDayStreak": {
+        "title": "連續5天",
+        "criterion": "連續5天記錄習慣，且不能連續兩次中斷。",
+        "reference": "「絕不連續跳過兩次」這句箴言能保護你的持續性。"
+      },
+      "unstoppable": {
+        "title": "什麼都阻擋不了我",
+        "criterion": "在最初不利的環境中成功完成一項困難任務。",
+        "reference": "體現了在困難中也能找到心流的「自成目標型人格」。"
+      },
+      "twoMinuteRule": {
+        "title": "兩分鐘法則",
+        "criterion": "完成一個新習慣的簡化版本，以克服最初的阻力。",
+        "reference": "讓開始變得標準化，比優化結果更重要。"
+      },
+      "caterpillarEffect": {
+        "title": "毛毛蟲效應",
+        "criterion": "找出並修正你最常犯的錯誤（提升你的「最差水準」）。",
+        "reference": "真正的進步發生在你提升自己表現底線的時候。"
+      },
+      "onePercentBetter": {
+        "title": "每天進步1%",
+        "criterion": "記錄某項具體技能上的一次小小改進或微小進步。",
+        "reference": "微小收益的累積會在長期帶來巨大的變化。"
+      },
+      "closingRitual": {
+        "title": "收工儀式",
+        "criterion": "完成收工的步驟，哪怕只是對自己說一句「今天到此結束」。",
+        "reference": "在休息時把大腦從蔡加尼克效應（未完成的任務）中釋放出來。"
+      },
+      "calmAnchor": {
+        "title": "平靜錨點",
+        "criterion": "在緊張時刻，用一個制約式的身體動作讓自己平靜下來。",
+        "reference": "錨定能讓你隨時喚回積極的內在狀態。"
+      }
+    },
     "editProfile": {
       "label": "編輯個人檔案",
       "nameLabel": "名稱",
@@ -324,6 +399,15 @@
       "enableHint": "一則溫和的訊息，提醒你聆聽自己。",
       "scheduleLabel": "時間",
       "quote": "「上場前，先傾聽自己。你的表現，從你的心理狀態開始。」"
+    },
+    "notifications": {
+      "label": "通知",
+      "off": "已關閉",
+      "enableLabel": "開啟通知",
+      "enableHint": "應用程式提醒使用的提示音。",
+      "soundLabel": "聲音",
+      "preview": "播放聲音",
+      "sounds": { "soft": "柔和", "classic": "經典", "alert": "警示" }
     },
     "testSound": {
       "aria": "測試重置音效",
@@ -377,17 +461,54 @@
     "reply": "回覆"
   },
   "messages": {
-    "title": "訊息",
-    "loading": "載入中…",
-    "empty": "你還沒有任何訊息",
-    "inputPlaceholder": "輸入訊息…",
-    "defaultPeerName": "使用者"
+    "defaultPeerName": "使用者",
+    "inbox": {
+      "title": "訊息",
+      "searchPlaceholder": "搜尋對話",
+      "tabMessages": "訊息",
+      "tabRequests": "請求",
+      "loading": "載入中…",
+      "emptyMessages": "你還沒有任何訊息",
+      "emptyRequests": "沒有待處理的請求"
+    },
+    "requests": { "accept": "接受", "decline": "拒絕" },
+    "thread": {
+      "inputPlaceholder": "輸入訊息…",
+      "audioPreview": "🎤 語音",
+      "sendError": "訊息傳送失敗"
+    },
+    "recording": {
+      "recording": "錄音中",
+      "startAria": "錄製語音",
+      "stopAria": "停止錄音",
+      "cancelAria": "取消錄音",
+      "permissionDenied": "無法存取麥克風",
+      "uploadError": "語音上傳失敗"
+    },
+    "settings": {
+      "mute": "靜音",
+      "unmute": "開啟通知",
+      "block": "封鎖",
+      "unblock": "取消封鎖",
+      "delete": "刪除",
+      "blockedNotice": "你已封鎖這位使用者，對方無法再傳訊息給你。",
+      "confirm": {
+        "block": { "title": "封鎖 {{name}}？", "body": "對方將無法再傳訊息給你。你可以隨時取消封鎖。", "cta": "封鎖" },
+        "unblock": { "title": "取消封鎖 {{name}}？", "body": "對方將可以再次傳訊息給你。", "cta": "取消封鎖" },
+        "delete": { "title": "刪除這段對話？", "body": "會從你的收件匣中移除。如果{{name}}再次傳訊息給你，它會重新出現。", "cta": "刪除" }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "個人檔案",
+    "admire": "欣賞"
   },
   "noteComposer": {
     "title": "新增筆記",
     "titlePlaceholder": "標題（選填）",
     "contentPlaceholder": "你腦中在想什麼？",
     "addImage": "新增圖片（選填）",
+    "addAudio": "錄製語音（選填）",
     "imagePreviewAlt": "預覽",
     "privacyLabel": "隱私權",
     "private": { "label": "私人", "hint": "只有你能看到" },
@@ -399,6 +520,7 @@
       "invalidImageType": "檔案必須是圖片",
       "imageTooLarge": "圖片不能超過 5MB",
       "uploadError": "無法上傳圖片",
+      "audioUploadError": "語音上傳失敗",
       "saveError": "無法儲存筆記",
       "sharedSuccess": "已與社群分享",
       "savedSuccess": "筆記已儲存"

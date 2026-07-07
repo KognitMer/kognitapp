@@ -6,11 +6,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NoteComposer } from "@/components/kognit/NoteComposer";
 import { ReplyComposer } from "@/components/kognit/ReplyComposer";
+import { MessagesInbox } from "@/components/kognit/MessagesInbox";
+import { PublicProfileSheet } from "@/components/kognit/PublicProfileSheet";
 import { MoodIcon, ReactionIcon } from "@/components/kognit/MoodIcon";
+import { Avatar } from "@/components/kognit/Avatar";
 import { REACTIONS } from "@/data/moods";
 import { timeAgo } from "@/lib/utils";
 
-interface Props { onBack?: () => void; onMessages?: () => void; }
+interface Props { onBack?: () => void; }
 
 interface NoteRow {
   id: string;
@@ -19,8 +22,10 @@ interface NoteRow {
   content: string;
   mood: string | null;
   image_url: string | null;
+  audio_path: string | null;
   created_at: string;
   author?: string;
+  authorAvatarUrl?: string | null;
   reactions: Record<string, number>;
   myReaction?: string | null;
   imageSignedUrl?: string | null;
@@ -40,19 +45,21 @@ async function signImagePaths(list: NoteRow[]): Promise<Map<string, string>> {
   return map;
 }
 
-export const CommunityScreen = ({ onBack, onMessages }: Props) => {
+export const CommunityScreen = ({ onBack }: Props) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [notes, setNotes] = useState<NoteRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [composerOpen, setComposerOpen] = useState(false);
   const [replyTarget, setReplyTarget] = useState<NoteRow | null>(null);
+  const [inboxOpen, setInboxOpen] = useState(false);
+  const [profileTarget, setProfileTarget] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     const { data: ns } = await supabase
       .from("notes")
-      .select("id, user_id, title, content, mood, image_url, created_at")
+      .select("id, user_id, title, content, mood, image_url, audio_path, created_at")
       .eq("visibility", "public")
       .order("created_at", { ascending: false })
       .limit(50);
@@ -66,11 +73,15 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
         ? supabase.from("note_reactions").select("note_id, reaction, user_id").in("note_id", ids)
         : Promise.resolve({ data: [] as any[] }),
       userIds.length
-        ? supabase.from("profiles").select("id, display_name").in("id", userIds)
+        ? supabase.from("profiles").select("id, display_name, avatar_url").in("id", userIds)
         : Promise.resolve({ data: [] as any[] }),
     ]);
 
     const nameById = new Map((profs ?? []).map((p: any) => [p.id, p.display_name as string]));
+    const avatarById = new Map((profs ?? []).map((p: any) => [
+      p.id,
+      p.avatar_url ? supabase.storage.from("avatars").getPublicUrl(p.avatar_url).data.publicUrl : null,
+    ]));
     const counts: Record<string, Record<string, number>> = {};
     const mine: Record<string, string> = {};
     (rxs ?? []).forEach((r: any) => {
@@ -82,6 +93,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
     const withMeta = list.map(n => ({
       ...n,
       author: nameById.get(n.user_id) ?? t("community.defaultAuthor"),
+      authorAvatarUrl: avatarById.get(n.user_id) ?? null,
       reactions: counts[n.id] ?? {},
       myReaction: mine[n.id] ?? null,
     }));
@@ -118,7 +130,7 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("community.eyebrow")}</p>
           <p className="text-xs font-bold">{t("community.title")}</p>
         </div>
-        <button onClick={onMessages} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+        <button onClick={() => setInboxOpen(true)} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
           <MessageCircle size={18} />
         </button>
       </div>
@@ -145,13 +157,13 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
         {notes.map(n => (
           <div key={n.id} className="p-4 rounded-2xl bg-card shadow-soft">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
-                {(n.author ?? "?").charAt(0).toUpperCase()}
-              </div>
-              <div className="flex-1">
+              <button onClick={() => setProfileTarget(n.user_id)} className="shrink-0">
+                <Avatar src={n.authorAvatarUrl} name={n.author ?? "?"} size={36} shape="square" className="text-sm" />
+              </button>
+              <button onClick={() => setProfileTarget(n.user_id)} className="flex-1 text-left">
                 <p className="text-xs font-bold leading-tight">{n.author}</p>
                 <p className="text-[10px] text-muted-foreground">{timeAgo(n.created_at)}</p>
-              </div>
+              </button>
               {n.mood && <MoodIcon mood={n.mood} size={22} />}
             </div>
             {n.title && <p className="mt-3 text-xs font-bold">{n.title}</p>}
@@ -162,6 +174,13 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
                 alt=""
                 loading="lazy"
                 className="mt-3 w-full max-h-64 object-cover rounded-2xl"
+              />
+            )}
+            {n.audio_path && (
+              <audio
+                controls
+                src={supabase.storage.from("note-audio").getPublicUrl(n.audio_path).data.publicUrl}
+                className="mt-3 w-full"
               />
             )}
 
@@ -207,6 +226,12 @@ export const CommunityScreen = ({ onBack, onMessages }: Props) => {
           noteId={replyTarget.id}
           onSent={() => setReplyTarget(null)}
         />
+      )}
+      {inboxOpen && (
+        <MessagesInbox onClose={() => setInboxOpen(false)} onOpenProfile={setProfileTarget} />
+      )}
+      {profileTarget && (
+        <PublicProfileSheet userId={profileTarget} onClose={() => setProfileTarget(null)} />
       )}
       <BottomNav active="community" />
     </div>

@@ -14,9 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversation_settings: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          muted: boolean
+          owner_id: string
+          peer_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          muted?: boolean
+          owner_id: string
+          peer_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          muted?: boolean
+          owner_id?: string
+          peer_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      message_requests: {
+        Row: {
+          created_at: string
+          id: string
+          initiator_id: string
+          status: string
+          updated_at: string
+          user_max: string
+          user_min: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          initiator_id: string
+          status?: string
+          updated_at?: string
+          user_max: string
+          user_min: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          initiator_id?: string
+          status?: string
+          updated_at?: string
+          user_max?: string
+          user_min?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
-          content: string
+          audio_duration_seconds: number | null
+          audio_path: string | null
+          content: string | null
           created_at: string
           id: string
           note_id: string | null
@@ -25,7 +87,9 @@ export type Database = {
           sender_id: string
         }
         Insert: {
-          content: string
+          audio_duration_seconds?: number | null
+          audio_path?: string | null
+          content?: string | null
           created_at?: string
           id?: string
           note_id?: string | null
@@ -34,7 +98,9 @@ export type Database = {
           sender_id: string
         }
         Update: {
-          content?: string
+          audio_duration_seconds?: number | null
+          audio_path?: string | null
+          content?: string | null
           created_at?: string
           id?: string
           note_id?: string | null
@@ -51,6 +117,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profile_admirations: {
+        Row: {
+          created_at: string
+          giver_id: string
+          id: string
+          recipient_id: string
+        }
+        Insert: {
+          created_at?: string
+          giver_id: string
+          id?: string
+          recipient_id: string
+        }
+        Update: {
+          created_at?: string
+          giver_id?: string
+          id?: string
+          recipient_id?: string
+        }
+        Relationships: []
+      }
+      user_blocks: {
+        Row: {
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
       }
       note_reactions: {
         Row: {
@@ -86,6 +194,8 @@ export type Database = {
       }
       notes: {
         Row: {
+          audio_duration_seconds: number | null
+          audio_path: string | null
           content: string
           created_at: string
           id: string
@@ -98,6 +208,8 @@ export type Database = {
           visibility: string
         }
         Insert: {
+          audio_duration_seconds?: number | null
+          audio_path?: string | null
           content: string
           created_at?: string
           id?: string
@@ -110,6 +222,8 @@ export type Database = {
           visibility?: string
         }
         Update: {
+          audio_duration_seconds?: number | null
+          audio_path?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -125,6 +239,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           display_name: string
           emotional_control: number
@@ -138,6 +253,7 @@ export type Database = {
           xp: number
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           display_name?: string
           emotional_control?: number
@@ -151,6 +267,7 @@ export type Database = {
           xp?: number
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           display_name?: string
           emotional_control?: number
@@ -242,7 +359,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_blocked_pair: {
+        Args: { a: string; b: string }
+        Returns: boolean
+      }
+      send_direct_message: {
+        Args: {
+          p_audio_duration_seconds?: number | null
+          p_audio_path?: string | null
+          p_content?: string | null
+          p_note_id?: string | null
+          p_recipient_id: string
+        }
+        Returns: {
+          audio_duration_seconds: number | null
+          audio_path: string | null
+          content: string | null
+          created_at: string
+          id: string
+          note_id: string | null
+          read: boolean
+          recipient_id: string
+          sender_id: string
+        }
+      }
     }
     Enums: {
       [_ in never]: never

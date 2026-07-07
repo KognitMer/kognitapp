@@ -105,6 +105,17 @@
       "recover": "もっと早く立ち直る ",
       "decide": "決断力を研ぎ澄ます",
       "resilience": "メンタルの強さを築く"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "おすすめ：{{mode}}・{{duration}}秒",
+      "reasons": {
+        "frustration": "フラストレーションには深い感情処理が必要です。90秒あれば興奮を鎮め、視点を取り戻せます。",
+        "fear": "恐怖には即座の明晰さが必要です。クイックリセットは感情を増幅させずに注意を向け直します。",
+        "overthinking": "思考のループを止めます。短いリセットは麻痺するような分析を中断し、行動を可能にします。",
+        "overwhelm": "圧倒されている時は今この瞬間への即座の集中が必要です。短いモードは散漫な注意を再調整します。",
+        "unmotivated": "やる気の欠如はエネルギーの問題です。90秒あれば目的と意味に再びつながれます。",
+        "tilt": "ティルトは極度の感情的興奮です。神経系を完全に落ち着かせるには時間が必要です。"
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "今すぐの指針",
     "progressTitle": "進捗",
     "progressSubtitle": "集中・冷静・あなたの週間日記",
+        "calmAnchor": {
+      "eyebrow": "ロジックを注入・状態を選ぶ",
+      "title": "落ち着きのアンカー",
+      "subtitle": "このスペースは、戻ってこられる瞬間を決めておくためのものです。",
+      "infoAria": "落ち着きのアンカーの使い方",
+      "steps": [
+          { "title": "深呼吸する", "body": "一番の目的は、自分と感情の間に距離を作ることです。これにより「心理的エントロピー」が止まります。" },
+          { "title": "アンカーを作動させる", "body": "定着させたいフレーズを言いながら、小さな身体的な仕草をします（親指を押すなど）。ロバート・ディルツによれば、これは「アンカリング」と呼ばれ、特定の刺激が以前結びついた穏やかな内的状態を自動的に呼び起こします。そのフレーズは、ある場所、ある人、ある香りを思い出させるものかもしれません…" },
+          { "title": "ロジックを注入する", "body": "そのフレーズを使って理性的な心を再び働かせましょう。感情が非常に高まると、脳は高次機能をブロックします。呼吸して言葉にすることで「ロジックを注入し」、注意を取り戻せます。" },
+          { "title": "今この瞬間に集中する", "body": "心理的なエネルギーを小さくてすぐ手の届く目標に向けましょう。安らぎは「意識の秩序」があるときに生まれ、それは今ここに注意を集中することで得られます。" }
+        ]
+    },
     "defaultName": "ユーザー",
     "toasts": {
       "saveError": "状態を保存できませんでした",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "プロフィール",
+    "settingsTitle": "設定",
+    "settingsAria": "設定を開く",
     "defaultName": "ユーザー",
+    "avatar": {
+      "changeAria": "プロフィール写真を変更",
+      "invalidType": "ファイルは画像形式である必要があります",
+      "tooLarge": "画像は5MBを超えられません",
+      "uploadError": "写真をアップロードできませんでした",
+      "uploadSuccess": "プロフィール写真を更新しました"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "連続記録", "resets": "リセット", "xp": "XP" },
     "focusLevel": "集中レベル",
     "emotionalControl": "感情コントロール",
     "achievementsTitle": "実績",
-    "achievementsAll": "すべて",
-    "achievements": [
-      { "emoji": "🛡", "title": "ティルト耐性", "subtitle": "5回連続リセット" },
-      { "emoji": "🌊", "title": "フロー状態", "subtitle": "3時間の集中" },
-      { "emoji": "♠", "title": "冷静な頭", "subtitle": "ダウンスイングを乗り切った" }
-    ],
+    "achievementUnlocked": "解除済み",
+    "achievementLocked": "未解除",
+    "achievementsList": {
+      "flowState": {
+        "title": "フロー状態",
+        "criterion": "挑戦の難易度が自分のスキルと釣り合う活動を、少なくとも20分間続けましょう。",
+        "reference": "挑戦とスキルの釣り合いが完全な没入感を生みます。"
+      },
+      "firstAlly": {
+        "title": "最初の仲間",
+        "criterion": "習慣を一緒に見守ってくれるアカウンタビリティ・パートナーを誘いましょう。",
+        "reference": "社会的なコミットメントが成功の確率を高めます。"
+      },
+      "fiveDayStreak": {
+        "title": "5日間の継続",
+        "criterion": "2回連続で失敗せずに、5日間習慣の記録をつけましょう。",
+        "reference": "「絶対に2回連続では休まない」というマントラが継続を守ります。"
+      },
+      "unstoppable": {
+        "title": "何も止められない",
+        "criterion": "最初は不利な環境の中で、難しいタスクを成功させましょう。",
+        "reference": "困難の中にもフローを見出す「自己目的的パーソナリティ」を反映しています。"
+      },
+      "twoMinuteRule": {
+        "title": "2分ルール",
+        "criterion": "最初の抵抗感を乗り越えるため、新しい習慣の簡略版を完了しましょう。",
+        "reference": "結果を最適化するより、始めることを型にすることの方が重要です。"
+      },
+      "caterpillarEffect": {
+        "title": "毛虫効果",
+        "criterion": "自分が最も頻繁にするミスを特定して直しましょう（自分の「最低ライン」を上げる）。",
+        "reference": "本当の成長はパフォーマンスの土台を引き上げたときに起こります。"
+      },
+      "onePercentBetter": {
+        "title": "毎日1%の成長",
+        "criterion": "特定のスキルにおける小さな改善や小さな前進を記録しましょう。",
+        "reference": "小さな積み重ねが長期的には大きな変化を生みます。"
+      },
+      "closingRitual": {
+        "title": "終業の儀式",
+        "criterion": "仕事を終える手順を実行し、たとえ自分だけにでも「今日は終わり」と言いましょう。",
+        "reference": "休む際にツァイガルニク効果（未完了タスク）から心を解放します。"
+      },
+      "calmAnchor": {
+        "title": "落ち着きのアンカー",
+        "criterion": "緊張した瞬間に自分を落ち着かせるため、条件づけられた身体的な仕草を使いましょう。",
+        "reference": "アンカリングによって、望むときにポジティブな内的状態を取り戻せます。"
+      }
+    },
     "editProfile": {
       "label": "プロフィール編集",
       "nameLabel": "名前",
@@ -324,6 +399,15 @@
       "enableHint": "自分の声に耳を傾けるための、やさしいメッセージ。",
       "scheduleLabel": "時間",
       "quote": "「プレーする前に、自分の声を聞いて。パフォーマンスはメンタルの状態から始まる。」"
+    },
+    "notifications": {
+      "label": "通知",
+      "off": "オフ",
+      "enableLabel": "通知を有効にする",
+      "enableHint": "アプリの通知に使うアラート音です。",
+      "soundLabel": "サウンド",
+      "preview": "音を再生",
+      "sounds": { "soft": "ソフト", "classic": "クラシック", "alert": "アラート" }
     },
     "testSound": {
       "aria": "リセットの音をテスト",
@@ -377,17 +461,54 @@
     "reply": "返信"
   },
   "messages": {
-    "title": "メッセージ",
-    "loading": "読み込み中…",
-    "empty": "まだメッセージがありません",
-    "inputPlaceholder": "メッセージを入力...",
-    "defaultPeerName": "ユーザー"
+    "defaultPeerName": "ユーザー",
+    "inbox": {
+      "title": "メッセージ",
+      "searchPlaceholder": "会話を検索",
+      "tabMessages": "メッセージ",
+      "tabRequests": "リクエスト",
+      "loading": "読み込み中…",
+      "emptyMessages": "まだメッセージがありません",
+      "emptyRequests": "保留中のリクエストはありません"
+    },
+    "requests": { "accept": "承認", "decline": "拒否" },
+    "thread": {
+      "inputPlaceholder": "メッセージを入力...",
+      "audioPreview": "🎤 音声",
+      "sendError": "メッセージを送信できませんでした"
+    },
+    "recording": {
+      "recording": "録音中",
+      "startAria": "音声を録音",
+      "stopAria": "録音を停止",
+      "cancelAria": "録音をキャンセル",
+      "permissionDenied": "マイクにアクセスできませんでした",
+      "uploadError": "音声をアップロードできませんでした"
+    },
+    "settings": {
+      "mute": "ミュート",
+      "unmute": "通知をオンにする",
+      "block": "ブロック",
+      "unblock": "ブロック解除",
+      "delete": "削除",
+      "blockedNotice": "この人をブロックしました。相手はもうメッセージを送れません。",
+      "confirm": {
+        "block": { "title": "{{name}}さんをブロックしますか？", "body": "相手はもうあなたにメッセージを送れなくなります。いつでもブロックを解除できます。", "cta": "ブロック" },
+        "unblock": { "title": "{{name}}さんのブロックを解除しますか？", "body": "相手は再びあなたにメッセージを送れるようになります。", "cta": "ブロック解除" },
+        "delete": { "title": "この会話を削除しますか？", "body": "受信箱から削除されます。{{name}}さんから再度メッセージが来ると、また表示されます。", "cta": "削除" }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "プロフィール",
+    "admire": "称賛する"
   },
   "noteComposer": {
     "title": "新しいメモ",
     "titlePlaceholder": "タイトル（任意）",
     "contentPlaceholder": "頭に浮かんだことは？",
     "addImage": "画像を追加（任意）",
+    "addAudio": "音声を録音（任意）",
     "imagePreviewAlt": "プレビュー",
     "privacyLabel": "プライバシー",
     "private": { "label": "非公開", "hint": "自分だけが見られます" },
@@ -399,6 +520,7 @@
       "invalidImageType": "ファイルは画像形式である必要があります",
       "imageTooLarge": "画像は5MBを超えられません",
       "uploadError": "画像をアップロードできませんでした",
+      "audioUploadError": "音声をアップロードできませんでした",
       "saveError": "メモを保存できませんでした",
       "sharedSuccess": "コミュニティと共有しました",
       "savedSuccess": "メモを保存しました"

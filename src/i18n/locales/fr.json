@@ -105,6 +105,17 @@
       "recover": "Récupérer plus vite ",
       "decide": "Affiner mes décisions",
       "resilience": "Construire une résistance mentale"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "Recommandé : {{mode}} · {{duration}}s",
+      "reasons": {
+        "frustration": "La frustration nécessite un traitement émotionnel profond : 90 secondes t'aident à désactiver l'activation et à retrouver la perspective.",
+        "fear": "La peur nécessite une clarté immédiate. Un reset rapide réoriente ton attention sans amplifier l'émotion.",
+        "overthinking": "Un reset court coupe la boucle mentale : il interrompt l'analyse paralysante et te ramène à l'action.",
+        "overwhelm": "Le débordement a besoin d'une concentration immédiate sur le présent. Le mode court recalibre ton attention dispersée.",
+        "unmotivated": "Le manque de motivation est un problème d'énergie. 90 secondes t'aident à te reconnecter au sens et au but.",
+        "tilt": "Le tilt est une activation émotionnelle extrême. Il faut du temps pour que ton système nerveux se calme complètement."
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "Instruction maintenant",
     "progressTitle": "Progrès",
     "progressSubtitle": "Concentration · calme · ton journal hebdomadaire",
+        "calmAnchor": {
+      "eyebrow": "Injecte de la logique · Choisis ton état",
+      "title": "Ancre de calme",
+      "subtitle": "Cet espace sert à fixer un moment auquel revenir.",
+      "infoAria": "Comment utiliser l'ancre de calme",
+      "steps": [
+          { "title": "Respire profondément", "body": "L'objectif principal est de créer une séparation entre toi et l'émotion. Cela freine l'\"entropie psychique\"." },
+          { "title": "Active l'ancre", "body": "En disant la phrase que tu vas ancrer, fais un petit geste physique (comme presser ton pouce). Selon Robert Dilts, c'est un \"ancrage\" : un stimulus précis qui évoque automatiquement un état intérieur de calme déjà associé. La phrase peut te rappeler un lieu, une personne, une odeur…" },
+          { "title": "Injecte de la logique", "body": "Utilise la phrase pour réactiver ton esprit rationnel. Quand l'émotion est très forte, le cerveau bloque les fonctions supérieures ; respirer et verbaliser te permet d'\"injecter de la logique\" et de retrouver ton attention." },
+          { "title": "Concentre-toi sur le présent", "body": "Dirige ton énergie psychique vers un petit objectif immédiat. Le bien-être apparaît quand il y a de l'\"ordre dans la conscience\", ce qu'on obtient en concentrant l'attention sur l'ici et maintenant." }
+        ]
+    },
     "defaultName": "Utilisateur",
     "toasts": {
       "saveError": "On n'a pas pu enregistrer ton état",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "Profil",
+    "settingsTitle": "Réglages",
+    "settingsAria": "Ouvrir les réglages",
     "defaultName": "Utilisateur",
+    "avatar": {
+      "changeAria": "Changer la photo de profil",
+      "invalidType": "Le fichier doit être une image",
+      "tooLarge": "L'image ne peut pas dépasser 5 Mo",
+      "uploadError": "On n'a pas pu envoyer la photo",
+      "uploadSuccess": "Photo de profil mise à jour"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "Série", "resets": "Resets", "xp": "XP" },
     "focusLevel": "Niveau de concentration",
     "emotionalControl": "Contrôle émotionnel",
     "achievementsTitle": "Succès",
-    "achievementsAll": "Tous",
-    "achievements": [
-      { "emoji": "🛡", "title": "À l'épreuve du tilt", "subtitle": "5 resets d'affilée" },
-      { "emoji": "🌊", "title": "État de flow", "subtitle": "3 h de concentration" },
-      { "emoji": "♠", "title": "Tête froide", "subtitle": "Tu as survécu à un downswing" }
-    ],
+    "achievementUnlocked": "Débloqué",
+    "achievementLocked": "Verrouillé",
+    "achievementsList": {
+      "flowState": {
+        "title": "État de flow",
+        "criterion": "Maintiens une activité où le défi égale ta compétence pendant au moins 20 minutes.",
+        "reference": "L'équilibre entre défi et compétence crée une absorption totale."
+      },
+      "firstAlly": {
+        "title": "Premier allié",
+        "criterion": "Invite un partenaire de responsabilité pour suivre une habitude ensemble.",
+        "reference": "L'engagement social augmente les chances de réussite."
+      },
+      "fiveDayStreak": {
+        "title": "5 jours de suite",
+        "criterion": "Complète un suivi d'habitudes pendant 5 jours sans en manquer deux d'affilée.",
+        "reference": "Le mantra \"ne jamais sauter deux fois\" protège la régularité."
+      },
+      "unstoppable": {
+        "title": "Rien ne m'arrête",
+        "criterion": "Réussis une tâche difficile dans un environnement au départ défavorable.",
+        "reference": "Reflète la \"personnalité autotélique\" qui trouve le flow dans la difficulté."
+      },
+      "twoMinuteRule": {
+        "title": "Règle des deux minutes",
+        "criterion": "Complète la version simplifiée d'une nouvelle habitude pour vaincre la résistance initiale.",
+        "reference": "Standardiser le début compte plus qu'optimiser le résultat."
+      },
+      "caterpillarEffect": {
+        "title": "Effet chenille",
+        "criterion": "Identifie et corrige ton erreur la plus fréquente (améliore ton \"pire niveau\").",
+        "reference": "Le vrai progrès se produit quand tu relèves ta base de performance."
+      },
+      "onePercentBetter": {
+        "title": "1% mieux par jour",
+        "criterion": "Note une petite amélioration ou un progrès marginal dans une compétence précise.",
+        "reference": "L'accumulation de petits gains crée d'énormes changements sur le long terme."
+      },
+      "closingRitual": {
+        "title": "Rituel de clôture",
+        "criterion": "Effectue tes étapes de sortie du travail et dis, ne serait-ce que pour toi, \"la journée est close\".",
+        "reference": "Libère l'esprit de l'effet Zeigarnik (tâches en suspens) au moment de te reposer."
+      },
+      "calmAnchor": {
+        "title": "Ancre de calme",
+        "criterion": "Utilise un geste physique conditionné pour te calmer dans un moment de tension.",
+        "reference": "L'ancrage permet de retrouver des états internes positifs à volonté."
+      }
+    },
     "editProfile": {
       "label": "Modifier le profil",
       "nameLabel": "Nom",
@@ -324,6 +399,15 @@
       "enableHint": "Un message doux pour t'écouter.",
       "scheduleLabel": "Horaire",
       "quote": "« Avant de jouer, écoute-toi. Ta performance commence par ton état mental. »"
+    },
+    "notifications": {
+      "label": "Notifications",
+      "off": "Désactivées",
+      "enableLabel": "Activer les notifications",
+      "enableHint": "Son d'alerte pour les notifications de l'appli.",
+      "soundLabel": "Son",
+      "preview": "Écouter le son",
+      "sounds": { "soft": "Doux", "classic": "Classique", "alert": "Alerte" }
     },
     "testSound": {
       "aria": "Tester le son du reset",
@@ -377,17 +461,54 @@
     "reply": "Répondre"
   },
   "messages": {
-    "title": "Messages",
-    "loading": "Chargement…",
-    "empty": "Tu n'as pas encore de messages",
-    "inputPlaceholder": "Écris un message...",
-    "defaultPeerName": "Utilisateur"
+    "defaultPeerName": "Utilisateur",
+    "inbox": {
+      "title": "Messages",
+      "searchPlaceholder": "Rechercher des conversations",
+      "tabMessages": "Messages",
+      "tabRequests": "Demandes",
+      "loading": "Chargement…",
+      "emptyMessages": "Tu n'as pas encore de messages",
+      "emptyRequests": "Tu n'as aucune demande en attente"
+    },
+    "requests": { "accept": "Accepter", "decline": "Refuser" },
+    "thread": {
+      "inputPlaceholder": "Écris un message...",
+      "audioPreview": "🎤 Audio",
+      "sendError": "Impossible d'envoyer le message"
+    },
+    "recording": {
+      "recording": "Enregistrement",
+      "startAria": "Enregistrer un audio",
+      "stopAria": "Arrêter l'enregistrement",
+      "cancelAria": "Annuler l'enregistrement",
+      "permissionDenied": "Impossible d'accéder au micro",
+      "uploadError": "Impossible d'envoyer l'audio"
+    },
+    "settings": {
+      "mute": "Muet",
+      "unmute": "Activer les notifications",
+      "block": "Bloquer",
+      "unblock": "Débloquer",
+      "delete": "Supprimer",
+      "blockedNotice": "Tu as bloqué cette personne. Elle ne peut plus t'envoyer de messages.",
+      "confirm": {
+        "block": { "title": "Bloquer {{name}} ?", "body": "Cette personne ne pourra plus t'envoyer de messages. Tu peux la débloquer quand tu veux.", "cta": "Bloquer" },
+        "unblock": { "title": "Débloquer {{name}} ?", "body": "Cette personne pourra à nouveau t'envoyer des messages.", "cta": "Débloquer" },
+        "delete": { "title": "Supprimer cette conversation ?", "body": "Elle disparaît de ta boîte de réception. Si {{name}} t'écrit à nouveau, elle réapparaît.", "cta": "Supprimer" }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "Profil",
+    "admire": "Admirer"
   },
   "noteComposer": {
     "title": "Nouvelle note",
     "titlePlaceholder": "Titre (optionnel)",
     "contentPlaceholder": "Qu'est-ce qui t'est passé par la tête ?",
     "addImage": "Ajouter une image (optionnel)",
+    "addAudio": "Enregistrer un audio (optionnel)",
     "imagePreviewAlt": "Aperçu",
     "privacyLabel": "Confidentialité",
     "private": { "label": "Privée", "hint": "Toi seul la vois" },
@@ -399,6 +520,7 @@
       "invalidImageType": "Le fichier doit être une image",
       "imageTooLarge": "L'image ne peut pas dépasser 5 Mo",
       "uploadError": "On n'a pas pu télécharger l'image",
+      "audioUploadError": "On n'a pas pu envoyer l'audio",
       "saveError": "On n'a pas pu enregistrer la note",
       "sharedSuccess": "Partagée avec la communauté",
       "savedSuccess": "Note enregistrée"

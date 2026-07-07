@@ -98,13 +98,24 @@
       "overthinking": { "name": "Análisis excesivo", "description": "Cuando no puedo dejar de pensar" },
       "tilt": { "name": "Tilt / Rabia", "description": "Pérdida de control emocional rápida" },
       "unmotivated": { "name": "Desmotivación", "description": "Falta de energía o propósito" },
-      "overwhelm": { "name": "Abrumación", "description": "Todo se siente demasiado" }
+      "overwhelm": { "name": "Agobio", "description": "Todo se siente demasiado" }
     },
     "goals": {
       "calm": "Mantener la calma bajo presión",
       "recover": "Recuperarme más rápido ",
       "decide": "Afilar mis decisiones",
       "resilience": "Construir resistencia mental"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "Recomendado: {{mode}} · {{duration}}s",
+      "reasons": {
+        "frustration": "La frustración necesita un procesamiento emocional profundo: 90 segundos te ayudan a bajar la activación y recuperar perspectiva.",
+        "fear": "El miedo requiere claridad inmediata. Un reset rápido reorienta tu atención sin amplificar la emoción.",
+        "overthinking": "Un reset corto corta el bucle mental: interrumpe el análisis paralizante y te devuelve a la acción.",
+        "overwhelm": "El agobio necesita foco inmediato en el presente. El modo corto recalibra tu atención dispersa.",
+        "unmotivated": "La desmotivación es un problema de energía. 90 segundos te ayudan a reconectar con tu propósito y sentido.",
+        "tilt": "El tilt es una activación emocional extrema. Necesita tiempo para que tu sistema nervioso se calme por completo."
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "Instrucción ahora",
     "progressTitle": "Progreso",
     "progressSubtitle": "Foco · calma · tu diario semanal",
+        "calmAnchor": {
+      "eyebrow": "Inyectá lógica · Elegí tu estado",
+      "title": "Ancla de calma",
+      "subtitle": "Este espacio es para que fijes un momento al cual volver.",
+      "infoAria": "Cómo usar el ancla de calma",
+      "steps": [
+          { "title": "Respirá profundo", "body": "El objetivo es crear una separación entre vos y la emoción. Esto frena la \"entropía psíquica\"." },
+          { "title": "Activá el ancla", "body": "Al decir la frase que vas a dejar anclada, hacé un gesto físico chico (como presionarte el pulgar). Según Robert Dilts, esto es un \"anclaje\": un estímulo específico que evoca automáticamente un estado interno de calma ya asociado. La frase puede recordarte un lugar, una persona, un aroma…" },
+          { "title": "Inyectá lógica", "body": "Usá la frase para reactivar tu mente racional. Cuando la emoción es muy alta, el cerebro bloquea las funciones superiores; respirar y verbalizar te permite \"inyectar lógica\" y recuperar tu atención." },
+          { "title": "Foco en el presente", "body": "Dirigí tu energía psíquica a una meta chica e inmediata. El bienestar aparece cuando hay \"orden en la conciencia\", que se logra concentrando la atención en el acá y ahora." }
+        ]
+    },
     "defaultName": "Usuario",
     "toasts": {
       "saveError": "No se pudo guardar tu estado",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "Perfil",
+    "settingsTitle": "Configuración",
+    "settingsAria": "Abrir configuración",
     "defaultName": "Usuario",
+    "avatar": {
+      "changeAria": "Cambiar foto de perfil",
+      "invalidType": "El archivo debe ser una imagen",
+      "tooLarge": "La imagen no puede superar 5MB",
+      "uploadError": "No se pudo subir la foto",
+      "uploadSuccess": "Foto de perfil actualizada"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "Racha", "resets": "Resets", "xp": "XP" },
     "focusLevel": "Nivel de foco",
     "emotionalControl": "Control emocional",
     "achievementsTitle": "Logros",
-    "achievementsAll": "Todos",
-    "achievements": [
-      { "emoji": "🛡", "title": "A prueba de tilt", "subtitle": "5 resets seguidos" },
-      { "emoji": "🌊", "title": "Estado de flow", "subtitle": "3 hs de foco" },
-      { "emoji": "♠", "title": "Cabeza fría", "subtitle": "Sobreviviste un downswing" }
-    ],
+    "achievementUnlocked": "Desbloqueado",
+    "achievementLocked": "Bloqueado",
+    "achievementsList": {
+      "flowState": {
+        "title": "Estado de flow",
+        "criterion": "Mantené una actividad donde el desafío iguale tu habilidad por al menos 20 minutos.",
+        "reference": "El equilibrio entre reto y destreza genera absorción total."
+      },
+      "firstAlly": {
+        "title": "Primer colega",
+        "criterion": "Invitá a un socio corresponsable para monitorear un hábito juntos.",
+        "reference": "El compromiso social aumenta la probabilidad de éxito."
+      },
+      "fiveDayStreak": {
+        "title": "5 días de racha",
+        "criterion": "Completá un registro de hábitos por 5 días sin fallar dos veces seguidas.",
+        "reference": "El mantra \"nunca te lo saltees dos veces\" protege la constancia."
+      },
+      "unstoppable": {
+        "title": "Nada me detiene",
+        "criterion": "Realizá con éxito una tarea difícil en un entorno inicialmente adverso.",
+        "reference": "Refleja la \"personalidad autotélica\" que encuentra flujo en la dificultad."
+      },
+      "twoMinuteRule": {
+        "title": "Regla dos minutos",
+        "criterion": "Completá la versión simplificada de un hábito nuevo para vencer la resistencia inicial.",
+        "reference": "Estandarizar el inicio es más importante que optimizar el resultado."
+      },
+      "caterpillarEffect": {
+        "title": "Efecto oruga",
+        "criterion": "Identificá y corregí tu error más frecuente (mejorá tu \"peor nivel\").",
+        "reference": "El progreso real ocurre al subir el nivel de tu base de rendimiento."
+      },
+      "onePercentBetter": {
+        "title": "1% mejor diario",
+        "criterion": "Registrá una pequeña mejora o avance marginal en una habilidad específica.",
+        "reference": "La acumulación de pequeñas ganancias genera cambios enormes a largo plazo."
+      },
+      "closingRitual": {
+        "title": "Ritual de cierre",
+        "criterion": "Ejecutá los pasos de salida del trabajo y decí, aunque sea para vos, \"se cierra el día\".",
+        "reference": "Libera la mente del efecto Zeigarnik (tareas pendientes) al descansar."
+      },
+      "calmAnchor": {
+        "title": "Ancla de calma",
+        "criterion": "Usá un gesto físico condicionado para calmarte en un momento de tensión.",
+        "reference": "El anclaje permite recuperar estados internos positivos a voluntad."
+      }
+    },
     "editProfile": {
       "label": "Editar perfil",
       "nameLabel": "Nombre",
@@ -324,6 +399,19 @@
       "enableHint": "Un mensaje suave para escucharte.",
       "scheduleLabel": "Horario",
       "quote": "\"Antes de jugar, escuchate. Tu rendimiento empieza por tu estado mental.\""
+    },
+    "notifications": {
+      "label": "Notificaciones",
+      "off": "Desactivadas",
+      "enableLabel": "Activar notificaciones",
+      "enableHint": "Sonido de alerta para avisos de la app.",
+      "soundLabel": "Sonido",
+      "preview": "Escuchar sonido",
+      "sounds": {
+        "soft": "Suave",
+        "classic": "Clásico",
+        "alert": "Alerta"
+      }
     },
     "testSound": {
       "aria": "Probar sonido del reset",
@@ -377,17 +465,69 @@
     "reply": "Responder"
   },
   "messages": {
-    "title": "Mensajes",
-    "loading": "Cargando…",
-    "empty": "Todavía no tenés mensajes",
-    "inputPlaceholder": "Escribí un mensaje...",
-    "defaultPeerName": "Usuario"
+    "defaultPeerName": "Usuario",
+    "inbox": {
+      "title": "Mensajes",
+      "searchPlaceholder": "Buscar conversaciones",
+      "tabMessages": "Mensajes",
+      "tabRequests": "Solicitudes",
+      "loading": "Cargando…",
+      "emptyMessages": "Todavía no tenés mensajes",
+      "emptyRequests": "No tenés solicitudes pendientes"
+    },
+    "requests": {
+      "accept": "Aceptar",
+      "decline": "Rechazar"
+    },
+    "thread": {
+      "inputPlaceholder": "Escribí un mensaje...",
+      "audioPreview": "🎤 Audio",
+      "sendError": "No se pudo enviar el mensaje"
+    },
+    "recording": {
+      "recording": "Grabando",
+      "startAria": "Grabar audio",
+      "stopAria": "Detener grabación",
+      "cancelAria": "Cancelar grabación",
+      "permissionDenied": "No se pudo acceder al micrófono",
+      "uploadError": "No se pudo subir el audio"
+    },
+    "settings": {
+      "mute": "Silenciar",
+      "unmute": "Activar notificaciones",
+      "block": "Bloquear",
+      "unblock": "Desbloquear",
+      "delete": "Eliminar",
+      "blockedNotice": "Bloqueaste a esta persona. No podés enviarle mensajes.",
+      "confirm": {
+        "block": {
+          "title": "¿Bloquear a {{name}}?",
+          "body": "No va a poder enviarte más mensajes. Podés desbloquearla cuando quieras.",
+          "cta": "Bloquear"
+        },
+        "unblock": {
+          "title": "¿Desbloquear a {{name}}?",
+          "body": "Va a poder volver a enviarte mensajes.",
+          "cta": "Desbloquear"
+        },
+        "delete": {
+          "title": "¿Eliminar esta conversación?",
+          "body": "Se borra de tu bandeja. Si {{name}} te escribe de nuevo, va a volver a aparecer.",
+          "cta": "Eliminar"
+        }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "Perfil",
+    "admire": "Admirar"
   },
   "noteComposer": {
     "title": "Nueva nota",
     "titlePlaceholder": "Título (opcional)",
     "contentPlaceholder": "¿Qué pasó por tu cabeza?",
     "addImage": "Agregar imagen (opcional)",
+    "addAudio": "Grabar audio (opcional)",
     "imagePreviewAlt": "Vista previa",
     "privacyLabel": "Privacidad",
     "private": { "label": "Privada", "hint": "Solo vos la ves" },
@@ -399,6 +539,7 @@
       "invalidImageType": "El archivo debe ser una imagen",
       "imageTooLarge": "La imagen no puede superar 5MB",
       "uploadError": "No se pudo subir la imagen",
+      "audioUploadError": "No se pudo subir el audio",
       "saveError": "No se pudo guardar la nota",
       "sharedSuccess": "Compartida con la comunidad",
       "savedSuccess": "Nota guardada"

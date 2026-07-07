@@ -1,167 +1,116 @@
-import { Settings, Award, Flame, Brain, ChevronRight, Bell, Shield, LogOut, Sparkles, Volume2, UserRound, Trash2, X, Moon, Vibrate, Languages } from "lucide-react";
-import { useTranslation, Trans } from "react-i18next";
+import { Settings, Award, Flame, Brain, ChevronRight, Sparkles, Camera } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { BottomNav } from "@/components/kognit/BottomNav";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { playBong } from "@/lib/sound";
 import { toast } from "@/components/ui/sonner";
-import {
-  getDarkMode, setDarkMode, getSoundEnabled, setSoundEnabled, getVibrationEnabled, setVibrationEnabled,
-  getLanguage, setLanguage, SUPPORTED_LANGUAGES, type LanguageCode,
-} from "@/lib/preferences";
+import { Avatar } from "@/components/kognit/Avatar";
+import { ACHIEVEMENTS, type AchievementId } from "@/data/achievements";
+
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 
 interface ProfileProps {
-
   name?: string;
-  email?: string;
+  avatarUrl?: string | null;
   focusLevel?: number;
   emotionalControl?: number;
   totalResets?: number;
   streakDays?: number;
   xp?: number;
-  onSignOut?: () => void;
+  onSettings?: () => void;
 }
 
 export const ProfileScreen = ({
   name,
-  email = "—",
+  avatarUrl = null,
   focusLevel = 72,
   emotionalControl = 64,
   totalResets = 0,
   streakDays = 0,
   xp = 0,
-  onSignOut,
+  onSettings,
 }: ProfileProps) => {
   const { user } = useAuth();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const resolvedName = name ?? t("profile.defaultName");
-  const [reminderEnabled, setReminderEnabled] = useState(false);
-  const [reminderTime, setReminderTime] = useState("19:00");
-  const [openReminders, setOpenReminders] = useState(false);
-  const [soundFeedback, setSoundFeedback] = useState<string | null>(null);
 
   const [displayName, setDisplayName] = useState(resolvedName);
-  const [openEditProfile, setOpenEditProfile] = useState(false);
-  const [editName, setEditName] = useState(resolvedName);
-  const [savingName, setSavingName] = useState(false);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(avatarUrl);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [openAchievement, setOpenAchievement] = useState<AchievementId | null>(null);
 
-  const [openPrivacy, setOpenPrivacy] = useState(false);
+  useEffect(() => { setDisplayName(resolvedName); }, [resolvedName]);
+  useEffect(() => { setAvatarPreviewUrl(avatarUrl); }, [avatarUrl]);
 
-  const [openPreferences, setOpenPreferences] = useState(false);
-  const [darkMode, setDarkModeState] = useState(getDarkMode);
-  const [soundPref, setSoundPref] = useState(getSoundEnabled);
-  const [vibrationPref, setVibrationPref] = useState(getVibrationEnabled);
-  const [languagePref, setLanguagePref] = useState(getLanguage);
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deleteConfirmText, setDeleteConfirmText] = useState("");
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => { setDisplayName(resolvedName); setEditName(resolvedName); }, [resolvedName]);
-
-  const playTestSound = () => {
-    playBong();
-    setSoundFeedback(t("profile.testSound.playing"));
-    window.setTimeout(() => setSoundFeedback(null), 1800);
-  };
-
-  useEffect(() => {
-
-    if (!user) return;
-    supabase.from("profiles").select("reminder_enabled, reminder_time").eq("id", user.id).maybeSingle()
-      .then(({ data }) => {
-        if (data) {
-          setReminderEnabled(!!data.reminder_enabled);
-          setReminderTime(data.reminder_time ?? "19:00");
-        }
-      });
-  }, [user]);
-
-  const saveReminders = async (enabled: boolean, time: string) => {
-    setReminderEnabled(enabled); setReminderTime(time);
-    if (!user) return;
-    await supabase.from("profiles").update({ reminder_enabled: enabled, reminder_time: time }).eq("id", user.id);
-  };
-
-  const saveName = async () => {
-    if (!user || !editName.trim()) return;
-    setSavingName(true);
-    const { error } = await supabase.from("profiles").update({ display_name: editName.trim() }).eq("id", user.id);
-    setSavingName(false);
-    if (error) {
-      toast.error(t("profile.toasts.nameSaveError"));
+  const onPickAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !user) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error(t("profile.avatar.invalidType"));
       return;
     }
-    setDisplayName(editName.trim());
-    toast.success(t("profile.toasts.nameSaveSuccess"));
-    setOpenEditProfile(false);
-  };
-
-  const toggleDarkMode = (v: boolean) => {
-    setDarkModeState(v);
-    setDarkMode(v);
-  };
-  const toggleSoundPref = (v: boolean) => {
-    setSoundPref(v);
-    setSoundEnabled(v);
-  };
-  const toggleVibrationPref = (v: boolean) => {
-    setVibrationPref(v);
-    setVibrationEnabled(v);
-  };
-  const changeLanguage = (code: LanguageCode) => {
-    setLanguagePref(code);
-    setLanguage(code);
-    i18n.changeLanguage(code);
-  };
-
-  const deleteAccount = async () => {
-    if (!user || deleteConfirmText !== t("profile.deleteAccount.confirmWord")) return;
-    setDeleting(true);
-    try {
-      const { data: files } = await supabase.storage.from("note-images").list(user.id);
-      if (files?.length) {
-        await supabase.storage.from("note-images").remove(files.map(f => `${user.id}/${f.name}`));
-      }
-      await Promise.all([
-        supabase.from("notes").delete().eq("user_id", user.id),
-        supabase.from("note_reactions").delete().eq("user_id", user.id),
-        supabase.from("reset_sessions").delete().eq("user_id", user.id),
-        supabase.from("ritual_entries").delete().eq("user_id", user.id),
-        supabase.from("messages").delete().eq("sender_id", user.id),
-        supabase.from("messages").delete().eq("recipient_id", user.id),
-        supabase.from("profiles").delete().eq("id", user.id),
-      ]);
-      toast.success(t("profile.toasts.deleteSuccess"));
-    } catch {
-      toast.error(t("profile.toasts.deleteError"));
-    } finally {
-      setDeleting(false);
-      setDeleteOpen(false);
-      setDeleteConfirmText("");
-      onSignOut?.();
+    if (file.size > MAX_AVATAR_BYTES) {
+      toast.error(t("profile.avatar.tooLarge"));
+      return;
     }
+    setUploadingAvatar(true);
+
+    // Limpia archivos previos del usuario para no acumular avatares huérfanos.
+    const { data: existing } = await supabase.storage.from("avatars").list(user.id);
+    if (existing?.length) {
+      await supabase.storage.from("avatars").remove(existing.map(f => `${user.id}/${f.name}`));
+    }
+
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { cacheControl: "3600", upsert: false });
+    if (uploadError) {
+      setUploadingAvatar(false);
+      toast.error(t("profile.avatar.uploadError"));
+      return;
+    }
+
+    const { error } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", user.id);
+    setUploadingAvatar(false);
+    if (error) {
+      toast.error(t("profile.avatar.uploadError"));
+      return;
+    }
+    setAvatarPreviewUrl(supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl);
+    toast.success(t("profile.avatar.uploadSuccess"));
   };
 
   return (
   <div className="min-h-full bg-gradient-hero pb-28 relative">
     <div className="px-6 pt-3 flex items-center justify-between">
       <p className="text-sm font-bold">{t("profile.title")}</p>
-      <button onClick={() => setOpenPreferences(o => !o)} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center"><Settings size={16} /></button>
+      <button onClick={onSettings} aria-label={t("profile.settingsAria")} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+        <Settings size={16} />
+      </button>
     </div>
 
     <div className="mx-6 mt-4 p-5 rounded-3xl bg-gradient-deep text-primary-foreground shadow-card relative overflow-hidden">
       <div className="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-primary-glow/25 blur-3xl" />
       <div className="relative flex items-center gap-4">
-        <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center text-2xl font-bold shadow-glow">
-          {displayName.charAt(0).toUpperCase()}
-        </div>
+        <button
+          type="button"
+          onClick={() => avatarInputRef.current?.click()}
+          aria-label={t("profile.avatar.changeAria")}
+          disabled={uploadingAvatar}
+          className="relative shrink-0 shadow-glow rounded-2xl disabled:opacity-60">
+          <Avatar src={avatarPreviewUrl} name={displayName} size={64} shape="square" className="text-2xl" />
+          <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-card text-foreground flex items-center justify-center shadow-soft">
+            <Camera size={12} />
+          </span>
+        </button>
+        <input ref={avatarInputRef} type="file" accept="image/*" onChange={onPickAvatar} className="hidden" />
         <div className="flex-1">
           <p className="text-base font-bold">{displayName}</p>
-          <p className="text-xs opacity-80">{email}</p>
           <div className="mt-1.5 inline-flex items-center gap-1 bg-white/15 backdrop-blur px-2.5 py-0.5 rounded-full text-[10px] font-bold">
             <Sparkles size={10} /> {t("profile.proBadge")}
           </div>
@@ -205,218 +154,40 @@ export const ProfileScreen = ({
     </div>
 
     <div className="px-6 mt-5">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold">{t("profile.achievementsTitle")}</h3>
-        <button className="text-xs font-semibold text-primary">{t("profile.achievementsAll")}</button>
-      </div>
-      <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar">
-        {(t("profile.achievements", { returnObjects: true }) as { emoji: string; title: string; subtitle: string }[]).map(a => (
-          <div key={a.title} className="min-w-[140px] p-4 rounded-2xl bg-card shadow-soft text-center">
-            <div className="w-12 h-12 mx-auto rounded-2xl bg-gradient-soft flex items-center justify-center text-2xl">{a.emoji}</div>
-            <p className="mt-2 text-xs font-bold">{a.title}</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">{a.subtitle}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div className="mx-6 mt-5 rounded-3xl bg-card shadow-soft overflow-hidden">
-      {/* Editar perfil */}
-      <div className="p-4 border-b border-border">
-        <button onClick={() => setOpenEditProfile(o => !o)} className="w-full flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><UserRound size={16} /></div>
-          <span className="flex-1 text-sm font-semibold text-left">{t("profile.editProfile.label")}</span>
-          <ChevronRight size={16} className={`text-muted-foreground transition-transform ${openEditProfile ? "rotate-90" : ""}`} />
-        </button>
-        {openEditProfile && (
-          <div className="mt-4 space-y-3">
-            <div>
-              <p className="text-sm font-semibold">{t("profile.editProfile.nameLabel")}</p>
-              <input
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-                placeholder={t("profile.editProfile.namePlaceholder")}
-                className="mt-1.5 w-full bg-secondary px-3 py-2 rounded-lg text-sm font-semibold focus:outline-none"
-              />
-            </div>
-            <button
-              onClick={saveName}
-              disabled={!editName.trim() || savingName}
-              className="w-full bg-gradient-primary text-primary-foreground font-bold py-2.5 rounded-xl text-sm disabled:opacity-40">
-              {savingName ? t("profile.editProfile.saving") : t("profile.editProfile.save")}
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Recordatorio diario */}
-      <div className="p-4 border-b border-border">
-        <button onClick={() => setOpenReminders(o => !o)} className="w-full flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Bell size={16} /></div>
-          <span className="flex-1 text-sm font-semibold text-left">{t("profile.reminders.label")}</span>
-          <span className="text-xs text-muted-foreground">{reminderEnabled ? reminderTime : t("profile.reminders.off")}</span>
-          <ChevronRight size={16} className={`text-muted-foreground transition-transform ${openReminders ? "rotate-90" : ""}`} />
-        </button>
-        {openReminders && (
-          <div className="mt-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold">{t("profile.reminders.enableLabel")}</p>
-                <p className="text-[11px] text-muted-foreground">{t("profile.reminders.enableHint")}</p>
-              </div>
-              <Switch checked={reminderEnabled} onCheckedChange={(v) => saveReminders(v, reminderTime)} />
-            </div>
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold">{t("profile.reminders.scheduleLabel")}</p>
-              <input type="time" value={reminderTime}
-                onChange={(e) => saveReminders(reminderEnabled, e.target.value)}
-                className="bg-secondary px-3 py-1.5 rounded-lg text-sm font-semibold focus:outline-none" />
-            </div>
-            <p className="text-[11px] text-muted-foreground italic">{t("profile.reminders.quote")}</p>
-          </div>
-        )}
-      </div>
-
-      {/* Probar sonido */}
-      <button
-        onClick={playTestSound}
-        aria-label={t("profile.testSound.aria")}
-        className="w-full flex items-center gap-3 p-4 border-b border-border">
-        <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Volume2 size={16} /></div>
-        <span className="flex-1 text-sm font-semibold text-left">{t("profile.testSound.label")}</span>
-        <span className="text-xs text-primary font-semibold">{soundFeedback ?? t("profile.testSound.cta")}</span>
-        <ChevronRight size={16} className="text-muted-foreground" />
-      </button>
-
-      {/* Preferencias */}
-      <div className="p-4 border-b border-border">
-        <button onClick={() => setOpenPreferences(o => !o)} className="w-full flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Settings size={16} /></div>
-          <span className="flex-1 text-sm font-semibold text-left">{t("profile.preferences.label")}</span>
-          <ChevronRight size={16} className={`text-muted-foreground transition-transform ${openPreferences ? "rotate-90" : ""}`} />
-        </button>
-        {openPreferences && (
-          <div className="mt-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Moon size={15} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-semibold">{t("profile.preferences.darkMode")}</p>
-                  <p className="text-[11px] text-muted-foreground">{t("profile.preferences.darkModeHint")}</p>
+      <h3 className="text-xs font-bold mb-3">{t("profile.achievementsTitle")}</h3>
+      <div className="space-y-2">
+        {ACHIEVEMENTS.map(a => {
+          const unlocked = a.isUnlocked({ streakDays, totalResets });
+          const expanded = openAchievement === a.id;
+          return (
+            <div key={a.id} className="rounded-2xl bg-card shadow-soft overflow-hidden">
+              <button
+                onClick={() => setOpenAchievement(expanded ? null : a.id)}
+                className="w-full p-3 flex items-center gap-3 text-left">
+                <div className={`w-11 h-11 rounded-xl overflow-hidden shrink-0 bg-secondary flex items-center justify-center ${unlocked ? "" : "grayscale opacity-50"}`}>
+                  <img src={a.icon} alt="" className="w-full h-full object-contain" />
                 </div>
-              </div>
-              <Switch checked={darkMode} onCheckedChange={toggleDarkMode} />
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Volume2 size={15} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-semibold">{t("profile.preferences.soundDefault")}</p>
-                  <p className="text-[11px] text-muted-foreground">{t("profile.preferences.soundDefaultHint")}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold truncate">{t(`profile.achievementsList.${a.id}.title`)}</p>
+                  <p className={`text-[10px] font-semibold mt-0.5 ${unlocked ? "text-primary" : "text-muted-foreground"}`}>
+                    {unlocked ? t("profile.achievementUnlocked") : t("profile.achievementLocked")}
+                  </p>
                 </div>
-              </div>
-              <Switch checked={soundPref} onCheckedChange={toggleSoundPref} />
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Vibrate size={15} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-semibold">{t("profile.preferences.vibration")}</p>
-                  <p className="text-[11px] text-muted-foreground">{t("profile.preferences.vibrationHint")}</p>
+                <ChevronRight size={15} className={`text-muted-foreground transition-transform shrink-0 ${expanded ? "rotate-90" : ""}`} />
+              </button>
+              {expanded && (
+                <div className="px-3 pb-3 -mt-1">
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{t(`profile.achievementsList.${a.id}.criterion`)}</p>
+                  <p className="mt-1.5 text-[10px] text-muted-foreground/80 italic leading-relaxed">{t(`profile.achievementsList.${a.id}.reference`)}</p>
                 </div>
-              </div>
-              <Switch checked={vibrationPref} onCheckedChange={toggleVibrationPref} />
+              )}
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Languages size={15} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-semibold">{t("profile.preferences.language")}</p>
-                  <p className="text-[11px] text-muted-foreground">{t("profile.preferences.languageHint")}</p>
-                </div>
-              </div>
-              <Select value={languagePref} onValueChange={changeLanguage}>
-                <SelectTrigger className="w-32 h-9 text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {SUPPORTED_LANGUAGES.map(({ code, label }) => (
-                    <SelectItem key={code} value={code}>{label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )}
+          );
+        })}
       </div>
-
-      {/* Privacidad */}
-      <div className="p-4 border-b border-border">
-        <button onClick={() => setOpenPrivacy(o => !o)} className="w-full flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><Shield size={16} /></div>
-          <span className="flex-1 text-sm font-semibold text-left">{t("profile.privacy.label")}</span>
-          <ChevronRight size={16} className={`text-muted-foreground transition-transform ${openPrivacy ? "rotate-90" : ""}`} />
-        </button>
-        {openPrivacy && (
-          <p className="mt-3 text-[11px] text-muted-foreground leading-relaxed">
-            {t("profile.privacy.text")}
-          </p>
-        )}
-      </div>
-
-      {/* Cerrar sesión */}
-      <button onClick={onSignOut}
-        className="w-full flex items-center gap-3 p-4 border-b border-border">
-        <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-primary"><LogOut size={16} /></div>
-        <span className="flex-1 text-sm font-semibold text-left">{t("profile.signOut")}</span>
-        <ChevronRight size={16} className="text-muted-foreground" />
-      </button>
-
-      {/* Eliminar cuenta */}
-      <button onClick={() => setDeleteOpen(true)}
-        className="w-full flex items-center gap-3 p-4 text-destructive">
-        <div className="w-9 h-9 rounded-xl bg-destructive/10 flex items-center justify-center"><Trash2 size={16} /></div>
-        <span className="flex-1 text-sm font-semibold text-left">{t("profile.deleteAccount.label")}</span>
-        <ChevronRight size={16} className="text-muted-foreground" />
-      </button>
     </div>
 
     <BottomNav active="profile" />
-
-    {deleteOpen && (
-      <div className="absolute inset-0 z-50 bg-foreground/40 backdrop-blur-sm flex items-end md:items-center justify-center">
-        <div className="w-full bg-card rounded-t-3xl md:rounded-3xl shadow-card p-5 max-h-[85%] overflow-y-auto">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-bold text-destructive">{t("profile.deleteAccount.title")}</p>
-            <button onClick={() => { setDeleteOpen(false); setDeleteConfirmText(""); }} className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-              <X size={14} />
-            </button>
-          </div>
-
-          <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
-            {t("profile.deleteAccount.warning")}
-          </p>
-          <p className="mt-2 text-[11px] text-muted-foreground leading-relaxed italic">
-            {t("profile.deleteAccount.technicalNote")}
-          </p>
-
-          <p className="mt-4 text-xs font-semibold"><Trans i18nKey="profile.deleteAccount.confirmPrompt" components={{ b: <span className="font-bold" /> }} /></p>
-          <input
-            value={deleteConfirmText}
-            onChange={(e) => setDeleteConfirmText(e.target.value)}
-            placeholder={t("profile.deleteAccount.confirmWord")}
-            className="mt-2 w-full bg-secondary px-3 py-2.5 rounded-lg text-sm font-semibold focus:outline-none"
-          />
-
-          <button
-            onClick={deleteAccount}
-            disabled={deleteConfirmText !== t("profile.deleteAccount.confirmWord") || deleting}
-            className="mt-4 w-full bg-destructive text-destructive-foreground font-bold py-3.5 rounded-2xl text-sm shadow-card disabled:opacity-40">
-            {deleting ? t("profile.deleteAccount.deleting") : t("profile.deleteAccount.cta")}
-          </button>
-        </div>
-      </div>
-    )}
   </div>
   );
 };

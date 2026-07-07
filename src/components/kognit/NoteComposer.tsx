@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { X, Lock, Users, Image as ImageIcon } from "lucide-react";
+import { X, Lock, Users, Image as ImageIcon, Mic, Square, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/sonner";
 import { MOOD_OPTIONS, type MoodId } from "@/data/moods";
 import { MoodIcon } from "@/components/kognit/MoodIcon";
+import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
+import { audioFileExtension, formatDuration } from "@/lib/audio";
 
 interface Props {
   open: boolean;
@@ -27,6 +29,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const recorder = useVoiceRecorder();
 
   useEffect(() => () => { if (imagePreview) URL.revokeObjectURL(imagePreview); }, [imagePreview]);
 
@@ -79,6 +82,25 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
       image_url = path;
     }
 
+    let audio_path: string | null = null;
+    let audio_duration_seconds: number | null = null;
+    if (recorder.recording) {
+      setUploading(true);
+      const ext = audioFileExtension(recorder.recording.mimeType);
+      const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("note-audio")
+        .upload(path, recorder.recording.blob, { cacheControl: "3600", upsert: false });
+      setUploading(false);
+      if (uploadError) {
+        setSaving(false);
+        toast.error(t("noteComposer.toasts.audioUploadError"));
+        return;
+      }
+      audio_path = path;
+      audio_duration_seconds = Math.round(recorder.recording.durationSeconds);
+    }
+
     const { error } = await supabase.from("notes").insert({
       user_id: user.id,
       title: title.trim() || null,
@@ -86,6 +108,8 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
       mood,
       visibility,
       image_url,
+      audio_path,
+      audio_duration_seconds,
     });
     setSaving(false);
     if (error) {
@@ -93,7 +117,7 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
       return;
     }
     toast.success(visibility === "public" ? t("noteComposer.toasts.sharedSuccess") : t("noteComposer.toasts.savedSuccess"));
-    setTitle(""); setContent(""); setMood("focus"); setVisibility("private"); removeImage();
+    setTitle(""); setContent(""); setMood("focus"); setVisibility("private"); removeImage(); recorder.reset();
     onSaved?.();
     onClose();
   };
@@ -158,6 +182,33 @@ export const NoteComposer = ({ open, onClose, onSaved }: Props) => {
               <X size={13} />
             </button>
           </div>
+        )}
+
+        {recorder.supported && (
+          recorder.status === "idle" ? (
+            <button
+              type="button"
+              onClick={() => recorder.start().catch(() => toast.error(t("messages.recording.permissionDenied")))}
+              className="mt-2 w-full flex items-center justify-center gap-2 bg-secondary/40 rounded-2xl py-3 text-xs font-bold text-muted-foreground">
+              <Mic size={15} />
+              {t("noteComposer.addAudio")}
+            </button>
+          ) : recorder.status === "recording" ? (
+            <div className="mt-2 w-full flex items-center gap-2 bg-secondary/40 rounded-2xl py-3 px-4">
+              <span className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
+              <span className="flex-1 text-xs font-bold">{t("messages.recording.recording")} {formatDuration(recorder.elapsed)}</span>
+              <button type="button" onClick={recorder.cancel}><X size={16} /></button>
+              <button type="button" onClick={recorder.stop}><Square size={16} /></button>
+            </div>
+          ) : (
+            <div className="mt-2 w-full flex items-center gap-2 bg-secondary/40 rounded-2xl py-3 px-4">
+              <Play size={14} className="text-muted-foreground" />
+              <span className="flex-1 text-xs font-bold">{formatDuration(recorder.recording?.durationSeconds ?? 0)}</span>
+              <button type="button" onClick={recorder.reset} className="text-muted-foreground">
+                <X size={16} />
+              </button>
+            </div>
+          )
         )}
 
         <p className="mt-4 text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("noteComposer.privacyLabel")}</p>

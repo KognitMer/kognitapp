@@ -10,15 +10,16 @@ import { TiltScreen } from "./kognit/Tilt";
 import { CardsScreen } from "./kognit/Cards";
 import { CalendarScreen } from "./kognit/Calendar";
 import { ProfileScreen } from "./kognit/Profile";
+import { SettingsScreen } from "./kognit/Settings";
 import { CommunityScreen } from "./kognit/Community";
-import { MessagesScreen } from "./kognit/Messages";
 import { BottomNav } from "@/components/kognit/BottomNav";
 
 type Tab = "home" | "cards" | "calendar" | "community" | "profile";
-type View = Tab | "tilt" | "messages";
+type View = Tab | "tilt" | "settings";
 
 interface Profile {
   display_name: string;
+  avatar_url: string | null;
   focus_level: number;
   emotional_control: number;
   total_resets: number;
@@ -32,14 +33,20 @@ export default function MobileApp() {
   const [view, setView] = useState<View>("home");
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  useEffect(() => {
+  const refreshProfile = async () => {
     if (!user) return;
-    supabase.from("profiles").select("*").eq("id", user.id).maybeSingle()
-      .then(({ data }) => data && setProfile(data as any));
-  }, [user]);
+    const { data } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
+    if (data) setProfile(data as any);
+  };
+
+  useEffect(() => { refreshProfile(); }, [user]);
 
   if (loading) return <SplashScreen />;
   if (!user) return <Navigate to="/auth" replace />;
+
+  const avatarUrl = profile?.avatar_url
+    ? supabase.storage.from("avatars").getPublicUrl(profile.avatar_url).data.publicUrl
+    : null;
 
   const goTilt = async () => {
     setView("tilt");
@@ -53,11 +60,9 @@ export default function MobileApp() {
   const screen = (() => {
     switch (view) {
       case "tilt":
-        return <TiltScreen onExit={() => setView("home")} />;
-      case "messages":
-        return <MessagesScreen onBack={() => setView("community")} />;
+        return <TiltScreen onExit={() => { setView("home"); refreshProfile(); }} />;
       case "community":
-        return <CommunityScreen onBack={() => setView("home")} onMessages={() => setView("messages")} />;
+        return <CommunityScreen onBack={() => setView("home")} />;
       case "cards":
         return <CardsScreen onBack={() => setView("home")} />;
       case "calendar":
@@ -65,20 +70,27 @@ export default function MobileApp() {
       case "profile":
         return <ProfileScreen
           name={profile?.display_name ?? t("common.defaultUserName")}
-          email={user.email || t("common.guestAccount")}
+          avatarUrl={avatarUrl}
           focusLevel={profile?.focus_level ?? 60}
           emotionalControl={profile?.emotional_control ?? 60}
           totalResets={profile?.total_resets ?? 0}
           streakDays={profile?.streak_days ?? 0}
           xp={profile?.xp ?? 0}
+          onSettings={() => setView("settings")}
+        />;
+      case "settings":
+        return <SettingsScreen
+          name={profile?.display_name ?? t("common.defaultUserName")}
+          email={user.email || t("common.guestAccount")}
+          onBack={() => setView("profile")}
           onSignOut={signOut}
         />;
       default:
         return <HomeScreen
           name={profile?.display_name ?? t("common.defaultUserName")}
+          avatarUrl={avatarUrl}
           onTilt={goTilt}
           onCards={() => setView("cards")}
-          onProgress={() => setView("calendar")}
           onProfile={() => setView("profile")}
         />;
     }
@@ -89,7 +101,7 @@ export default function MobileApp() {
     <div className="min-h-screen bg-gradient-hero md:flex md:items-center md:justify-center md:py-8">
       <div className={`md:hidden relative ${view === "cards" || view === "tilt" ? "h-dvh overflow-hidden" : "min-h-screen"}`}>
         {screen}
-        {view !== "tilt" && view !== "messages" && (
+        {view !== "tilt" && view !== "settings" && (
           <BottomNav
             active={view as Tab}
             onChange={(k) => setView(k)}
@@ -101,7 +113,7 @@ export default function MobileApp() {
         <PhoneFrame>
           <div className="relative h-full">
             {screen}
-            {view !== "tilt" && view !== "messages" && (
+            {view !== "tilt" && view !== "settings" && (
               <BottomNav active={view as Tab} onChange={(k) => setView(k)} onReset={goTilt} />
             )}
           </div>

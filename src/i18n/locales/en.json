@@ -105,6 +105,17 @@
       "recover": "Recover faster ",
       "decide": "Sharpen my decisions",
       "resilience": "Build mental resilience"
+    },
+    "recommendation": {
+      "recommendedModeLabel": "Recommended: {{mode}} · {{duration}}s",
+      "reasons": {
+        "frustration": "Frustration needs deep emotional processing: 90 seconds help you lower the activation and regain perspective.",
+        "fear": "Fear requires immediate clarity. A quick reset redirects your attention without amplifying emotion.",
+        "overthinking": "A quick reset breaks the mental loop: it interrupts the paralyzing analysis and gets you back into action.",
+        "overwhelm": "Feeling overwhelmed needs immediate focus on the present. The quick mode recalibrates your scattered attention.",
+        "unmotivated": "Low motivation is an energy problem. 90 seconds help you reconnect with purpose and meaning.",
+        "tilt": "Tilt is extreme emotional activation. It takes time for your nervous system to fully calm down."
+      }
     }
   },
   "nav": {
@@ -122,6 +133,18 @@
     "mentalCardsSubtitle": "Instruction now",
     "progressTitle": "Progress",
     "progressSubtitle": "Focus · calm · your weekly journal",
+        "calmAnchor": {
+      "eyebrow": "Inject logic · Choose your state",
+      "title": "Calm anchor",
+      "subtitle": "This space is for you to set a moment to come back to.",
+      "infoAria": "How to use the calm anchor",
+      "steps": [
+          { "title": "Breathe deeply", "body": "The main goal is to create separation between you and the emotion. This stops the \"psychic entropy.\"" },
+          { "title": "Set the anchor", "body": "As you say the phrase you're going to anchor, make a small physical gesture (like pressing your thumb). According to Robert Dilts, this is an \"anchor\": a specific stimulus that automatically evokes a previously associated inner state of calm. The phrase could remind you of a place, a person, a scent…" },
+          { "title": "Inject logic", "body": "Use the phrase to reactivate your rational mind. When emotion runs high, the brain blocks higher functions; breathing and verbalizing lets you \"inject logic\" and regain your attention." },
+          { "title": "Focus on the present", "body": "Direct your psychic energy toward a small, immediate goal. Wellbeing appears when there's \"order in consciousness,\" achieved by focusing attention on the here and now." }
+        ]
+    },
     "defaultName": "User",
     "toasts": {
       "saveError": "We couldn't save your state",
@@ -298,18 +321,70 @@
   },
   "profile": {
     "title": "Profile",
+    "settingsTitle": "Settings",
+    "settingsAria": "Open settings",
     "defaultName": "User",
+    "avatar": {
+      "changeAria": "Change profile photo",
+      "invalidType": "The file must be an image",
+      "tooLarge": "The image can't be larger than 5MB",
+      "uploadError": "We couldn't upload the photo",
+      "uploadSuccess": "Profile photo updated"
+    },
     "proBadge": "KOGNIT PRO",
     "stats": { "streak": "Streak", "resets": "Resets", "xp": "XP" },
     "focusLevel": "Focus level",
     "emotionalControl": "Emotional control",
     "achievementsTitle": "Achievements",
-    "achievementsAll": "All",
-    "achievements": [
-      { "emoji": "🛡", "title": "Tilt-proof", "subtitle": "5 resets in a row" },
-      { "emoji": "🌊", "title": "Flow state", "subtitle": "3 hrs of focus" },
-      { "emoji": "♠", "title": "Cool head", "subtitle": "You survived a downswing" }
-    ],
+    "achievementUnlocked": "Unlocked",
+    "achievementLocked": "Locked",
+    "achievementsList": {
+      "flowState": {
+        "title": "Flow state",
+        "criterion": "Keep an activity where the challenge matches your skill for at least 20 minutes.",
+        "reference": "The balance between challenge and skill creates total absorption."
+      },
+      "firstAlly": {
+        "title": "First ally",
+        "criterion": "Invite an accountability partner to track a habit together.",
+        "reference": "Social commitment increases the odds of success."
+      },
+      "fiveDayStreak": {
+        "title": "5-day streak",
+        "criterion": "Log your habits for 5 days without missing twice in a row.",
+        "reference": "The \"never miss twice\" mantra protects consistency."
+      },
+      "unstoppable": {
+        "title": "Nothing stops me",
+        "criterion": "Successfully complete a hard task in an initially unfavorable environment.",
+        "reference": "Reflects the \"autotelic personality\" that finds flow in difficulty."
+      },
+      "twoMinuteRule": {
+        "title": "Two-minute rule",
+        "criterion": "Complete the simplified version of a new habit to beat initial resistance.",
+        "reference": "Standardizing the start matters more than optimizing the outcome."
+      },
+      "caterpillarEffect": {
+        "title": "Caterpillar effect",
+        "criterion": "Identify and fix your most frequent mistake (raise your \"worst level\").",
+        "reference": "Real progress happens when you raise your performance floor."
+      },
+      "onePercentBetter": {
+        "title": "1% better daily",
+        "criterion": "Log a small improvement or marginal gain in a specific skill.",
+        "reference": "The accumulation of small gains creates huge changes over time."
+      },
+      "closingRitual": {
+        "title": "Closing ritual",
+        "criterion": "Run your work shutdown steps and say, even just to yourself, \"day is closed.\"",
+        "reference": "Frees the mind from the Zeigarnik effect (unfinished tasks) so you can rest."
+      },
+      "calmAnchor": {
+        "title": "Calm anchor",
+        "criterion": "Use a conditioned physical gesture to calm yourself in a tense moment.",
+        "reference": "Anchoring lets you recall positive internal states at will."
+      }
+    },
     "editProfile": {
       "label": "Edit profile",
       "nameLabel": "Name",
@@ -324,6 +399,15 @@
       "enableHint": "A gentle nudge to check in with yourself.",
       "scheduleLabel": "Time",
       "quote": "\"Before you play, listen to yourself. Your performance starts with your mental state.\""
+    },
+    "notifications": {
+      "label": "Notifications",
+      "off": "Off",
+      "enableLabel": "Enable notifications",
+      "enableHint": "Alert sound for app notices.",
+      "soundLabel": "Sound",
+      "preview": "Play sound",
+      "sounds": { "soft": "Soft", "classic": "Classic", "alert": "Alert" }
     },
     "testSound": {
       "aria": "Test reset sound",
@@ -377,17 +461,54 @@
     "reply": "Reply"
   },
   "messages": {
-    "title": "Messages",
-    "loading": "Loading…",
-    "empty": "You don't have any messages yet",
-    "inputPlaceholder": "Write a message...",
-    "defaultPeerName": "User"
+    "defaultPeerName": "User",
+    "inbox": {
+      "title": "Messages",
+      "searchPlaceholder": "Search conversations",
+      "tabMessages": "Messages",
+      "tabRequests": "Requests",
+      "loading": "Loading…",
+      "emptyMessages": "You don't have any messages yet",
+      "emptyRequests": "No pending requests"
+    },
+    "requests": { "accept": "Accept", "decline": "Decline" },
+    "thread": {
+      "inputPlaceholder": "Write a message...",
+      "audioPreview": "🎤 Audio",
+      "sendError": "Couldn't send the message"
+    },
+    "recording": {
+      "recording": "Recording",
+      "startAria": "Record audio",
+      "stopAria": "Stop recording",
+      "cancelAria": "Cancel recording",
+      "permissionDenied": "Couldn't access the microphone",
+      "uploadError": "Couldn't upload the audio"
+    },
+    "settings": {
+      "mute": "Mute",
+      "unmute": "Turn on notifications",
+      "block": "Block",
+      "unblock": "Unblock",
+      "delete": "Delete",
+      "blockedNotice": "You blocked this person. You can't send them messages.",
+      "confirm": {
+        "block": { "title": "Block {{name}}?", "body": "They won't be able to send you messages anymore. You can unblock them anytime.", "cta": "Block" },
+        "unblock": { "title": "Unblock {{name}}?", "body": "They'll be able to message you again.", "cta": "Unblock" },
+        "delete": { "title": "Delete this conversation?", "body": "It's removed from your inbox. If {{name}} messages you again, it'll come back.", "cta": "Delete" }
+      }
+    }
+  },
+  "publicProfile": {
+    "title": "Profile",
+    "admire": "Admire"
   },
   "noteComposer": {
     "title": "New note",
     "titlePlaceholder": "Title (optional)",
     "contentPlaceholder": "What went through your head?",
     "addImage": "Add image (optional)",
+    "addAudio": "Record audio (optional)",
     "imagePreviewAlt": "Preview",
     "privacyLabel": "Privacy",
     "private": { "label": "Private", "hint": "Only you see it" },
@@ -399,6 +520,7 @@
       "invalidImageType": "The file must be an image",
       "imageTooLarge": "The image can't be larger than 5MB",
       "uploadError": "We couldn't upload the image",
+      "audioUploadError": "We couldn't upload the audio",
       "saveError": "We couldn't save the note",
       "sharedSuccess": "Shared with the community",
       "savedSuccess": "Note saved"
