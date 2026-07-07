@@ -1,11 +1,11 @@
-import { ChevronLeft, Shuffle, RotateCw } from "lucide-react";
+import { ChevronLeft, Shuffle, RotateCw, Lock } from "lucide-react";
 import { motion, useMotionValue, animate, type PanInfo } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { CATEGORIES } from "@/data/mentalCards";
 import { useState, useRef, useEffect } from "react";
 
-interface CardsProps { onBack?: () => void; }
+interface CardsProps { onBack?: () => void; locked?: boolean; }
 
 function getRandomCard() {
   const randomCat = Math.floor(Math.random() * CATEGORIES.length);
@@ -13,7 +13,7 @@ function getRandomCard() {
   return { catIdx: randomCat, cardIdx: randomCard };
 }
 
-export const CardsScreen = ({ onBack }: CardsProps) => {
+export const CardsScreen = ({ onBack, locked }: CardsProps) => {
   const { t } = useTranslation();
   const initial = getRandomCard();
   const [catIdx, setCatIdx] = useState(initial.catIdx);
@@ -147,9 +147,14 @@ export const CardsScreen = ({ onBack }: CardsProps) => {
       </div>
 
       <div className="px-6 mt-4 shrink-0">
-        <button onClick={drawCard}
-          className="w-full py-3.5 rounded-2xl bg-foreground text-background text-sm font-bold flex items-center justify-center gap-2 shadow-card hover:opacity-90 transition-opacity">
-          <Shuffle size={16} /> {t("cards.drawCard")}
+        <button onClick={locked ? undefined : drawCard} disabled={locked}
+          className={`w-full py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition-opacity ${
+            locked
+              ? "bg-foreground/40 text-background/70 cursor-not-allowed"
+              : "bg-foreground text-background shadow-card hover:opacity-90"
+          }`}>
+          {locked ? <Lock size={16} /> : <Shuffle size={16} />}
+          {locked ? t("cards.lockedHint") : t("cards.drawCard")}
         </button>
       </div>
 

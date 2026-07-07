@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { ChevronLeft, Lock, MessageCircle, Send, ImagePlus } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,7 +14,7 @@ import { Avatar } from "@/components/kognit/Avatar";
 import { REACTIONS } from "@/data/moods";
 import { timeAgo } from "@/lib/utils";
 
-interface Props { onBack?: () => void; }
+interface Props { onBack?: () => void; locked?: boolean; }
 
 interface NoteRow {
   id: string;
@@ -45,7 +46,7 @@ async function signImagePaths(list: NoteRow[]): Promise<Map<string, string>> {
   return map;
 }
 
-export const CommunityScreen = ({ onBack }: Props) => {
+export const CommunityScreen = ({ onBack, locked }: Props) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [notes, setNotes] = useState<NoteRow[]>([]);
@@ -56,6 +57,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
   const [profileTarget, setProfileTarget] = useState<string | null>(null);
 
   const load = useCallback(async () => {
+    if (locked) { setLoading(false); return; }
     setLoading(true);
     const { data: ns } = await supabase
       .from("notes")
@@ -103,7 +105,7 @@ export const CommunityScreen = ({ onBack }: Props) => {
       imageSignedUrl: n.image_url ? signedByPath.get(n.image_url) ?? null : null,
     })));
     setLoading(false);
-  }, [user, t]);
+  }, [user, t, locked]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -130,11 +132,24 @@ export const CommunityScreen = ({ onBack }: Props) => {
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("community.eyebrow")}</p>
           <p className="text-xs font-bold">{t("community.title")}</p>
         </div>
-        <button onClick={() => setInboxOpen(true)} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
-          <MessageCircle size={18} />
-        </button>
+        {locked ? <div className="w-10" /> : (
+          <button onClick={() => setInboxOpen(true)} className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center">
+            <MessageCircle size={18} />
+          </button>
+        )}
       </div>
 
+      {locked ? (
+        <div className="px-6 mt-10 text-center">
+          <Lock size={22} className="mx-auto text-muted-foreground" />
+          <p className="mt-3 text-sm font-bold">{t("community.locked.title")}</p>
+          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed max-w-xs mx-auto">{t("community.locked.subtitle")}</p>
+          <Link to="/auth" className="mt-5 inline-block bg-gradient-primary text-primary-foreground text-xs font-bold px-5 py-2.5 rounded-full">
+            {t("community.locked.cta")}
+          </Link>
+        </div>
+      ) : (
+      <>
       <div className="mx-6 mt-4 p-4 rounded-3xl bg-gradient-primary text-primary-foreground shadow-card">
         <button onClick={() => setComposerOpen(true)}
           className="w-full bg-white/15 backdrop-blur rounded-full py-2.5 pl-4 pr-2 flex items-center justify-between gap-2 active:scale-[0.98] transition-transform">
@@ -215,6 +230,8 @@ export const CommunityScreen = ({ onBack }: Props) => {
           </div>
         ))}
       </div>
+      </>
+      )}
 
       <NoteComposer open={composerOpen} onClose={() => setComposerOpen(false)} onSaved={load} />
       {replyTarget && (

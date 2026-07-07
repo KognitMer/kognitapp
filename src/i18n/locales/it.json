@@ -272,7 +272,8 @@
     "eyebrow": "Carte Mentali",
     "flipHint": "Scorri per girare",
     "actionLabel": "Azione concreta",
-    "drawCard": "Pesca carta"
+    "drawCard": "Pesca carta",
+    "lockedHint": "Crea un account per vedere altre carte"
   },
   "calendar": {
     "days": ["L", "M", "M", "G", "V", "S", "D"],
@@ -458,7 +459,12 @@
       "subtitle": "Sii il primo a condividere una riflessione."
     },
     "defaultAuthor": "Utente",
-    "reply": "Rispondi"
+    "reply": "Rispondi",
+    "locked": {
+      "title": "Crea un account per vedere le pubblicazioni",
+      "subtitle": "Unisciti alla community di kognit per vedere le note, reagire e rispondere.",
+      "cta": "Crea account"
+    }
   },
   "messages": {
     "defaultPeerName": "Utente",

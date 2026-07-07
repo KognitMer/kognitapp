@@ -272,7 +272,8 @@
     "eyebrow": "メンタルカード",
     "flipHint": "スワイプしてカードをめくる",
     "actionLabel": "具体的なアクション",
-    "drawCard": "カードを引く"
+    "drawCard": "カードを引く",
+    "lockedHint": "もっとカードを見るにはアカウントを作成しよう"
   },
   "calendar": {
     "days": ["月", "火", "水", "木", "金", "土", "日"],
@@ -458,7 +459,12 @@
       "subtitle": "最初に振り返りを共有してみましょう。"
     },
     "defaultAuthor": "ユーザー",
-    "reply": "返信"
+    "reply": "返信",
+    "locked": {
+      "title": "投稿を見るにはアカウントを作成しよう",
+      "subtitle": "kognitのコミュニティに参加して、ノートの閲覧・リアクション・返信をしよう。",
+      "cta": "アカウント作成"
+    }
   },
   "messages": {
     "defaultPeerName": "ユーザー",

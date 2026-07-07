@@ -101,10 +101,10 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-16">
           <PhoneFrame label={t("landing.frames.onboarding")}><OnboardingScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.home")}><HomeScreen /></PhoneFrame>
-          <PhoneFrame label={t("landing.frames.cards")}><CardsScreen /></PhoneFrame>
+          <PhoneFrame label={t("landing.frames.cards")}><CardsScreen locked /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.reset")}><TiltScreen /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.calendar")}><CalendarScreen /></PhoneFrame>
-          <PhoneFrame label={t("landing.frames.community")}><CommunityScreen /></PhoneFrame>
+          <PhoneFrame label={t("landing.frames.community")}><CommunityScreen locked /></PhoneFrame>
           <PhoneFrame label={t("landing.frames.profile")}><ProfileScreen /></PhoneFrame>
           </div>
         </div>

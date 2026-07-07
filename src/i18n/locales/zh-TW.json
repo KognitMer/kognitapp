@@ -272,7 +272,8 @@
     "eyebrow": "心智卡片",
     "flipHint": "滑動來翻牌",
     "actionLabel": "具體行動",
-    "drawCard": "抽一張卡"
+    "drawCard": "抽一張卡",
+    "lockedHint": "建立帳號查看更多卡片"
   },
   "calendar": {
     "days": ["一", "二", "三", "四", "五", "六", "日"],
@@ -458,7 +459,12 @@
       "subtitle": "成為第一個分享心得的人。"
     },
     "defaultAuthor": "使用者",
-    "reply": "回覆"
+    "reply": "回覆",
+    "locked": {
+      "title": "建立帳號查看社群貼文",
+      "subtitle": "加入 kognit 社群，查看貼文、回應並回覆。",
+      "cta": "建立帳號"
+    }
   },
   "messages": {
     "defaultPeerName": "使用者",

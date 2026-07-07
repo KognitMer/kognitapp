@@ -272,7 +272,8 @@
     "eyebrow": "Mentale Karten",
     "flipHint": "Wischen, um umzudrehen",
     "actionLabel": "Konkrete Handlung",
-    "drawCard": "Karte ziehen"
+    "drawCard": "Karte ziehen",
+    "lockedHint": "Erstell ein Konto, um mehr Karten zu sehen"
   },
   "calendar": {
     "days": ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
@@ -458,7 +459,12 @@
       "subtitle": "Sei der Erste, der eine Reflexion teilt."
     },
     "defaultAuthor": "Nutzer",
-    "reply": "Antworten"
+    "reply": "Antworten",
+    "locked": {
+      "title": "Erstell ein Konto, um die Beiträge zu sehen",
+      "subtitle": "Tritt der kognit-Community bei, um Notizen zu sehen, zu reagieren und zu antworten.",
+      "cta": "Konto erstellen"
+    }
   },
   "messages": {
     "defaultPeerName": "Nutzer",

@@ -272,7 +272,8 @@
     "eyebrow": "Cartas Mentales",
     "flipHint": "Deslizá para dar vuelta",
     "actionLabel": "Acción concreta",
-    "drawCard": "Sacar carta"
+    "drawCard": "Sacar carta",
+    "lockedHint": "Creá tu cuenta para ver más cartas"
   },
   "calendar": {
     "days": ["L", "M", "M", "J", "V", "S", "D"],
@@ -462,7 +463,12 @@
       "subtitle": "Sé el primero en compartir una reflexión."
     },
     "defaultAuthor": "Usuario",
-    "reply": "Responder"
+    "reply": "Responder",
+    "locked": {
+      "title": "Creá una cuenta para ver las publicaciones",
+      "subtitle": "Sumate a la comunidad de kognit para ver notas, reaccionar y responder.",
+      "cta": "Crear cuenta"
+    }
   },
   "messages": {
     "defaultPeerName": "Usuario",

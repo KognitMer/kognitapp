@@ -272,7 +272,8 @@
     "eyebrow": "Mental Cards",
     "flipHint": "Swipe to flip",
     "actionLabel": "Concrete action",
-    "drawCard": "Draw a card"
+    "drawCard": "Draw a card",
+    "lockedHint": "Create an account to see more cards"
   },
   "calendar": {
     "days": ["M", "T", "W", "T", "F", "S", "S"],
@@ -458,7 +459,12 @@
       "subtitle": "Be the first to share a reflection."
     },
     "defaultAuthor": "User",
-    "reply": "Reply"
+    "reply": "Reply",
+    "locked": {
+      "title": "Create an account to see the posts",
+      "subtitle": "Join the kognit community to see notes, react, and reply.",
+      "cta": "Create account"
+    }
   },
   "messages": {
     "defaultPeerName": "User",

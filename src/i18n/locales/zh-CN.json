@@ -272,7 +272,8 @@
     "eyebrow": "心理卡片",
     "flipHint": "滑动翻面",
     "actionLabel": "具体行动",
-    "drawCard": "抽一张卡"
+    "drawCard": "抽一张卡",
+    "lockedHint": "创建账户查看更多卡片"
   },
   "calendar": {
     "days": ["一", "二", "三", "四", "五", "六", "日"],
@@ -458,7 +459,12 @@
       "subtitle": "成为第一个分享感悟的人。"
     },
     "defaultAuthor": "用户",
-    "reply": "回复"
+    "reply": "回复",
+    "locked": {
+      "title": "创建账户查看社区动态",
+      "subtitle": "加入 kognit 社区，查看动态、点赞回应并回复。",
+      "cta": "注册"
+    }
   },
   "messages": {
     "defaultPeerName": "用户",
