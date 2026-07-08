@@ -64,7 +64,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
     warning: "bg-warning text-warning-foreground",
     accent: "bg-gradient-deep text-primary-foreground",
     info: "bg-gradient-info text-info-foreground",
-    violet: "bg-gradient-violet text-violet-foreground",
+    cyan: "bg-gradient-cyan text-cyan-foreground",
     gold: "bg-gradient-gold text-gold-foreground",
     seafoam: "bg-gradient-seafoam text-seafoam-foreground",
   };
@@ -76,7 +76,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
     warning: "28 60% 45%",
     accent: "195 48% 58%",
     info: "212 55% 52%",
-    violet: "258 33% 65%",
+    cyan: "188 48% 54%",
     gold: "43 62% 50%",
     seafoam: "173 43% 56%",
   };

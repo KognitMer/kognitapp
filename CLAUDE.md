@@ -226,13 +226,15 @@ Color extra: `warning` (amarillo/naranja, disciplina)
 
 | id | Nombre | Accent |
 |---|---|---|
-| `habits` | Formación de hábitos | seafoam (verde agua) |
-| `focus` | Foco y concentración | info (azul) |
-| `mindfulness` | Mindfulness y Respiración | violet (violeta) |
-| `stress` | Manejo del estrés y Emociones | destructive (azul cobalto) |
-| `performance` | Rendimiento mental | primary (teal/verde azulado) |
+| `habits` | Rutinas de Éxito | seafoam (verde agua) |
+| `focus` | Poder del Enfoque | info (azul) |
+| `mindfulness` | Conexión Interna | cyan (celeste) |
+| `stress` | Dominio Emocional | destructive (azul cobalto) |
+| `performance` | Máximo Rendimiento | primary (teal/verde azulado) |
 
-Cada carta es un flip card (`Cards.tsx`): lado A muestra el título, lado B (al deslizar) muestra mensaje + acción concreta. El texto (nombre/tagline de categoría, título/mensaje/acción de cada carta) vive en `i18n/locales/es.json` bajo `mentalCards.categories.<id>`; para agregar una carta, sumar la entrada en `CATEGORIES` (`mentalCards.ts`) **y** el texto correspondiente en el JSON. No hay backend para este contenido.
+Paleta de accents restringida a matices de azul y verde en una misma tonalidad (sin violeta ni dorado) para mantener coherencia visual entre categorías.
+
+Cada carta es un flip card (`Cards.tsx`): lado A muestra el título (una pregunta), lado B (al deslizar) muestra mensaje + acción concreta. El texto (nombre/tagline de categoría, título/mensaje/acción de cada carta) vive en `i18n/locales/es.json` bajo `mentalCards.categories.<id>`; para agregar una carta, sumar la entrada en `CATEGORIES` (`mentalCards.ts`) **y** el texto correspondiente en el JSON. No hay backend para este contenido.
 
 ## Internacionalización (i18n)
 

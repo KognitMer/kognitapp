@@ -39,8 +39,8 @@
     /* Cartas de aprendizaje — colores extra por categoría */
     --info: 212 55% 52%;
     --info-foreground: 0 0% 100%;
-    --violet: 258 33% 65%;
-    --violet-foreground: 210 60% 15%;
+    --cyan: 188 48% 54%;
+    --cyan-foreground: 210 60% 12%;
     --gold: 43 62% 50%;
     --gold-foreground: 210 60% 12%;
     --seafoam: 173 43% 56%;
@@ -57,7 +57,7 @@
     --gradient-soft: linear-gradient(160deg, hsl(208 60% 96%), hsl(195 60% 94%));
     --gradient-emergency: linear-gradient(135deg, hsl(226 68% 50%), hsl(210 75% 58%));
     --gradient-info: linear-gradient(135deg, hsl(212 55% 52%), hsl(198 58% 62%));
-    --gradient-violet: linear-gradient(135deg, hsl(258 33% 65%), hsl(270 35% 74%));
+    --gradient-cyan: linear-gradient(135deg, hsl(188 48% 54%), hsl(180 50% 64%));
     --gradient-gold: linear-gradient(135deg, hsl(43 62% 50%), hsl(38 65% 60%));
     --gradient-seafoam: linear-gradient(135deg, hsl(173 43% 56%), hsl(165 45% 66%));
     --gradient-hero: radial-gradient(circle at 20% 0%, hsl(195 58% 58% / 0.24), transparent 55%),
@@ -92,8 +92,8 @@
     --accent-foreground: 210 60% 8%;
     --info: 210 55% 64%;
     --info-foreground: 210 60% 8%;
-    --violet: 258 40% 74%;
-    --violet-foreground: 210 60% 8%;
+    --cyan: 188 45% 66%;
+    --cyan-foreground: 210 60% 8%;
     --gold: 43 62% 60%;
     --gold-foreground: 210 60% 8%;
     --seafoam: 173 40% 62%;
@@ -128,7 +128,7 @@
   .bg-gradient-hero { background: var(--gradient-hero); }
   .bg-gradient-deep { background: var(--gradient-deep); }
   .bg-gradient-info { background: var(--gradient-info); }
-  .bg-gradient-violet { background: var(--gradient-violet); }
+  .bg-gradient-cyan { background: var(--gradient-cyan); }
   .bg-gradient-gold { background: var(--gradient-gold); }
   .bg-gradient-seafoam { background: var(--gradient-seafoam); }
   .shadow-soft { box-shadow: var(--shadow-soft); }
