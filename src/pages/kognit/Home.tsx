@@ -87,7 +87,7 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
 
     {/* Mascota protagonista — refleja el estado mental elegido */}
     <div className="flex justify-center mt-2 relative">
-      <div className="absolute top-6 w-44 h-44 rounded-full bg-primary-glow/25 blur-3xl" />
+      <div className="pointer-events-none absolute top-6 w-44 h-44 rounded-full bg-primary-glow/25 blur-3xl" />
       <img
         key={mood ?? "default"}
         src={mood ? moodMascotSrc(mood) : mascot}
