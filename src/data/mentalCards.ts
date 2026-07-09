@@ -1,6 +1,6 @@
 export type CardCategory = {
   id: string;
-  accent: "primary" | "destructive" | "warning" | "accent" | "info" | "cyan" | "gold" | "seafoam";
+  accent: "primary" | "destructive" | "accent" | "info" | "cyan" | "seafoam";
   cardCount: number;
 };
 

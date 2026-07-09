@@ -13,7 +13,7 @@ const moodByDay: Record<number, { c: string; mood: MoodId }> = {
   5: { c: "bg-primary/30", mood: "focus" },
   8: { c: "bg-destructive/30", mood: "tilt" },
   12: { c: "bg-primary/30", mood: "focus" },
-  14: { c: "bg-warning/40", mood: "frustrated" },
+  14: { c: "bg-cyan/40", mood: "frustrated" },
   17: { c: "bg-accent/40", mood: "calm" },
   18: { c: "bg-primary/40", mood: "focus" },
 };

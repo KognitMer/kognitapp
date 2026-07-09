@@ -205,8 +205,6 @@ Sombras: `shadow-card`, `shadow-soft`, `shadow-glow`, `shadow-emergency`
 
 Animaciones: `animate-float-slow` (mascota), `animate-pulse-ring` (botón tilt)
 
-Color extra: `warning` (amarillo/naranja, disciplina)
-
 ### Fuentes
 
 - Display / headings (`h1`-`h4`, `.font-display`): Poppins bold, tracking negativo (`-0.02em`)

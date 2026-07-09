@@ -61,11 +61,9 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
   const accentMap: Record<string, string> = {
     primary: "bg-gradient-primary text-primary-foreground",
     destructive: "bg-gradient-emergency text-destructive-foreground",
-    warning: "bg-warning text-warning-foreground",
     accent: "bg-gradient-deep text-primary-foreground",
     info: "bg-gradient-info text-info-foreground",
     cyan: "bg-gradient-cyan text-cyan-foreground",
-    gold: "bg-gradient-gold text-gold-foreground",
     seafoam: "bg-gradient-seafoam text-seafoam-foreground",
   };
 
@@ -73,11 +71,9 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
   const glowColorMap: Record<string, string> = {
     primary: "205 55% 40%",
     destructive: "226 68% 50%",
-    warning: "28 60% 45%",
     accent: "195 48% 58%",
     info: "212 55% 52%",
     cyan: "188 48% 54%",
-    gold: "43 62% 50%",
     seafoam: "173 43% 56%",
   };
   const glow = glowColorMap[cat.accent] ?? "195 48% 58%";

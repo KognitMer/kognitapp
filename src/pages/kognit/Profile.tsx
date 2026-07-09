@@ -120,7 +120,7 @@ export const ProfileScreen = ({
 
     <div className="px-6 mt-4 grid grid-cols-3 gap-3">
       {[
-        { icon: Flame, label: t("profile.stats.streak"), value: String(streakDays), c: "text-warning" },
+        { icon: Flame, label: t("profile.stats.streak"), value: String(streakDays), c: "text-cyan" },
         { icon: Brain, label: t("profile.stats.resets"), value: String(totalResets), c: "text-primary" },
         { icon: Award, label: t("profile.stats.xp"), value: String(xp), c: "text-accent" },
       ].map(s => (

@@ -89,7 +89,7 @@ export const PublicProfileSheet = ({ userId, onClose }: Props) => {
 
             <div className="mt-5 grid grid-cols-3 gap-3">
               {[
-                { icon: Flame, label: t("profile.stats.streak"), value: String(profile.streak_days), c: "text-warning" },
+                { icon: Flame, label: t("profile.stats.streak"), value: String(profile.streak_days), c: "text-cyan" },
                 { icon: Brain, label: t("profile.stats.resets"), value: String(profile.total_resets), c: "text-primary" },
                 { icon: Award, label: t("profile.stats.xp"), value: String(profile.xp), c: "text-accent" },
               ].map(s => (

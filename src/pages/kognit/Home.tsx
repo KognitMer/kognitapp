@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertOctagon, Layers, ChevronRight, UserRound, Info } from "lucide-react";
+import { AlertOctagon, ChevronRight, UserRound, Info } from "lucide-react";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { MoodIcon, moodMascotSrc } from "@/components/kognit/MoodIcon";
 import { Avatar } from "@/components/kognit/Avatar";
@@ -16,23 +16,33 @@ interface HomeProps {
   name?: string;
   avatarUrl?: string | null;
   onTilt?: () => void;
-  onCards?: () => void;
   onProfile?: () => void;
 }
 
-export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onProfile }: HomeProps) => {
+export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onProfile }: HomeProps) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [mood, setMood] = useState<MoodId | null>(null);
   const [saving, setSaving] = useState(false);
   const [anchorInfoOpen, setAnchorInfoOpen] = useState(false);
   const [anchorPhrase, setAnchorPhrase] = useState(() => getCalmAnchorPhrase());
+  const anchorTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleAnchorPhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const resizeAnchorTextarea = (el: HTMLTextAreaElement) => {
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  };
+
+  const handleAnchorPhraseChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setAnchorPhrase(value);
     setCalmAnchorPhrase(value);
+    resizeAnchorTextarea(e.target);
   };
+
+  useEffect(() => {
+    if (anchorTextareaRef.current) resizeAnchorTextarea(anchorTextareaRef.current);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -136,12 +146,8 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
       </button>
     </div>
 
-    {/* SECUNDARIAS */}
-    <div className="px-6 mt-5">
-      <ToolCard icon={Layers} title={t("home.mentalCardsTitle")} subtitle={t("home.mentalCardsSubtitle")} onClick={onCards} wide />
-    </div>
     {/* ANCLA DE CALMA — técnica de anclaje (PNL), siempre visible */}
-    <div className="px-6 mt-3">
+    <div className="px-6 mt-5">
       <div className="p-4 rounded-2xl bg-card shadow-soft relative overflow-hidden">
         <button
           onClick={() => setAnchorInfoOpen(o => !o)}
@@ -156,12 +162,13 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
             <p className="text-sm font-bold leading-tight">{t("home.calmAnchor.title")}</p>
           </div>
         </div>
-        <input
-          type="text"
+        <textarea
+          ref={anchorTextareaRef}
           value={anchorPhrase}
           onChange={handleAnchorPhraseChange}
           placeholder={t("home.calmAnchor.subtitle")}
-          className="mt-2.5 w-full bg-transparent text-[11px] text-foreground placeholder:text-muted-foreground leading-relaxed outline-none"
+          rows={1}
+          className="mt-2.5 w-full bg-transparent text-[11px] text-foreground placeholder:text-muted-foreground leading-relaxed outline-none resize-none overflow-hidden"
         />
 
         {anchorInfoOpen && (
@@ -181,15 +188,3 @@ export const HomeScreen = ({ name = "\n", avatarUrl = null, onTilt, onCards, onP
   </div>
   );
 };
-
-const ToolCard = ({ icon: Icon, title, subtitle, gradient, wide, onClick }: any) => (
-  <button onClick={onClick} className={`p-4 rounded-2xl text-left transition-all active:scale-95 ${gradient ? "bg-gradient-primary text-primary-foreground shadow-soft" : "bg-card shadow-soft"} ${wide ? "w-full flex items-center gap-3" : ""}`}>
-    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${wide ? "shrink-0" : "mb-3"} ${gradient ? "bg-white/20" : "bg-secondary text-primary"}`}>
-      <Icon size={18} />
-    </div>
-    <div>
-      <p className="text-sm font-bold leading-tight">{title}</p>
-      <p className={`text-[11px] mt-0.5 ${gradient ? "opacity-90" : "text-muted-foreground"}`}>{subtitle}</p>
-    </div>
-  </button>
-);

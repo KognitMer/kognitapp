@@ -90,7 +90,6 @@ export default function MobileApp() {
           name={profile?.display_name ?? t("common.defaultUserName")}
           avatarUrl={avatarUrl}
           onTilt={goTilt}
-          onCards={() => setView("cards")}
           onProfile={() => setView("profile")}
         />;
     }
