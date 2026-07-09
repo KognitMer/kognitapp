@@ -537,6 +537,7 @@
     "placeholder": "メッセージを入力...",
     "sending": "送信中...",
     "send": "送信",
+    "recordAudio": "音声を録音",
     "toasts": {
       "error": "メッセージを送信できませんでした",
       "success": "メッセージを送信しました"

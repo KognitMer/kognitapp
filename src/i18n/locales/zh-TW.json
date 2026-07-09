@@ -537,6 +537,7 @@
     "placeholder": "輸入你的訊息…",
     "sending": "傳送中…",
     "send": "傳送",
+    "recordAudio": "錄製語音",
     "toasts": {
       "error": "無法傳送訊息",
       "success": "訊息已傳送"

@@ -556,6 +556,7 @@
     "placeholder": "Escribí tu mensaje...",
     "sending": "Enviando...",
     "send": "Enviar",
+    "recordAudio": "Grabar audio",
     "toasts": {
       "error": "No se pudo enviar el mensaje",
       "success": "Mensaje enviado"

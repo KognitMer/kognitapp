@@ -66,25 +66,28 @@ export const CalendarScreen = () => {
   }, [year, month, isCurrentMonth, todayDate]);
 
   const selectedWeekday = WEEKDAY_NAMES[new Date(year, month, selectedDay).getDay()];
-  const dayRows = rows.filter(r => {
-    const d = new Date(r.created_at);
-    return d.getFullYear() === year && d.getMonth() === month && d.getDate() === selectedDay;
-  });
 
   const goPrev = () => setCursor(new Date(year, month - 1, 1));
   const goNext = () => setCursor(new Date(year, month + 1, 1));
 
+  // Trae TODO lo registrado el día seleccionado (sin límite arbitrario), así el
+  // historial de estado de ánimo queda accesible completo día por día, aunque
+  // se acumulen muchas notas con el tiempo.
   const load = useCallback(async () => {
     if (!user) return;
+    setLoaded(false);
+    const dayStart = new Date(year, month, selectedDay);
+    const dayEnd = new Date(year, month, selectedDay + 1);
     const { data } = await supabase
       .from("notes")
       .select("id, content, title, mood, visibility, created_at")
       .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(20);
+      .gte("created_at", dayStart.toISOString())
+      .lt("created_at", dayEnd.toISOString())
+      .order("created_at", { ascending: false });
     setRows(data ?? []);
     setLoaded(true);
-  }, [user]);
+  }, [user, year, month, selectedDay]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -237,7 +240,7 @@ export const CalendarScreen = () => {
 
     {/* Notas */}
     <div className="px-6 mt-3 space-y-3">
-      {loaded && dayRows.length === 0 && fallbackNotes.map((n, i) => (
+      {loaded && rows.length === 0 && fallbackNotes.map((n, i) => (
         <div key={i} className="p-4 rounded-2xl bg-card shadow-soft opacity-70">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -252,7 +255,7 @@ export const CalendarScreen = () => {
           <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">{n.body}</p>
         </div>
       ))}
-      {dayRows.map(n => (
+      {rows.map(n => (
         <div key={n.id} className="p-4 rounded-2xl bg-card shadow-soft">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { X, Flame, Brain, Award, HandHeart, Send } from "lucide-react";
+import { X, Flame, Brain, Award, HandHeart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { ReplyComposer } from "@/components/kognit/ReplyComposer";
 import { Avatar } from "@/components/kognit/Avatar";
 
 interface Props {
@@ -28,7 +27,6 @@ export const PublicProfileSheet = ({ userId, onClose }: Props) => {
   const [admirationCount, setAdmirationCount] = useState(0);
   const [admired, setAdmired] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [messageOpen, setMessageOpen] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -122,34 +120,18 @@ export const PublicProfileSheet = ({ userId, onClose }: Props) => {
               </div>
             </div>
 
-            <div className="mt-5 flex items-center gap-2">
+            <div className="mt-5">
               <button onClick={toggleAdmiration}
-                className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all ${
+                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all ${
                   admired ? "bg-gradient-primary text-primary-foreground shadow-glow" : "bg-secondary text-foreground"
                 }`}>
                 <HandHeart size={16} />
                 {t("publicProfile.admire")} · {admirationCount}
               </button>
-              {user && user.id !== userId && (
-                <button onClick={() => setMessageOpen(true)}
-                  className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center shrink-0">
-                  <Send size={16} />
-                </button>
-              )}
             </div>
           </>
         )}
       </div>
-
-      {messageOpen && (
-        <ReplyComposer
-          open={messageOpen}
-          onClose={() => setMessageOpen(false)}
-          recipientId={userId}
-          recipientName={displayName}
-          onSent={() => setMessageOpen(false)}
-        />
-      )}
     </div>
   );
 };

@@ -23,7 +23,6 @@ interface NoteRow {
   content: string;
   mood: string | null;
   image_url: string | null;
-  audio_path: string | null;
   created_at: string;
   author?: string;
   authorAvatarUrl?: string | null;
@@ -61,7 +60,7 @@ export const CommunityScreen = ({ onBack, locked }: Props) => {
     setLoading(true);
     const { data: ns } = await supabase
       .from("notes")
-      .select("id, user_id, title, content, mood, image_url, audio_path, created_at")
+      .select("id, user_id, title, content, mood, image_url, created_at")
       .eq("visibility", "public")
       .order("created_at", { ascending: false })
       .limit(50);
@@ -191,14 +190,6 @@ export const CommunityScreen = ({ onBack, locked }: Props) => {
                 className="mt-3 w-full max-h-64 object-cover rounded-2xl"
               />
             )}
-            {n.audio_path && (
-              <audio
-                controls
-                src={supabase.storage.from("note-audio").getPublicUrl(n.audio_path).data.publicUrl}
-                className="mt-3 w-full"
-              />
-            )}
-
             <div className="mt-3 pt-3 border-t border-border flex items-center justify-between gap-2">
               <div className="flex flex-wrap gap-1.5">
                 {REACTIONS.map(r => {
