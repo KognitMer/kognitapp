@@ -179,8 +179,9 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
 
       <div className="px-6 mt-4 shrink-0">
         {!locked && dailyLimitReached ? (
-          <div className="w-full py-3.5 rounded-2xl bg-foreground/40 text-background/70 flex flex-col items-center gap-1">
-            <p className="text-sm font-bold flex items-center gap-2"><Lock size={16} /> {t("cards.dailyLimitTitle")}</p>
+          <div className="w-full py-3.5 px-5 rounded-2xl bg-foreground/40 text-background/70 flex flex-col items-center gap-1.5 text-center">
+            <Lock size={16} />
+            <p className="text-sm font-bold leading-snug">{t("cards.dailyLimitTitle")}</p>
             <button onClick={onSubscribePress} className="text-xs font-bold underline underline-offset-2">
               {t("cards.dailyLimitSubscribe")}
             </button>
