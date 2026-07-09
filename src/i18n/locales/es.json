@@ -273,7 +273,10 @@
     "flipHint": "Deslizá para dar vuelta",
     "actionLabel": "Acción concreta",
     "drawCard": "Sacar carta",
-    "lockedHint": "Creá tu cuenta para ver más cartas"
+    "lockedHint": "Creá tu cuenta para ver más cartas",
+    "dailyLimitTitle": "Volvé mañana por un 0,1% más de aprendizaje",
+    "dailyLimitSubscribe": "Suscribite para no tener límites",
+    "subscribeComingSoon": "La suscripción todavía no está disponible"
   },
   "calendar": {
     "days": ["L", "M", "M", "J", "V", "S", "D"],

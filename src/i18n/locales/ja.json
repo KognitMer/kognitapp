@@ -273,7 +273,10 @@
     "flipHint": "スワイプしてカードをめくる",
     "actionLabel": "具体的なアクション",
     "drawCard": "カードを引く",
-    "lockedHint": "もっとカードを見るにはアカウントを作成しよう"
+    "lockedHint": "もっとカードを見るにはアカウントを作成しよう",
+    "dailyLimitTitle": "また明日、0.1%分の学びを取りに来てね",
+    "dailyLimitSubscribe": "上限をなくすには購読しよう",
+    "subscribeComingSoon": "購読機能はまだ利用できません"
   },
   "calendar": {
     "days": ["月", "火", "水", "木", "金", "土", "日"],

@@ -273,7 +273,10 @@
     "flipHint": "滑动翻面",
     "actionLabel": "具体行动",
     "drawCard": "抽一张卡",
-    "lockedHint": "创建账户查看更多卡片"
+    "lockedHint": "创建账户查看更多卡片",
+    "dailyLimitTitle": "明天再来，多获得 0.1% 的成长",
+    "dailyLimitSubscribe": "订阅后不再有限制",
+    "subscribeComingSoon": "订阅功能暂未开放"
   },
   "calendar": {
     "days": ["一", "二", "三", "四", "五", "六", "日"],

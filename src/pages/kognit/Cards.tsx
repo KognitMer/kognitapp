@@ -4,6 +4,9 @@ import { useTranslation } from "react-i18next";
 import { BottomNav } from "@/components/kognit/BottomNav";
 import { CATEGORIES } from "@/data/mentalCards";
 import { useState, useRef, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/components/ui/sonner";
 
 interface CardsProps { onBack?: () => void; locked?: boolean; }
 
@@ -13,11 +16,35 @@ function getRandomCard() {
   return { catIdx: randomCat, cardIdx: randomCard };
 }
 
+function isToday(iso: string) {
+  const d = new Date(iso);
+  const now = new Date();
+  return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+}
+
 export const CardsScreen = ({ onBack, locked }: CardsProps) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const initial = getRandomCard();
   const [catIdx, setCatIdx] = useState(initial.catIdx);
   const [cardIdx, setCardIdx] = useState(initial.cardIdx);
+  // Un usuario no suscripto tiene 1 carta gratis por día; se resuelve al cargar el perfil.
+  const [dailyLimitReached, setDailyLimitReached] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("profiles")
+      .select("is_subscribed, last_free_card_draw_at")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data) return;
+        setIsSubscribed(data.is_subscribed);
+        setDailyLimitReached(!data.is_subscribed && !!data.last_free_card_draw_at && isToday(data.last_free_card_draw_at));
+      });
+  }, [user]);
 
   const cat = CATEGORIES[catIdx];
   const catName = t(`mentalCards.categories.${cat.id}.name`);
@@ -80,9 +107,18 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
   const cardGlowStyle = { boxShadow: `0 0 45px hsl(${glow} / 0.35), inset 0 0 0 1px hsl(${glow} / 0.3)` };
 
   const drawCard = () => {
+    if (dailyLimitReached) return;
     const next = getRandomCard();
     setCatIdx(next.catIdx);
     setCardIdx(next.cardIdx);
+    if (user && !isSubscribed) {
+      setDailyLimitReached(true);
+      supabase.from("profiles").update({ last_free_card_draw_at: new Date().toISOString() }).eq("id", user.id);
+    }
+  };
+
+  const onSubscribePress = () => {
+    toast(t("cards.subscribeComingSoon"));
   };
 
   return (
@@ -142,15 +178,24 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
       </div>
 
       <div className="px-6 mt-4 shrink-0">
-        <button onClick={locked ? undefined : drawCard} disabled={locked}
-          className={`w-full py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition-opacity ${
-            locked
-              ? "bg-foreground/40 text-background/70 cursor-not-allowed"
-              : "bg-foreground text-background shadow-card hover:opacity-90"
-          }`}>
-          {locked ? <Lock size={16} /> : <Shuffle size={16} />}
-          {locked ? t("cards.lockedHint") : t("cards.drawCard")}
-        </button>
+        {!locked && dailyLimitReached ? (
+          <div className="w-full py-3.5 rounded-2xl bg-foreground/40 text-background/70 flex flex-col items-center gap-1">
+            <p className="text-sm font-bold flex items-center gap-2"><Lock size={16} /> {t("cards.dailyLimitTitle")}</p>
+            <button onClick={onSubscribePress} className="text-xs font-bold underline underline-offset-2">
+              {t("cards.dailyLimitSubscribe")}
+            </button>
+          </div>
+        ) : (
+          <button onClick={locked ? undefined : drawCard} disabled={locked}
+            className={`w-full py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition-opacity ${
+              locked
+                ? "bg-foreground/40 text-background/70 cursor-not-allowed"
+                : "bg-foreground text-background shadow-card hover:opacity-90"
+            }`}>
+            {locked ? <Lock size={16} /> : <Shuffle size={16} />}
+            {locked ? t("cards.lockedHint") : t("cards.drawCard")}
+          </button>
+        )}
       </div>
 
       <BottomNav active="cards" />

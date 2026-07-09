@@ -245,6 +245,8 @@ export type Database = {
           emotional_control: number
           focus_level: number
           id: string
+          is_subscribed: boolean
+          last_free_card_draw_at: string | null
           reminder_enabled: boolean
           reminder_time: string
           streak_days: number
@@ -259,6 +261,8 @@ export type Database = {
           emotional_control?: number
           focus_level?: number
           id: string
+          is_subscribed?: boolean
+          last_free_card_draw_at?: string | null
           reminder_enabled?: boolean
           reminder_time?: string
           streak_days?: number
@@ -273,6 +277,8 @@ export type Database = {
           emotional_control?: number
           focus_level?: number
           id?: string
+          is_subscribed?: boolean
+          last_free_card_draw_at?: string | null
           reminder_enabled?: boolean
           reminder_time?: string
           streak_days?: number

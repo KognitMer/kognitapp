@@ -273,7 +273,10 @@
     "flipHint": "Wischen, um umzudrehen",
     "actionLabel": "Konkrete Handlung",
     "drawCard": "Karte ziehen",
-    "lockedHint": "Erstell ein Konto, um mehr Karten zu sehen"
+    "lockedHint": "Erstell ein Konto, um mehr Karten zu sehen",
+    "dailyLimitTitle": "Komm morgen wieder für 0,1 % mehr Lernfortschritt",
+    "dailyLimitSubscribe": "Abonnier, um keine Limits zu haben",
+    "subscribeComingSoon": "Das Abo ist noch nicht verfügbar"
   },
   "calendar": {
     "days": ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],

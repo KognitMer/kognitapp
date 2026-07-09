@@ -81,6 +81,7 @@ Proyecto: `urebsukvtbdhtkixyyaw`
 id, display_name, focus_level, emotional_control,
 total_resets, streak_days, xp,
 reminder_enabled, reminder_time,
+is_subscribed, last_free_card_draw_at,
 created_at, updated_at
 ```
 
@@ -233,6 +234,8 @@ Animaciones: `animate-float-slow` (mascota), `animate-pulse-ring` (botón tilt)
 Paleta de accents restringida a matices de azul y verde en una misma tonalidad (sin violeta ni dorado) para mantener coherencia visual entre categorías.
 
 Cada carta es un flip card (`Cards.tsx`): lado A muestra el título (una pregunta), lado B (al deslizar) muestra mensaje + acción concreta. El texto (nombre/tagline de categoría, título/mensaje/acción de cada carta) vive en `i18n/locales/es.json` bajo `mentalCards.categories.<id>`; para agregar una carta, sumar la entrada en `CATEGORIES` (`mentalCards.ts`) **y** el texto correspondiente en el JSON. No hay backend para este contenido.
+
+**Límite diario:** un usuario con `profiles.is_subscribed = false` puede sacar 1 carta gratis por día (`profiles.last_free_card_draw_at`). Al agotarla, el botón de sacar carta se reemplaza por un mensaje de "volvé mañana" + CTA de suscripción (todavía sin cobro real conectado — el CTA solo muestra un toast de "próximamente"). La carta ya mostrada se puede seguir viendo/girando sin límite.
 
 ## Internacionalización (i18n)
 

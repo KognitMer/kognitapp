@@ -273,7 +273,10 @@
     "flipHint": "Scorri per girare",
     "actionLabel": "Azione concreta",
     "drawCard": "Pesca carta",
-    "lockedHint": "Crea un account per vedere altre carte"
+    "lockedHint": "Crea un account per vedere altre carte",
+    "dailyLimitTitle": "Torna domani per un altro 0,1% di apprendimento",
+    "dailyLimitSubscribe": "Abbonati per non avere limiti",
+    "subscribeComingSoon": "L'abbonamento non è ancora disponibile"
   },
   "calendar": {
     "days": ["L", "M", "M", "G", "V", "S", "D"],
