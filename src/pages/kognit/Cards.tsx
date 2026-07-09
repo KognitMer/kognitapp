@@ -98,9 +98,6 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
         <div className="w-10" />
       </div>
 
-      {/* Tagline de la categoría */}
-      <p className="mt-3 px-6 text-sm font-bold leading-tight shrink-0">{catTagline}</p>
-
       {/* Carta */}
       <div className="relative mt-4 mx-6 flex-1 min-h-0" style={{ perspective: 1400 }}>
         <div className="absolute inset-x-8 top-6 bottom-4 rounded-3xl bg-card shadow-soft opacity-50" />
@@ -117,6 +114,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-hidden ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", ...cardGlowStyle }}
           >
+            <p className="text-center text-[9px] uppercase tracking-[0.18em] font-bold opacity-80 shrink-0">{catTagline}</p>
             <div className="flex-1 min-h-0 flex items-center justify-center text-center">
               <h2 className="font-serif text-3xl font-semibold leading-tight">{cardTitle}</h2>
             </div>
@@ -131,6 +129,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-y-auto no-scrollbar ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", ...cardGlowStyle }}
           >
+            <p className="text-center text-[9px] uppercase tracking-[0.18em] font-bold opacity-80 shrink-0">{catTagline}</p>
             <div className="flex-1 flex flex-col justify-center">
               <p className="font-serif text-base opacity-90 leading-relaxed">{cardMessage}</p>
             </div>
