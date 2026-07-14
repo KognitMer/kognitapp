@@ -25,7 +25,7 @@ export const BottomNav = ({ active, onChange, onReset }: Props) => {
         aria-label={key}
         aria-pressed={isActive}
         className={`flex items-center justify-center w-12 h-12 rounded-2xl transition-all ${
-          isActive ? "bg-gradient-info text-info-foreground shadow-soft" : "text-muted-foreground"
+          isActive ? "bg-gradient-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
         }`}
       >
         <Icon size={20} strokeWidth={2.2} />
@@ -50,7 +50,7 @@ export const BottomNav = ({ active, onChange, onReset }: Props) => {
           <button
             onClick={onReset}
             aria-label={t("nav.resetAria")}
-            className="w-full h-full flex items-center justify-center bg-gradient-info text-info-foreground active:scale-95 transition-transform [clip-path:polygon(29.3%_0%,70.7%_0%,100%_29.3%,100%_70.7%,70.7%_100%,29.3%_100%,0%_70.7%,0%_29.3%)]"
+            className="w-full h-full flex items-center justify-center bg-gradient-primary text-primary-foreground active:scale-95 transition-transform [clip-path:polygon(29.3%_0%,70.7%_0%,100%_29.3%,100%_70.7%,70.7%_100%,29.3%_100%,0%_70.7%,0%_29.3%)]"
           >
             <AlertOctagon size={20} strokeWidth={2.2} />
           </button>

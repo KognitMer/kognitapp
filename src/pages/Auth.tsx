@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, ArrowRight, Loader2 } from "lucide-react";
-import logo from "@/assets/kognit-logo.png";
+import logo from "@/assets/kognit-logo-new.png";
 
 type Mode = "login" | "signup" | "forgot";
 

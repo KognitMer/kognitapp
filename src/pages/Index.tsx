@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Apple, Smartphone } from "lucide-react";
-import logo from "@/assets/kognit-logo.png";
+import logo from "@/assets/kognit-logo-new.png";
 import mascot from "@/assets/kognit-mascot.png";
 import { PhoneFrame } from "@/components/kognit/PhoneFrame";
 import { OnboardingScreen } from "./kognit/Onboarding";

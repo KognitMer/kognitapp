@@ -96,7 +96,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
 
   // Glow por categoría (mismo tono que su gradiente) en vez del glow cian fijo
   const glowColorMap: Record<string, string> = {
-    primary: "205 55% 40%",
+    primary: "217 78% 48%",
     destructive: "226 68% 50%",
     accent: "195 48% 58%",
     info: "212 55% 52%",

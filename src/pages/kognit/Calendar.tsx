@@ -215,7 +215,7 @@ export const CalendarScreen = () => {
               aria-pressed={isSelected}
               className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-xs font-semibold transition-all ${
                 isSelected
-                  ? "bg-gradient-info text-info-foreground shadow-soft"
+                  ? "bg-gradient-primary text-primary-foreground shadow-soft"
                   : mood
                   ? `${mood.c} text-foreground`
                   : "hover:bg-secondary text-foreground"
