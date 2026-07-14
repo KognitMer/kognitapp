@@ -157,11 +157,11 @@
     "header": "心理重置",
     "muteAria": "静音",
     "unmuteAria": "开启声音",
-    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4" },
-    "phases": { "in": "吸气", "hold": "屏息", "out": "呼气" },
+    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
+    "phases": { "in": "吸气", "hold": "屏息", "out": "呼气", "hold2": "屏息" },
     "fastMode": {
       "title": "快速模式",
-      "subtitle": "简短重置，约35秒。",
+      "subtitle": "简短重置，约65秒。",
       "cta": "现在开始呼吸"
     },
     "deepMode": {

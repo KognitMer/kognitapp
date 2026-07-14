@@ -157,11 +157,11 @@
     "header": "RESET MENTAL",
     "muteAria": "Couper le son",
     "unmuteAria": "Activer le son",
-    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4" },
-    "phases": { "in": "Inspirer", "hold": "Retenir", "out": "Expirer" },
+    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
+    "phases": { "in": "Inspirer", "hold": "Retenir", "out": "Expirer", "hold2": "Retenir" },
     "fastMode": {
       "title": "Mode Rapide",
-      "subtitle": "Reset court. ~35 secondes.",
+      "subtitle": "Reset court. ~65 secondes.",
       "cta": "Respirer Maintenant"
     },
     "deepMode": {

@@ -157,11 +157,11 @@
     "header": "MENTALER RESET",
     "muteAria": "Ton stummschalten",
     "unmuteAria": "Ton aktivieren",
-    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4" },
-    "phases": { "in": "Einatmen", "hold": "Halten", "out": "Ausatmen" },
+    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
+    "phases": { "in": "Einatmen", "hold": "Halten", "out": "Ausatmen", "hold2": "Halten" },
     "fastMode": {
       "title": "Schneller Modus",
-      "subtitle": "Kurzer Reset. ~35 Sekunden.",
+      "subtitle": "Kurzer Reset. ~65 Sekunden.",
       "cta": "Jetzt atmen"
     },
     "deepMode": {

@@ -157,11 +157,11 @@
     "header": "メンタルリセット",
     "muteAria": "音を消す",
     "unmuteAria": "音を有効にする",
-    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4" },
-    "phases": { "in": "吸う", "hold": "止める", "out": "吐く" },
+    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
+    "phases": { "in": "吸う", "hold": "止める", "out": "吐く", "hold2": "止める" },
     "fastMode": {
       "title": "クイックモード",
-      "subtitle": "短いリセット。約35秒。",
+      "subtitle": "短いリセット。約65秒。",
       "cta": "今すぐ呼吸する"
     },
     "deepMode": {

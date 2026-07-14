@@ -15,11 +15,11 @@ interface TiltProps { onExit?: () => void; }
 
 type Mode = "deep" | "fast";
 type Stage = "intro" | "pulse" | "breathe" | "grounding" | "state" | "check" | "exit";
-type Phase = "in" | "hold" | "out";
+type Phase = "in" | "hold" | "out" | "hold2";
 
 const PATTERNS: Record<Mode, { phases: Phase[]; secs: number[]; cycles: number }> = {
   deep: { phases: ["in", "hold", "out"], secs: [4, 7, 8], cycles: 3 },
-  fast: { phases: ["in", "hold", "out"], secs: [4, 4, 4], cycles: 3 },
+  fast: { phases: ["in", "hold", "out", "hold2"], secs: [4, 4, 4, 4], cycles: 4 },
 };
 
 const STATE_IDS = ["frustration", "anxiety", "impatience", "fatigue", "overconfidence", "distraction", "fear"] as const;
@@ -153,7 +153,7 @@ export const TiltScreen = ({ onExit }: TiltProps) => {
   const pattern = PATTERNS[mode];
   const phase = pattern.phases[phaseIdx];
   const phaseSecs = pattern.secs[phaseIdx];
-  const scale = phase === "in" ? 0.7 + (count / phaseSecs) * 0.55 : phase === "out" ? 1.25 - (count / phaseSecs) * 0.55 : 1.25;
+  const scale = phase === "in" ? 0.7 + (count / phaseSecs) * 0.55 : phase === "out" ? 1.25 - (count / phaseSecs) * 0.55 : phase === "hold2" ? 0.7 : 1.25;
   const totalCycles = pattern.cycles + extraCycles;
   const delta = preIntensity - postIntensity;
 

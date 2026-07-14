@@ -157,11 +157,11 @@
     "header": "心智重置",
     "muteAria": "靜音",
     "unmuteAria": "開啟音效",
-    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4" },
-    "phases": { "in": "吸氣", "hold": "屏住", "out": "吐氣" },
+    "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
+    "phases": { "in": "吸氣", "hold": "屏住", "out": "吐氣", "hold2": "屏住" },
     "fastMode": {
       "title": "快速模式",
-      "subtitle": "簡短重置。約 35 秒。",
+      "subtitle": "簡短重置。約 65 秒。",
       "cta": "現在開始呼吸"
     },
     "deepMode": {
