@@ -47,6 +47,9 @@ const Index = () => {
           <p className="mt-6 max-w-3xl text-lg md:text-xl text-muted-foreground leading-relaxed">
             {t("landing.heroSubtitle")}
           </p>
+          <p className="mt-2 max-w-3xl text-base md:text-lg text-muted-foreground leading-relaxed">
+            {t("landing.heroSubtitle2")}
+          </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
               {t("landing.ctaStart")}
