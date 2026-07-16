@@ -115,7 +115,7 @@
         "overthinking": "Un reset corto corta el bucle mental: interrumpe el análisis paralizante y te devuelve a la acción.",
         "overwhelm": "El agobio necesita foco inmediato en el presente. El modo corto recalibra tu atención dispersa.",
         "unmotivated": "La desmotivación es un problema de energía. 90 segundos te ayudan a reconectar con tu propósito y sentido.",
-        "tilt": "El tilt es una activación emocional extrema. Necesita tiempo para que tu sistema nervioso se calme por completo."
+        "tilt": "La rabia es una activación emocional extrema. Necesita tiempo para que tu sistema nervioso se calme por completo."
       }
     }
   },
@@ -161,13 +161,13 @@
     "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
     "phases": { "in": "Inhalar", "hold": "Mantener", "out": "Exhalar", "hold2": "Mantener" },
     "fastMode": {
-      "title": "Modo Rápido",
-      "subtitle": "Reset breve. ~65 segundos.",
+      "title": "Foco y Estabilidad",
+      "subtitle": "Ideal para antes de empezar o durante las pausas del juego. Mantiene tu mente fría y alerta.",
       "cta": "Respirar Ahora"
     },
     "deepMode": {
-      "title": "Modo Profundo",
-      "subtitle": "Tenés 90 segundos. Reset completo.",
+      "title": "Reset de Emergencia",
+      "subtitle": "Uso exclusivo en momentos de alta frustración o tilt. Desactiva la alarma de tu cerebro y recupera el control ya.",
       "cta": "Respirar Ahora"
     },
     "of": "de",
