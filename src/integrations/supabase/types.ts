@@ -237,6 +237,36 @@ export type Database = {
         }
         Relationships: []
       }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          p256dh: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          p256dh: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          p256dh?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -247,8 +277,10 @@ export type Database = {
           id: string
           is_subscribed: boolean
           last_free_card_draw_at: string | null
+          last_reminder_sent_on: string | null
           reminder_enabled: boolean
           reminder_time: string
+          reminder_timezone: string
           streak_days: number
           total_resets: number
           updated_at: string
@@ -263,8 +295,10 @@ export type Database = {
           id: string
           is_subscribed?: boolean
           last_free_card_draw_at?: string | null
+          last_reminder_sent_on?: string | null
           reminder_enabled?: boolean
           reminder_time?: string
+          reminder_timezone?: string
           streak_days?: number
           total_resets?: number
           updated_at?: string
@@ -279,8 +313,10 @@ export type Database = {
           id?: string
           is_subscribed?: boolean
           last_free_card_draw_at?: string | null
+          last_reminder_sent_on?: string | null
           reminder_enabled?: boolean
           reminder_time?: string
+          reminder_timezone?: string
           streak_days?: number
           total_resets?: number
           updated_at?: string

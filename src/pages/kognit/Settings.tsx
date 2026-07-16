@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { playBong, playNotificationSound } from "@/lib/sound";
+import { subscribeToPush, unsubscribeFromPush } from "@/lib/push";
 import { toast } from "@/components/ui/sonner";
 import {
   getDarkMode, setDarkMode, getSoundEnabled, setSoundEnabled, getVibrationEnabled, setVibrationEnabled,
@@ -68,10 +69,30 @@ export const SettingsScreen = ({ name, email = "—", onBack, onSignOut }: Setti
     window.setTimeout(() => setSoundFeedback(null), 1800);
   };
 
-  const saveReminders = async (enabled: boolean, time: string) => {
-    setReminderEnabled(enabled); setReminderTime(time);
+  const toggleReminderEnabled = async (enabled: boolean) => {
     if (!user) return;
-    await supabase.from("profiles").update({ reminder_enabled: enabled, reminder_time: time }).eq("id", user.id);
+    if (!enabled) {
+      setReminderEnabled(false);
+      await unsubscribeFromPush(user.id);
+      await supabase.from("profiles").update({ reminder_enabled: false }).eq("id", user.id);
+      return;
+    }
+    const result = await subscribeToPush(user.id);
+    if (!result.ok) {
+      const key = result.reason === "unsupported" ? "unsupported" : result.reason === "permission-denied" ? "permissionDenied" : "generic";
+      toast.error(t(`profile.reminders.errors.${key}`));
+      return;
+    }
+    setReminderEnabled(true);
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    await supabase.from("profiles").update({ reminder_enabled: true, reminder_timezone: timezone }).eq("id", user.id);
+  };
+
+  const changeReminderTime = async (time: string) => {
+    setReminderTime(time);
+    if (!user) return;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    await supabase.from("profiles").update({ reminder_time: time, reminder_timezone: timezone }).eq("id", user.id);
   };
 
   const saveName = async () => {
@@ -225,12 +246,12 @@ export const SettingsScreen = ({ name, email = "—", onBack, onSignOut }: Setti
                 <p className="text-sm font-semibold">{t("profile.reminders.enableLabel")}</p>
                 <p className="text-[11px] text-muted-foreground">{t("profile.reminders.enableHint")}</p>
               </div>
-              <Switch checked={reminderEnabled} onCheckedChange={(v) => saveReminders(v, reminderTime)} />
+              <Switch checked={reminderEnabled} onCheckedChange={toggleReminderEnabled} />
             </div>
             <div className="flex items-center justify-between">
               <p className="text-sm font-semibold">{t("profile.reminders.scheduleLabel")}</p>
               <input type="time" value={reminderTime}
-                onChange={(e) => saveReminders(reminderEnabled, e.target.value)}
+                onChange={(e) => changeReminderTime(e.target.value)}
                 className="bg-secondary px-3 py-1.5 rounded-lg text-sm font-semibold focus:outline-none" />
             </div>
             <p className="text-[11px] text-muted-foreground italic">{t("profile.reminders.quote")}</p>

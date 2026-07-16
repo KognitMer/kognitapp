@@ -114,6 +114,12 @@ id, sender_id, recipient_id, note_id (→notes, nullable),
 content, read, created_at
 ```
 
+**`push_subscriptions`** — subscriptions de Web Push por dispositivo, para el recordatorio diario push
+```
+id, user_id, endpoint, p256dh, auth, user_agent, created_at
+```
+`profiles` además tiene `reminder_timezone` (IANA tz, capturada del browser al activar el recordatorio) y `last_reminder_sent_on` (dedupe del envío diario).
+
 ### Storage
 
 Bucket público `note-images` (imágenes opcionales adjuntas a notas de comunidad).
@@ -134,9 +140,12 @@ Tipos generados en `src/integrations/supabase/types.ts`. Si se modifica el schem
 ```
 VITE_SUPABASE_URL
 VITE_SUPABASE_PUBLISHABLE_KEY
+VITE_VAPID_PUBLIC_KEY
 ```
 
 Definidas en `.env` (no commitear). El `.env` está en `.gitignore`.
+
+`VITE_VAPID_PUBLIC_KEY` es la clave pública del par VAPID usado para el recordatorio push diario (ver sección "Recordatorio push"). La privada vive como secret de la Edge Function `send-reminders`, nunca en el repo.
 
 ## Auth
 
@@ -274,6 +283,12 @@ intro → pulse (pre_intensity) → breathe → grounding → state → check (p
 - Al llegar a `exit`, guarda un `reset_sessions` en Supabase
 - `sessionSavedRef` previene doble-guardado
 - Sonido via `playBong()` (Web Audio API), activable por el usuario
+
+## Recordatorio push
+
+`Profile.tsx` → `Settings.tsx` tiene el switch de "Recordatorio diario". Al activarlo, `src/lib/push.ts` pide permiso de notificaciones, suscribe el browser a Web Push (`VITE_VAPID_PUBLIC_KEY`) y guarda la subscription en `push_subscriptions`; recién ahí se persiste `profiles.reminder_enabled = true` (si la suscripción falla, no se toca la DB). `public/sw.js` es el service worker que muestra la notificación (sin payload cifrado — texto fijo) y abre `/app` al tocarla.
+
+El envío corre server-side: la Edge Function `supabase/functions/send-reminders` (invocada cada 5 min por un cron job de `pg_cron`/`pg_net`, autenticado con un header `x-cron-secret` guardado en Supabase Vault) recorre los perfiles con `reminder_enabled = true`, calcula la hora local por `reminder_timezone` y manda el push firmando el JWT VAPID a mano con Web Crypto (sin depender de `web-push` en Deno). `last_reminder_sent_on` evita duplicados por día.
 
 ## Reacciones en comunidad
 

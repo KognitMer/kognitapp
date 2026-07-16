@@ -1,1 +1,6 @@
 project_id = "urebsukvtbdhtkixyyaw"
+
+[functions.send-reminders]
+# La invoca pg_net (cron), no una sesión de usuario — no hay JWT de Supabase que verificar.
+# La auth es el header x-cron-secret, chequeado a mano dentro de la función.
+verify_jwt = false
