@@ -161,13 +161,13 @@
     "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
     "phases": { "in": "Inspirer", "hold": "Retenir", "out": "Expirer", "hold2": "Retenir" },
     "fastMode": {
-      "title": "Mode Rapide",
-      "subtitle": "Reset court. ~65 secondes.",
+      "title": "Concentration et Stabilité",
+      "subtitle": "Idéal avant de commencer ta journée ou pendant les pauses de concentration. Garde ton esprit clair, calme et alerte.",
       "cta": "Respirer Maintenant"
     },
     "deepMode": {
-      "title": "Mode Profond",
-      "subtitle": "Tu as 90 secondes. Reset complet.",
+      "title": "Reset d'Urgence",
+      "subtitle": "Recommandé dans les moments de forte pression, de stress ou de frustration. Désactive l'alarme de ton cerveau et t'aide à reprendre le contrôle immédiatement.",
       "cta": "Respirer Maintenant"
     },
     "of": "sur",

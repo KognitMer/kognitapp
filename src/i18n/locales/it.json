@@ -161,13 +161,13 @@
     "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
     "phases": { "in": "Inspira", "hold": "Trattieni", "out": "Espira", "hold2": "Trattieni" },
     "fastMode": {
-      "title": "Modalità Rapida",
-      "subtitle": "Reset breve. ~65 secondi.",
+      "title": "Focus e Stabilità",
+      "subtitle": "Ideale prima di iniziare la giornata o durante le pause di concentrazione. Mantiene la mente chiara, fredda e vigile.",
       "cta": "Respira Ora"
     },
     "deepMode": {
-      "title": "Modalità Profonda",
-      "subtitle": "Hai 90 secondi. Reset completo.",
+      "title": "Reset di Emergenza",
+      "subtitle": "Consigliato nei momenti di forte pressione, stress o frustrazione. Disattiva l'allarme del cervello e aiuta a riprendere subito il controllo.",
       "cta": "Respira Ora"
     },
     "of": "di",

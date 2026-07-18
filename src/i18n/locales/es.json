@@ -162,12 +162,12 @@
     "phases": { "in": "Inhalar", "hold": "Mantener", "out": "Exhalar", "hold2": "Mantener" },
     "fastMode": {
       "title": "Foco y Estabilidad",
-      "subtitle": "Ideal para antes de empezar o durante las pausas del juego. Mantiene tu mente fría y alerta.",
+      "subtitle": "Ideal para antes de comenzar tu jornada o durante las pausas de enfoque. Mantiene tu mente clara, fría y alerta.",
       "cta": "Respirar Ahora"
     },
     "deepMode": {
       "title": "Reset de Emergencia",
-      "subtitle": "Uso exclusivo en momentos de alta frustración o tilt. Desactiva la alarma de tu cerebro y recupera el control ya.",
+      "subtitle": "Uso recomendado en momentos de alta presión, estrés o frustración. Desactiva la alarma de tu cerebro y recupera el control de inmediato.",
       "cta": "Respirar Ahora"
     },
     "of": "de",

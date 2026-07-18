@@ -161,13 +161,13 @@
     "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
     "phases": { "in": "Einatmen", "hold": "Halten", "out": "Ausatmen", "hold2": "Halten" },
     "fastMode": {
-      "title": "Schneller Modus",
-      "subtitle": "Kurzer Reset. ~65 Sekunden.",
+      "title": "Fokus & Stabilität",
+      "subtitle": "Ideal vor Beginn deines Tages oder in Konzentrationspausen. Hält deinen Kopf klar, kühl und wach.",
       "cta": "Jetzt atmen"
     },
     "deepMode": {
-      "title": "Tiefer Modus",
-      "subtitle": "Du hast 90 Sekunden. Vollständiger Reset.",
+      "title": "Notfall-Reset",
+      "subtitle": "Empfohlen in Momenten hoher Anspannung, Stress oder Frustration. Schaltet den Alarm deines Gehirns ab und hilft dir, sofort wieder die Kontrolle zu übernehmen.",
       "cta": "Jetzt atmen"
     },
     "of": "von",

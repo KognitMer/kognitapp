@@ -161,13 +161,13 @@
     "patternLabels": { "deep": "4 · 7 · 8", "fast": "4 · 4 · 4 · 4" },
     "phases": { "in": "Inhale", "hold": "Hold", "out": "Exhale", "hold2": "Hold" },
     "fastMode": {
-      "title": "Fast Mode",
-      "subtitle": "Quick reset. ~65 seconds.",
+      "title": "Focus & Stability",
+      "subtitle": "Ideal before starting your day or during focus breaks. Keeps your mind clear, cool, and alert.",
       "cta": "Breathe Now"
     },
     "deepMode": {
-      "title": "Deep Mode",
-      "subtitle": "You have 90 seconds. Full reset.",
+      "title": "Emergency Reset",
+      "subtitle": "Recommended in moments of high pressure, stress, or frustration. Turns off your brain's alarm and helps you regain control right away.",
       "cta": "Breathe Now"
     },
     "of": "of",
