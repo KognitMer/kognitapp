@@ -226,13 +226,13 @@
         "fear": "Furcht"
       },
       "messages": {
-        "frustration": ["Eine Hand bestimmt nicht deine Session.", "Kehr zur Entscheidung zurück, nicht zum Ergebnis."],
-        "anxiety": ["Atme. Beobachte. Mach weiter.", "Du musst gerade nichts wiedergutmachen."],
-        "impatience": ["Dein nächster Schritt ist das Einzige, was zählt.", "Warte eine Runde ab, bevor du wieder ins Tempo kommst."],
-        "fatigue": ["Wenn dein Körper eine Pause verlangt, hör auf ihn.", "Solide zu spielen wiegt mehr als viel zu spielen."],
-        "overconfidence": ["Kehr zu deiner Range nach Position zurück.", "Der Prozess ist verlässlicher als die Glückssträhne."],
-        "distraction": ["Eine Entscheidung nach der anderen.", "Schließ alles, was nicht der Tisch ist."],
-        "fear": ["Entscheide aus dem Plan heraus, nicht aus der Angst.", "Das Ergebnis spielt diese Hand nicht: dein Lesen schon."]
+        "frustration": ["Was passiert ist, ist passiert: deine Aufmerksamkeit gilt dem, was als Nächstes kommt.", "Kehr zur Gegenwart zurück, nicht zum Ergebnis."],
+        "anxiety": ["Atme. Beobachte. Mach weiter.", "Du musst jetzt nichts lösen."],
+        "impatience": ["Dein nächster Schritt ist das Einzige, was zählt.", "Gönn dir einen Moment, bevor du das Tempo wieder aufnimmst."],
+        "fatigue": ["Wenn dein Körper eine Pause verlangt, hör auf ihn.", "Gut zu sein wiegt mehr als viel zu tun."],
+        "overconfidence": ["Kehr zur Aufmerksamkeit zurück, nicht zum Autopiloten.", "Der Prozess zählt mehr als der Schwung."],
+        "distraction": ["Eine Sache nach der anderen.", "Schließ, was dich ablenkt."],
+        "fear": ["Entscheide aus der Ruhe heraus, nicht aus der Angst.", "Dein Fokus hängt nicht vom Ergebnis ab."]
       }
     },
     "defaultExitMessage": "Komm mit klarem Kopf zurück.",

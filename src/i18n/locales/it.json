@@ -226,13 +226,13 @@
         "fear": "Paura"
       },
       "messages": {
-        "frustration": ["Una mano non definisce la tua sessione.", "Torna alla decisione, non al risultato."],
-        "anxiety": ["Respira. Osserva. Continua.", "Non hai bisogno di recuperare niente ora."],
-        "impatience": ["Il tuo prossimo passo è l'unica cosa che conta.", "Aspetta un giro prima di tornare al ritmo."],
-        "fatigue": ["Se il corpo chiede una pausa, ascoltalo.", "Giocare solido conta più che giocare molto."],
-        "overconfidence": ["Torna al tuo range per posizione.", "Il processo è più affidabile della serie fortunata."],
-        "distraction": ["Una decisione alla volta.", "Chiudi tutto ciò che non è il tavolo."],
-        "fear": ["Decidi in base al piano, non alla paura.", "Il risultato non gioca questa mano: la tua lettura sì."]
+        "frustration": ["Quello che è successo, è successo: la tua attenzione è su ciò che viene dopo.", "Torna al presente, non al risultato."],
+        "anxiety": ["Respira. Osserva. Continua.", "Non devi risolvere nulla adesso."],
+        "impatience": ["Il tuo prossimo passo è l'unica cosa che conta.", "Concediti un momento prima di riprendere il ritmo."],
+        "fatigue": ["Se il corpo chiede una pausa, ascoltalo.", "Rendere bene pesa più che rendere tanto."],
+        "overconfidence": ["Torna a prestare attenzione, non al pilota automatico.", "Il processo conta più dello slancio."],
+        "distraction": ["Una cosa alla volta.", "Chiudi ciò che ti distrae."],
+        "fear": ["Decidi dalla calma, non dalla paura.", "Il tuo focus non dipende dal risultato."]
       }
     },
     "defaultExitMessage": "Torna con la testa a posto.",

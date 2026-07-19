@@ -226,13 +226,13 @@
         "fear": "Fear"
       },
       "messages": {
-        "frustration": ["One hand doesn't define your session.", "Go back to the decision, not the outcome."],
-        "anxiety": ["Breathe. Observe. Continue.", "You don't need to recover anything right now."],
-        "impatience": ["Your next step is the only thing that matters.", "Wait one round before returning to the pace."],
-        "fatigue": ["If your body asks for a break, listen to it.", "Playing solid outweighs playing a lot."],
-        "overconfidence": ["Go back to your range by position.", "The process is more reliable than the streak."],
-        "distraction": ["One decision at a time.", "Close whatever isn't the table."],
-        "fear": ["Decide from the plan, not from fear.", "The outcome doesn't play this hand: your read does."]
+        "frustration": ["What happened, happened — your attention is on what's next.", "Come back to the present, not the outcome."],
+        "anxiety": ["Breathe. Observe. Continue.", "You don't need to solve anything right now."],
+        "impatience": ["Your next step is the only thing that matters.", "Give yourself a moment before picking up the pace again."],
+        "fatigue": ["If your body asks for a break, listen to it.", "Performing well outweighs performing a lot."],
+        "overconfidence": ["Come back to paying attention, not autopilot.", "The process matters more than the momentum."],
+        "distraction": ["One thing at a time.", "Close whatever is pulling your focus away."],
+        "fear": ["Decide from calm, not from fear.", "Your focus doesn't depend on the outcome."]
       }
     },
     "defaultExitMessage": "Come back with a clear head.",

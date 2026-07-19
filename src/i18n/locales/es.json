@@ -226,13 +226,13 @@
         "fear": "Miedo"
       },
       "messages": {
-        "frustration": ["Una mano no define tu sesión.", "Volvé a la decisión, no al resultado."],
-        "anxiety": ["Respirá. Observá. Continuá.", "No necesitás recuperar nada ahora."],
-        "impatience": ["Tu próximo paso es lo único que importa.", "Esperá una ronda antes de volver al ritmo."],
-        "fatigue": ["Si el cuerpo pide pausa, escuchalo.", "Jugar sólido pesa más que jugar mucho."],
-        "overconfidence": ["Volvé a tu rango por posición.", "El proceso es más confiable que la racha."],
-        "distraction": ["Una decisión a la vez.", "Cerrá lo que no es la mesa."],
-        "fear": ["Decidí desde el plan, no desde el miedo.", "El resultado no juega esta mano: tu lectura sí."]
+        "frustration": ["Lo que pasó, ya pasó: tu atención está en lo que sigue.", "Volvé al presente, no al resultado."],
+        "anxiety": ["Respirá. Observá. Continuá.", "No necesitás resolver nada ahora mismo."],
+        "impatience": ["Tu próximo paso es lo único que importa.", "Date un momento antes de retomar el ritmo."],
+        "fatigue": ["Si el cuerpo pide pausa, escuchalo.", "Rendir bien pesa más que rendir mucho."],
+        "overconfidence": ["Volvé a prestar atención, no al piloto automático.", "El proceso importa más que el envión."],
+        "distraction": ["Una cosa a la vez.", "Cerrá lo que te dispersa."],
+        "fear": ["Decidí desde la calma, no desde el miedo.", "Tu foco no depende del resultado."]
       }
     },
     "defaultExitMessage": "Volvé con cabeza.",

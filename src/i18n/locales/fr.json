@@ -226,13 +226,13 @@
         "fear": "Peur"
       },
       "messages": {
-        "frustration": ["Une main ne définit pas ta session.", "Reviens à la décision, pas au résultat."],
-        "anxiety": ["Respire. Observe. Continue.", "Tu n'as rien à récupérer maintenant."],
-        "impatience": ["Ta prochaine étape est la seule chose qui compte.", "Attends un tour avant de reprendre le rythme."],
-        "fatigue": ["Si ton corps demande une pause, écoute-le.", "Jouer solide compte plus que jouer beaucoup."],
-        "overconfidence": ["Reviens à ton range par position.", "Le processus est plus fiable que la série."],
-        "distraction": ["Une décision à la fois.", "Ferme tout ce qui n'est pas la table."],
-        "fear": ["Décide à partir du plan, pas de la peur.", "Le résultat ne joue pas cette main : ta lecture, si."]
+        "frustration": ["Ce qui est arrivé est arrivé : ton attention est sur la suite.", "Reviens au présent, pas au résultat."],
+        "anxiety": ["Respire. Observe. Continue.", "Tu n'as rien à résoudre maintenant."],
+        "impatience": ["Ta prochaine étape est la seule chose qui compte.", "Accorde-toi un instant avant de reprendre le rythme."],
+        "fatigue": ["Si ton corps demande une pause, écoute-le.", "Bien performer pèse plus que performer beaucoup."],
+        "overconfidence": ["Reviens à l'attention, pas au pilote automatique.", "Le processus compte plus que l'élan."],
+        "distraction": ["Une chose à la fois.", "Ferme ce qui te disperse."],
+        "fear": ["Décide depuis le calme, pas depuis la peur.", "Ton focus ne dépend pas du résultat."]
       }
     },
     "defaultExitMessage": "Reviens avec la tête froide.",
