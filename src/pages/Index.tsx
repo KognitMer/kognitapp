@@ -27,20 +27,14 @@ const Index = () => {
               className="relative w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
             />
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex items-baseline gap-2">
-              <p className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none">{t("app.name")}</p>
-              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
-            </div>
-            <span className="mt-1.5 text-base md:text-lg font-medium text-muted-foreground tracking-wide">{t("app.tagline")}</span>
+          <div className="flex items-baseline gap-2">
+            <p className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none">{t("app.name")}</p>
+            <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
           </div>
         </div>
 
         <div className="mt-12">
-          <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-            {t("landing.badge")}
-          </span>
-          <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
             <span className="block">{t("landing.heroTitleLine1")}</span>
             <span className="text-gradient block">{t("landing.heroTitleLine2")}</span>
           </h1>
