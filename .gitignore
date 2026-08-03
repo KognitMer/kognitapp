@@ -27,3 +27,9 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Mental cards review assets — generated locally, not app source
+/card-previews/
+/card-previews-en/
+/mental-cards-handoff/
+/mental-cards-gallery.html

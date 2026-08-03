@@ -234,11 +234,11 @@ Animaciones: `animate-float-slow` (mascota), `animate-pulse-ring` (botón tilt)
 
 | id | Nombre | Accent |
 |---|---|---|
-| `habits` | Rutinas de Éxito | seafoam (verde agua) |
-| `focus` | Poder del Enfoque | info (azul) |
-| `mindfulness` | Conexión Interna | cyan (celeste) |
-| `stress` | Dominio Emocional | destructive (azul cobalto) |
-| `performance` | Máximo Rendimiento | primary (teal/verde azulado) |
+| `reframe` | Perspectiva y Enfoque | seafoam (verde agua) |
+| `regulation` | Equilibrio y Presencia | destructive (azul cobalto) |
+| `flow` | Acción y Concentración | cyan (celeste) |
+| `systems` | Sistemas y Consistencia | primary (teal/verde azulado) |
+| `logic` | Realidad y Estrategia | info (azul) |
 
 Paleta de accents restringida a matices de azul y verde en una misma tonalidad (sin violeta ni dorado) para mantener coherencia visual entre categorías.
 
