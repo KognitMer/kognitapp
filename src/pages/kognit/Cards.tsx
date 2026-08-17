@@ -7,6 +7,11 @@ import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/sonner";
+import watermarkReframe from "@/assets/card-watermark-reframe.svg";
+import watermarkRegulation from "@/assets/card-watermark-regulation.png";
+import watermarkFlow from "@/assets/card-watermark-flow.png";
+import watermarkSystems from "@/assets/card-watermark-systems.png";
+import watermarkLogic from "@/assets/card-watermark-logic.png";
 
 interface CardsProps { onBack?: () => void; locked?: boolean; }
 
@@ -92,6 +97,7 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
     info: "bg-gradient-info text-info-foreground",
     cyan: "bg-gradient-cyan text-cyan-foreground",
     seafoam: "bg-gradient-seafoam text-seafoam-foreground",
+    azure: "bg-gradient-azure text-azure-foreground",
   };
 
   // Glow por categoría (mismo tono que su gradiente) en vez del glow cian fijo
@@ -102,9 +108,20 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
     info: "212 55% 52%",
     cyan: "188 48% 54%",
     seafoam: "173 43% 56%",
+    azure: "200 70% 45%",
   };
   const glow = glowColorMap[cat.accent] ?? "195 48% 58%";
   const cardGlowStyle = { boxShadow: `0 0 45px hsl(${glow} / 0.35), inset 0 0 0 1px hsl(${glow} / 0.3)` };
+
+  // Marca de agua por categoría — misma ilustración usada en la galería de referencia
+  const watermarkMap: Record<string, string> = {
+    reframe: watermarkReframe,
+    regulation: watermarkRegulation,
+    flow: watermarkFlow,
+    systems: watermarkSystems,
+    logic: watermarkLogic,
+  };
+  const watermark = watermarkMap[cat.id];
 
   const drawCard = () => {
     if (dailyLimitReached) return;
@@ -150,6 +167,18 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-hidden ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", ...cardGlowStyle }}
           >
+            {watermark && (
+              <img
+                src={watermark}
+                alt=""
+                aria-hidden="true"
+                className={
+                  cat.id === "reframe"
+                    ? "absolute right-[2%] bottom-[2%] w-[46%] opacity-[0.22] pointer-events-none select-none"
+                    : "absolute -right-[6%] -bottom-[4%] w-[58%] opacity-20 pointer-events-none select-none"
+                }
+              />
+            )}
             <p className="text-center text-[9px] uppercase tracking-[0.18em] font-bold opacity-80 shrink-0">{catTagline}</p>
             <div className="flex-1 min-h-0 flex items-center justify-center text-center">
               <h2 className="font-serif text-3xl font-semibold leading-tight">{cardTitle}</h2>
@@ -165,6 +194,14 @@ export const CardsScreen = ({ onBack, locked }: CardsProps) => {
             className={`absolute inset-0 rounded-3xl p-6 flex flex-col overflow-y-auto no-scrollbar ${accentMap[cat.accent]}`}
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", ...cardGlowStyle }}
           >
+            {watermark && (
+              <img
+                src={watermark}
+                alt=""
+                aria-hidden="true"
+                className="absolute right-[2%] bottom-[2%] w-[40%] opacity-[0.14] pointer-events-none select-none"
+              />
+            )}
             <p className="text-center text-[9px] uppercase tracking-[0.18em] font-bold opacity-80 shrink-0">{catTagline}</p>
             <div className="flex-1 flex flex-col justify-center">
               <p className="font-serif text-base opacity-90 leading-relaxed">{cardMessage}</p>

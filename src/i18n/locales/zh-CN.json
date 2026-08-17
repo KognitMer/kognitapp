@@ -36,7 +36,7 @@
       "forgot": "我们会给你发送一个重置密码的链接。"
     },
     "placeholders": {
-      "name": "玩家昵称",
+      "name": "你的名字",
       "email": "邮箱",
       "password": "密码"
     },
@@ -64,7 +64,7 @@
     }
   },
   "landing": {
-    "logoAlt": "kognit 标志，一款面向扑克玩家的心理训练应用",
+    "logoAlt": "kognit 标志，一款帮助你提升心智与生活的心理训练应用",
     "badge": "● 心理日记 - 心理训练 - 社区",
     "heroTitleLine1": "训练你的心态",
     "heroTitleLine2": "像运动员一样",
@@ -89,7 +89,20 @@
       "community": "06 · 社区",
       "profile": "07 · 用户资料"
     },
-    "footer": "kognit · 专为压力时刻设计"
+    "footer": "kognit · 专为压力时刻设计",
+    "testerProgram": {
+      "trigger": "成为测试员",
+      "eyebrow": "测试员计划",
+      "title": "加入志愿测试员计划",
+      "description": "我们正在招募希望在正式发布前体验 kognit 的人，并通过真实反馈帮助我们改进产品。",
+      "instructionsTitle": "参与方式",
+      "instructions": "填写注册表即可申请。入选后，你将以测试为目的使用应用，并至少每周提交一次简短反馈。",
+      "voluntary": "参与完全自愿，你可以随时退出。",
+      "primaryCta": "填写表单",
+      "secondaryCta": "暂时不要",
+      "closeAria": "关闭测试员邀请",
+      "applicationNote": "你正在申请成为志愿测试员并体验 kognit。"
+    }
   },
   "splash": {
     "subtitle": "训练你的心态"
@@ -158,7 +171,7 @@
     "currentMoodHint": "点击以记录",
     "protocolLabel": "流程 ",
     "resetTitle": "重置 ",
-    "resetSubtitle": "呼吸，找回专注",
+    "resetSubtitle": "引导呼吸和着陆练习，降低强烈情绪。",
     "mentalCardsTitle": "心理卡片",
     "mentalCardsSubtitle": "现在的指引",
     "progressTitle": "进度",
@@ -185,14 +198,19 @@
           "title": "专注当下",
           "body": "把你的心理能量导向一个小而立即的目标。当\"意识中有秩序\"时，幸福感就会出现，而这是通过把注意力集中在此时此地实现的。"
         }
-      ]
+      ],
+      "introLine": "非常适合用来设定你的平静锚点。",
+      "editHint": "点击编辑",
+      "bottomSubtitle": "一句你状态好时设定的话，在状态不好时可以回归它。",
+      "howItWorks": "锚点是如何起作用的？"
     },
     "defaultName": "用户",
     "toasts": {
       "saveError": "无法保存你的状态",
       "saveSuccess": "已记录到你的心理日记"
     },
-    "moodNoteContent": "心理状态：{{label}}"
+    "moodNoteContent": "心理状态：{{label}}",
+    "resetCta": "开始"
   },
   "tilt": {
     "exitAria": "退出重置",
@@ -438,22 +456,22 @@
       {
         "time": "20:30",
         "mood": "focus",
-        "title": "NL50 训练 — 2小时",
-        "body": "在困难局面下控制得不错。读到河牌成套后弃牌，结果没有影响我的状态。",
+        "title": "专注时段 — 2小时",
+        "body": "在困难时刻控制得不错。在一项复杂任务中遇到了阻力，但结果没有影响我的状态。",
         "tag": "专注"
       },
       {
         "time": "15:10",
         "mood": "tilt",
-        "title": "Bad Beat 后的恢复",
-        "body": "三条对到 runner-runner 同花。做了4-7-8呼吸，6分钟后清醒地回到牌桌。",
+        "title": "艰难时刻后的恢复",
+        "body": "有些事没有如预期发展。做了4-7-8呼吸，6分钟后清醒地恢复过来。",
         "tag": "重置"
       },
       {
         "time": "09:00",
         "mood": "calm",
-        "title": "赛前仪式",
-        "body": "回顾了昨天的3手关键牌。设定止损：3个买入。",
+        "title": "晨间仪式",
+        "body": "回顾了昨天的3个关键时刻。设定了今天的底线。",
         "tag": "仪式"
       }
     ]
@@ -714,6 +732,7 @@
     "options": {
       "calm": "平静",
       "focus": "专注",
+      "motivated": "有动力",
       "neutral": "中性",
       "frustrated": "沮丧",
       "tilt": "上头"

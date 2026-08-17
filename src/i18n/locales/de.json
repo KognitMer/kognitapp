@@ -36,7 +36,7 @@
       "forgot": "Wir schicken dir einen Link, um dein Passwort zurückzusetzen."
     },
     "placeholders": {
-      "name": "Spielername",
+      "name": "Dein Name",
       "email": "E-Mail",
       "password": "Passwort"
     },
@@ -64,7 +64,7 @@
     }
   },
   "landing": {
-    "logoAlt": "Logo von kognit, App für mentales Training für Pokerspieler",
+    "logoAlt": "Logo von kognit, App für mentales Training, um deinen Geist und dein Leben zu verbessern",
     "badge": "● MENTALES TAGEBUCH - MENTALTRAINING - COMMUNITY",
     "heroTitleLine1": "Trainiere deinen Kopf",
     "heroTitleLine2": "wie ein Athlet",
@@ -89,7 +89,20 @@
       "community": "06 · Community",
       "profile": "07 · Nutzerprofil"
     },
-    "footer": "kognit · entwickelt für den Einsatz unter Druck"
+    "footer": "kognit · entwickelt für den Einsatz unter Druck",
+    "testerProgram": {
+      "trigger": "Tester werden",
+      "eyebrow": "Testerprogramm",
+      "title": "Mach als freiwilliger Tester mit",
+      "description": "Wir suchen Menschen, die kognit vor dem allgemeinen Start ausprobieren und uns mit echtem Feedback bei der Verbesserung helfen möchten.",
+      "instructionsTitle": "So nimmst du teil",
+      "instructions": "Fülle das Registrierungsformular aus, um dich zu bewerben. Wenn du ausgewählt wirst, nutzt du die App zu Testzwecken und gibst mindestens einmal pro Woche ein kurzes Feedback.",
+      "voluntary": "Die Teilnahme ist freiwillig und du kannst jederzeit aufhören.",
+      "primaryCta": "Formular ausfüllen",
+      "secondaryCta": "Jetzt nicht",
+      "closeAria": "Tester-Einladung schließen",
+      "applicationNote": "Du füllst gerade deine Bewerbung aus, um kognit als freiwilliger Tester auszuprobieren."
+    }
   },
   "splash": {
     "subtitle": "Trainiere deinen Kopf"
@@ -158,7 +171,7 @@
     "currentMoodHint": "Tippen zum Festlegen",
     "protocolLabel": "PROTOKOLL ",
     "resetTitle": "Reset ",
-    "resetSubtitle": "Atme, gewinn den Fokus zurück",
+    "resetSubtitle": "Geführte Atmung und Grounding, um die Intensität zu senken.",
     "mentalCardsTitle": "Mentale Karten",
     "mentalCardsSubtitle": "Anleitung für jetzt",
     "progressTitle": "Fortschritt",
@@ -185,14 +198,19 @@
           "title": "Fokus auf die Gegenwart",
           "body": "Richte deine psychische Energie auf ein kleines, unmittelbares Ziel. Wohlbefinden entsteht, wenn es \"Ordnung im Bewusstsein\" gibt, die man erreicht, indem man die Aufmerksamkeit auf das Hier und Jetzt richtet."
         }
-      ]
+      ],
+      "introLine": "Ideal, um deinen Anker der Ruhe festzulegen.",
+      "editHint": "Zum Bearbeiten tippen",
+      "bottomSubtitle": "Ein Satz, den du festlegst, wenn es dir gut geht, um zu ihm zurückzukehren, wenn nicht.",
+      "howItWorks": "Wie funktioniert der Anker?"
     },
     "defaultName": "Nutzer",
     "toasts": {
       "saveError": "Dein Zustand konnte nicht gespeichert werden",
       "saveSuccess": "In deinem mentalen Tagebuch festgehalten"
     },
-    "moodNoteContent": "Mentaler Zustand: {{label}}"
+    "moodNoteContent": "Mentaler Zustand: {{label}}",
+    "resetCta": "Starten"
   },
   "tilt": {
     "exitAria": "Reset verlassen",
@@ -438,22 +456,22 @@
       {
         "time": "20:30",
         "mood": "focus",
-        "title": "NL50-Session — 2 Stunden",
-        "body": "Gute Kontrolle in schwierigen Spots. Ein Set am River gefoldet, obwohl ich richtig lag — das Ergebnis hat mich nicht aus der Ruhe gebracht.",
+        "title": "Fokusblock — 2 Stunden",
+        "body": "Gute Kontrolle in schwierigen Momenten. Bin auf Widerstand bei einer komplexen Aufgabe gestoßen, aber das Ergebnis hat mich nicht aus der Ruhe gebracht.",
         "tag": "Fokus"
       },
       {
         "time": "15:10",
         "mood": "tilt",
-        "title": "Erholung nach Bad Beat",
-        "body": "Set gegen Runner-Runner-Flush. Habe die 4-7-8-Atmung gemacht und war in 6 Minuten wieder klar.",
+        "title": "Erholung nach einem schwierigen Moment",
+        "body": "Etwas ist nicht wie erwartet gelaufen. Habe die 4-7-8-Atmung gemacht und war in 6 Minuten wieder klar.",
         "tag": "Reset"
       },
       {
         "time": "09:00",
         "mood": "calm",
-        "title": "Ritual vor der Session",
-        "body": "Habe mir 3 Schlüsselhände von gestern vorgestellt. Stop-Loss festgelegt: 3 Buy-ins.",
+        "title": "Morgenritual",
+        "body": "Habe mir 3 Schlüsselmomente von gestern vorgestellt. Mein Limit für heute festgelegt.",
         "tag": "Ritual"
       }
     ]
@@ -714,9 +732,10 @@
     "options": {
       "calm": "Ruhig",
       "focus": "Fokussiert",
+      "motivated": "Motiviert",
       "neutral": "Neutral",
       "frustrated": "Frustriert",
-      "tilt": "Tilt"
+      "tilt": "Wut"
     },
     "reactions": {
       "breathe": "Hat mir beim Atmen geholfen",

@@ -36,7 +36,7 @@
       "forgot": "Te enviamos um link para redefinir sua senha."
     },
     "placeholders": {
-      "name": "Nome de jogador",
+      "name": "Seu nome",
       "email": "Email",
       "password": "Senha"
     },
@@ -64,7 +64,7 @@
     }
   },
   "landing": {
-    "logoAlt": "Logo do kognit, app de treinamento mental para jogadores de poker",
+    "logoAlt": "Logo do kognit, app de treinamento mental para melhorar sua mente e sua vida",
     "badge": "● DIÁRIO MENTAL - TREINAMENTO MENTAL - COMUNIDADE",
     "heroTitleLine1": "Treine sua mente",
     "heroTitleLine2": "como um atleta",
@@ -89,7 +89,20 @@
       "community": "06 · Comunidade",
       "profile": "07 · Perfil do Usuário"
     },
-    "footer": "kognit · projetado para usar sob pressão"
+    "footer": "kognit · projetado para usar sob pressão",
+    "testerProgram": {
+      "trigger": "Quero ser tester",
+      "eyebrow": "Programa de testers",
+      "title": "Participe como tester voluntário",
+      "description": "Estamos procurando pessoas que queiram testar o kognit antes do lançamento geral e nos ajudar a melhorá-lo com feedback real.",
+      "instructionsTitle": "Como participar",
+      "instructions": "Preencha o formulário de cadastro para se candidatar. Se for selecionado, você usará o app para testes e enviará um breve feedback pelo menos uma vez por semana.",
+      "voluntary": "A participação é voluntária e você pode sair quando quiser.",
+      "primaryCta": "Preencher formulário",
+      "secondaryCta": "Agora não",
+      "closeAria": "Fechar convite para testers",
+      "applicationNote": "Você está preenchendo sua candidatura para ser tester voluntário e experimentar o kognit."
+    }
   },
   "splash": {
     "subtitle": "Treine sua mente"
@@ -158,7 +171,7 @@
     "currentMoodHint": "Toque para fixar",
     "protocolLabel": "PROTOCOLO ",
     "resetTitle": "Reset ",
-    "resetSubtitle": "Respire, recupere o foco",
+    "resetSubtitle": "Respiração guiada e grounding para baixar a intensidade.",
     "mentalCardsTitle": "Cartas mentais",
     "mentalCardsSubtitle": "Instrução agora",
     "progressTitle": "Progresso",
@@ -185,14 +198,19 @@
           "title": "Foco no presente",
           "body": "Direcione sua energia psíquica para uma meta pequena e imediata. O bem-estar surge quando há \"ordem na consciência\", que se alcança concentrando a atenção no aqui e agora."
         }
-      ]
+      ],
+      "introLine": "É ideal para definir sua âncora de calma.",
+      "editHint": "Toque para editar",
+      "bottomSubtitle": "Uma frase que você fixa quando está bem, para voltar a ela quando não estiver.",
+      "howItWorks": "Como funciona a âncora?"
     },
     "defaultName": "Usuário",
     "toasts": {
       "saveError": "Não foi possível salvar seu estado",
       "saveSuccess": "Ficou registrado no seu diário mental"
     },
-    "moodNoteContent": "Estado mental: {{label}}"
+    "moodNoteContent": "Estado mental: {{label}}",
+    "resetCta": "Começar"
   },
   "tilt": {
     "exitAria": "Sair do reset",
@@ -438,22 +456,22 @@
       {
         "time": "20:30",
         "mood": "focus",
-        "title": "Sessão NL50 — 2 horas",
-        "body": "Bom controle em spots difíceis. Foldei um set num river bem lido, o resultado não me tirou do eixo.",
+        "title": "Bloco de foco — 2 horas",
+        "body": "Bom controle em momentos difíceis. Encontrei resistência numa tarefa complexa, mas não deixei o resultado me tirar do eixo.",
         "tag": "Foco"
       },
       {
         "time": "15:10",
         "mood": "tilt",
-        "title": "Recuperação pós bad beat",
-        "body": "Set vs runner-runner flush. Fiz a respiração 4-7-8 e voltei limpo em 6 minutos.",
+        "title": "Recuperação pós momento difícil",
+        "body": "Algo não saiu como esperado. Fiz a respiração 4-7-8 e voltei limpo em 6 minutos.",
         "tag": "Reset"
       },
       {
         "time": "09:00",
         "mood": "calm",
-        "title": "Ritual pré-sessão",
-        "body": "Visualizei 3 mãos-chave de ontem. Defini stop-loss: 3 buy-ins.",
+        "title": "Ritual matinal",
+        "body": "Visualizei 3 momentos-chave de ontem. Defini meu limite para hoje.",
         "tag": "Ritual"
       }
     ]
@@ -714,9 +732,10 @@
     "options": {
       "calm": "Tranquilo",
       "focus": "Focado",
+      "motivated": "Motivado",
       "neutral": "Neutro",
       "frustrated": "Frustrado",
-      "tilt": "Tilt"
+      "tilt": "Raiva"
     },
     "reactions": {
       "breathe": "Me ajudou a respirar",

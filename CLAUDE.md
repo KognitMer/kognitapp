@@ -1,6 +1,6 @@
 # Kognit — CLAUDE.md
 
-App de entrenamiento mental para jugadores de poker. Mobile-first PWA, todo el UI está en español rioplatense.
+App de entrenamiento mental para cualquier persona que quiera mejorar su mente y su vida — respiración, auto-observación/introspección, entrenamiento mental y cartas accionables. Mobile-first PWA, todo el UI está en español rioplatense.
 
 ## Stack
 

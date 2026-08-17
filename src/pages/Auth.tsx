@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -9,7 +9,9 @@ import logo from "@/assets/kognit-logo-new.png";
 type Mode = "login" | "signup" | "forgot";
 
 export default function Auth() {
-  const [mode, setMode] = useState<Mode>("login");
+  const [searchParams] = useSearchParams();
+  const testerCandidate = searchParams.get("tester") === "1";
+  const [mode, setMode] = useState<Mode>(searchParams.get("mode") === "signup" ? "signup" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -31,7 +33,10 @@ export default function Auth() {
           email, password,
           options: {
             emailRedirectTo: `${window.location.origin}/app`,
-            data: { display_name: name || email.split("@")[0] },
+            data: {
+              display_name: name || email.split("@")[0],
+              tester_volunteer: testerCandidate,
+            },
           },
         });
         if (error) throw error;
@@ -45,7 +50,7 @@ export default function Auth() {
         toast({ title: t("auth.toasts.forgotSuccessTitle"), description: t("auth.toasts.forgotSuccessDescription") });
         setMode("login");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("[auth]", err);
       const generic =
         mode === "login"
@@ -91,6 +96,11 @@ export default function Auth() {
         </div>
 
         <div className="bg-card rounded-3xl shadow-card border border-border/50 p-7">
+          {testerCandidate && mode === "signup" && (
+            <div className="mb-5 rounded-2xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-medium leading-relaxed text-foreground">
+              {t("landing.testerProgram.applicationNote")}
+            </div>
+          )}
           <div className="flex gap-2 mb-6 bg-secondary/60 rounded-2xl p-1">
             {(["login","signup"] as Mode[]).map(m => (
               <button key={m} onClick={() => setMode(m)}

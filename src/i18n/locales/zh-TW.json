@@ -36,7 +36,7 @@
       "forgot": "我們會寄給你一個重設密碼的連結。"
     },
     "placeholders": {
-      "name": "玩家名稱",
+      "name": "你的名字",
       "email": "電子郵件",
       "password": "密碼"
     },
@@ -64,7 +64,7 @@
     }
   },
   "landing": {
-    "logoAlt": "kognit 標誌，為撲克玩家打造的心智訓練 App",
+    "logoAlt": "kognit 標誌，為提升你的心智與生活打造的心智訓練 App",
     "badge": "● 心理日誌 - 心智訓練 - 社群",
     "heroTitleLine1": "訓練你的心智",
     "heroTitleLine2": "像運動員一樣",
@@ -89,7 +89,20 @@
       "community": "06 · 社群",
       "profile": "07 · 使用者個人檔案"
     },
-    "footer": "kognit · 為壓力下使用而設計"
+    "footer": "kognit · 為壓力下使用而設計",
+    "testerProgram": {
+      "trigger": "成為測試員",
+      "eyebrow": "測試員計畫",
+      "title": "加入志願測試員計畫",
+      "description": "我們正在招募希望在正式發布前體驗 kognit 的人，並透過真實回饋協助我們改進產品。",
+      "instructionsTitle": "參與方式",
+      "instructions": "填寫註冊表即可申請。入選後，你將以測試為目的使用應用程式，並至少每週提交一次簡短回饋。",
+      "voluntary": "參與完全自願，你可以隨時退出。",
+      "primaryCta": "填寫表單",
+      "secondaryCta": "暫時不要",
+      "closeAria": "關閉測試員邀請",
+      "applicationNote": "你正在申請成為志願測試員並體驗 kognit。"
+    }
   },
   "splash": {
     "subtitle": "訓練你的心智"
@@ -158,7 +171,7 @@
     "currentMoodHint": "點一下來設定",
     "protocolLabel": "流程 ",
     "resetTitle": "重置 ",
-    "resetSubtitle": "呼吸，找回專注",
+    "resetSubtitle": "引導呼吸和著陸練習，降低強烈情緒。",
     "mentalCardsTitle": "心智卡片",
     "mentalCardsSubtitle": "現在的指引",
     "progressTitle": "進度",
@@ -185,14 +198,19 @@
           "title": "專注當下",
           "body": "把你的心理能量導向一個小而立即的目標。當「意識中有秩序」時，幸福感就會出現，而這是透過把注意力集中在此時此地實現的。"
         }
-      ]
+      ],
+      "introLine": "非常適合用來設定你的平靜錨點。",
+      "editHint": "點擊編輯",
+      "bottomSubtitle": "一句你狀態好時設定的話，在狀態不好時可以回歸它。",
+      "howItWorks": "錨點是如何運作的？"
     },
     "defaultName": "使用者",
     "toasts": {
       "saveError": "無法儲存你的狀態",
       "saveSuccess": "已記錄到你的心理日誌"
     },
-    "moodNoteContent": "心理狀態：{{label}}"
+    "moodNoteContent": "心理狀態：{{label}}",
+    "resetCta": "開始"
   },
   "tilt": {
     "exitAria": "離開重置",
@@ -438,22 +456,22 @@
       {
         "time": "20:30",
         "mood": "focus",
-        "title": "NL50 工作階段 — 2 小時",
-        "body": "在困難的牌局中保持了良好的控制。看穿對手後，棄掉了河牌圈讀出的三條，結果沒有讓我亂了陣腳。",
+        "title": "專注時段 — 2 小時",
+        "body": "在困難時刻保持了良好的控制。在一項複雜任務中遇到阻力，但結果沒有讓我亂了陣腳。",
         "tag": "專注"
       },
       {
         "time": "15:10",
         "mood": "tilt",
-        "title": "慘敗後的恢復",
-        "body": "三條輸給轉牌加河牌湊成的同花。我做了 4-7-8 呼吸法，6 分鐘後乾淨地回到狀態。",
+        "title": "艱難時刻後的恢復",
+        "body": "有些事沒有如預期發展。我做了 4-7-8 呼吸法，6 分鐘後乾淨地回到狀態。",
         "tag": "重置"
       },
       {
         "time": "09:00",
         "mood": "calm",
-        "title": "賽前儀式",
-        "body": "回想了昨天 3 手關鍵的牌。設定了停損點：3 個買入。",
+        "title": "晨間儀式",
+        "body": "回想了昨天 3 個關鍵時刻。設定了今天的底線。",
         "tag": "儀式"
       }
     ]
@@ -714,6 +732,7 @@
     "options": {
       "calm": "平靜",
       "focus": "專注",
+      "motivated": "有動力",
       "neutral": "中性",
       "frustrated": "挫折",
       "tilt": "失控"

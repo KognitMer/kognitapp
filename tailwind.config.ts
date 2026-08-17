@@ -49,6 +49,10 @@ export default {
           DEFAULT: "hsl(var(--seafoam))",
           foreground: "hsl(var(--seafoam-foreground))",
         },
+        azure: {
+          DEFAULT: "hsl(var(--azure))",
+          foreground: "hsl(var(--azure-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

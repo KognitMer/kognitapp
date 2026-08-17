@@ -36,7 +36,7 @@
       "forgot": "Ti abbiamo inviato un link per reimpostare la password."
     },
     "placeholders": {
-      "name": "Nome del giocatore",
+      "name": "Il tuo nome",
       "email": "Email",
       "password": "Password"
     },
@@ -64,7 +64,7 @@
     }
   },
   "landing": {
-    "logoAlt": "Logo di kognit, app di allenamento mentale per giocatori di poker",
+    "logoAlt": "Logo di kognit, app di allenamento mentale per migliorare la tua mente e la tua vita",
     "badge": "● DIARIO MENTALE - ALLENAMENTO MENTALE - COMUNITÀ",
     "heroTitleLine1": "Allena la tua mente",
     "heroTitleLine2": "come un atleta",
@@ -89,7 +89,20 @@
       "community": "06 · Comunità",
       "profile": "07 · Profilo Utente"
     },
-    "footer": "kognit · progettato per essere usato sotto pressione"
+    "footer": "kognit · progettato per essere usato sotto pressione",
+    "testerProgram": {
+      "trigger": "Voglio fare il tester",
+      "eyebrow": "Programma tester",
+      "title": "Partecipa come tester volontario",
+      "description": "Cerchiamo persone che vogliano provare kognit prima del lancio generale e aiutarci a migliorarlo con feedback reali.",
+      "instructionsTitle": "Come partecipare",
+      "instructions": "Compila il modulo di registrazione per candidarti. Se sarai selezionato, userai l'app a scopo di test e condividerai un breve feedback almeno una volta alla settimana.",
+      "voluntary": "La partecipazione è volontaria e puoi interromperla quando vuoi.",
+      "primaryCta": "Compila il modulo",
+      "secondaryCta": "Non ora",
+      "closeAria": "Chiudi l'invito per i tester",
+      "applicationNote": "Stai completando la candidatura per diventare tester volontario e provare kognit."
+    }
   },
   "splash": {
     "subtitle": "Allena la tua mente"
@@ -158,7 +171,7 @@
     "currentMoodHint": "Tocca per fissare",
     "protocolLabel": "PROTOCOLLO ",
     "resetTitle": "Reset ",
-    "resetSubtitle": "Respira, ritrova il focus",
+    "resetSubtitle": "Respirazione guidata e grounding per abbassare l'intensità.",
     "mentalCardsTitle": "Carte mentali",
     "mentalCardsSubtitle": "Istruzione ora",
     "progressTitle": "Progressi",
@@ -185,14 +198,19 @@
           "title": "Focus sul presente",
           "body": "Dirigi la tua energia psichica verso un obiettivo piccolo e immediato. Il benessere emerge quando c'è \"ordine nella coscienza\", che si ottiene concentrando l'attenzione sul qui e ora."
         }
-      ]
+      ],
+      "introLine": "È l'ideale per definire la tua ancora di calma.",
+      "editHint": "Tocca per modificare",
+      "bottomSubtitle": "Una frase che fissi quando stai bene, per tornarci quando non stai bene.",
+      "howItWorks": "Come funziona l'ancora?"
     },
     "defaultName": "Utente",
     "toasts": {
       "saveError": "Non è stato possibile salvare il tuo stato",
       "saveSuccess": "È stato fissato nel tuo diario mentale"
     },
-    "moodNoteContent": "Stato mentale: {{label}}"
+    "moodNoteContent": "Stato mentale: {{label}}",
+    "resetCta": "Inizia"
   },
   "tilt": {
     "exitAria": "Esci dal reset",
@@ -438,22 +456,22 @@
       {
         "time": "20:30",
         "mood": "focus",
-        "title": "Sessione NL50 — 2 ore",
-        "body": "Buon controllo negli spot difficili. Ho foldato un set su un river letto correttamente, il risultato non mi ha destabilizzato.",
+        "title": "Blocco di focus — 2 ore",
+        "body": "Buon controllo nei momenti difficili. Ho incontrato resistenza in un compito complesso, ma non ho lasciato che il risultato mi destabilizzasse.",
         "tag": "Focus"
       },
       {
         "time": "15:10",
         "mood": "tilt",
-        "title": "Recupero dopo un bad beat",
-        "body": "Set contro un runner-runner flush. Ho fatto la respirazione 4-7-8 e sono tornato lucido in 6 minuti.",
+        "title": "Recupero dopo un brutto momento",
+        "body": "Qualcosa non è andato come previsto. Ho fatto la respirazione 4-7-8 e sono tornato lucido in 6 minuti.",
         "tag": "Reset"
       },
       {
         "time": "09:00",
         "mood": "calm",
-        "title": "Rituale pre-sessione",
-        "body": "Ho visualizzato 3 mani chiave di ieri. Ho definito lo stop-loss: 3 buy-in.",
+        "title": "Rituale mattutino",
+        "body": "Ho visualizzato 3 momenti chiave di ieri. Ho definito il mio limite per oggi.",
         "tag": "Rituale"
       }
     ]
@@ -714,9 +732,10 @@
     "options": {
       "calm": "Calmo",
       "focus": "Concentrato",
+      "motivated": "Motivato",
       "neutral": "Neutrale",
       "frustrated": "Frustrato",
-      "tilt": "Tilt"
+      "tilt": "Rabbia"
     },
     "reactions": {
       "breathe": "Mi ha aiutato a respirare",
@@ -724,6 +743,290 @@
       "inspire": "Mi ispira",
       "reflect": "Mi ha fatto riflettere",
       "identify": "Mi ci ritrovo"
+    }
+  },
+  "mentalCards": {
+    "categories": {
+      "reframe": {
+        "name": "Prospettiva e Focus",
+        "tagline": "Il tuo focus decide quello che vedi.",
+        "cards": [
+          {
+            "title": "Ti basi su dati oggettivi, o su quello che senti adesso?",
+            "message": "Prendere le tue percezioni personali come verità assolute spesso ti porta a ignorare i dati oggettivi di cui hai bisogno per decidere bene.",
+            "action": "Cosa sai con certezza in questo momento? Elenca tre fatti che rimarrebbero veri anche se oggi ti sentissi diverso."
+          },
+          {
+            "title": "Quello che stai facendo ora ti avvicina alla persona che vuoi essere, o ti allontana?",
+            "message": "Ogni cosa che fai, grande o piccola, è un voto che costruisce l'immagine di chi sei e come agisci.",
+            "action": "Descrivi oggettivamente cosa stai facendo e perché, come se lo stessi raccontando a qualcun altro. Poi rispondi: questo ti avvicina o ti allontana dalla persona che vuoi essere? Se ti allontana, aggiusta un dettaglio adesso."
+          },
+          {
+            "title": "C'è qualche indecisione che ti gira in testa in questo momento, anche piccola?",
+            "message": "Se c'è, spesso è un modo per evitare un rischio che non hai ancora elaborato; se non c'è, è un buon momento per confermare che non stai evitando nulla.",
+            "action": "Se identifichi un dubbio, nomina il rischio che la tua paura vuole evitare; se non ce n'è nessuno, ripensa se c'è qualcosa che stai rimandando."
+          },
+          {
+            "title": "Come cambia la tua prospettiva se pensi a questo momento come parte di qualcosa di più lungo, e non come un fatto isolato?",
+            "message": "Il dominio richiede capire che questo momento è solo una parte di una serie di eventi molto più grande.",
+            "action": "Pensa a quello che stai facendo ora come a un passo all'interno di qualcosa di più lungo (un obiettivo, una routine, un progetto), e agisci in base a questo, non solo all'istante."
+          },
+          {
+            "title": "Quale difficoltà probabilmente apparirà oggi, e come vuoi rispondere quando appare?",
+            "message": "Preparare in anticipo la frase \"anche se\" ti permette di averla pronta quando arriva la pressione.",
+            "action": "Scegli una situazione probabile di oggi e completa: \"Anche se compare [ansia/pressione], andrò avanti con [il tuo prossimo passo]\". Per esempio: \"Anche se compare ansia, andrò avanti con il prossimo passo\"."
+          },
+          {
+            "title": "Senti che qualcosa è una minaccia in questo momento, o sei tranquillo?",
+            "message": "Cambiare il modo in cui visualizzi un problema aiuta ad abbassare l'intensità della paura; se non c'è nessuna minaccia attiva, è un buon momento per esercitarti a freddo.",
+            "action": "Se c'è una minaccia, immaginala più piccola, più lontana o meno intensa — quello che ti risulta più naturale; se non c'è, fai lo stesso esercizio con un ricordo scomodo qualsiasi."
+          },
+          {
+            "title": "Come stai respirando in questo momento?",
+            "message": "Il ritmo del tuo respiro influisce sulla tua chiarezza mentale, che la situazione sia sotto controllo o no.",
+            "action": "Sistema la tua postura, abbassa le spalle e stabilizza il ritmo respiratorio prima di continuare quello che stai facendo."
+          },
+          {
+            "title": "Cosa puoi imparare da quello che sta succedendo in questo momento, che tu decida qualcosa o no?",
+            "message": "Ogni situazione può darti informazioni utili se presti attenzione, anche quando non sembra a prima vista.",
+            "action": "Nomina qualcosa che hai appena notato in questo momento (nel tuo ambiente, nel tuo corpo o nel tuo compito) e pensa a come potresti usarlo."
+          },
+          {
+            "title": "Cosa ti importa di più proteggere oggi, anche se questo significa non avere ragione?",
+            "message": "L'orgoglio spesso ha la meglio su ciò che davvero ti importa senza che tu te ne accorga; identificarlo in anticipo ti dà il vantaggio di fermarlo in tempo.",
+            "action": "La prossima volta oggi che senti il bisogno di imporre il tuo punto di vista, scegli di cedere invece di insistere — anche se hai ragione."
+          },
+          {
+            "title": "Quale prova hai che hai già risolto situazioni simili in passato?",
+            "message": "La fiducia basata su un'esperienza concreta è più solida di un'affermazione ripetuta; guardare indietro ti dà dati reali, non solo intenzione.",
+            "action": "Nomina una situazione specifica del passato che hai già risolto e che assomiglia a quella di oggi."
+          }
+        ]
+      },
+      "regulation": {
+        "name": "Equilibrio e Presenza",
+        "tagline": "Il corpo decide prima della mente.",
+        "cards": [
+          {
+            "title": "Se il tuo corpo è in allerta in questo momento, è un pericolo reale o solo una reazione emotiva?",
+            "message": "Uno stress molto alto può renderti difficile pensare con logica, spingendoti a decidere per puro impulso.",
+            "action": "Metti la mano sul tuo addome e assicurati che si muova con il respiro; se non si muove, probabilmente sei in modalità stress."
+          },
+          {
+            "title": "Quali segnali del tuo corpo tendi a confondere con allarmi attuali, quando in realtà sono echi del passato?",
+            "message": "Riconoscere lo schema in anticipo ti aiuta a distinguerlo più velocemente quando appare.",
+            "action": "Ricorda l'ultima volta che hai confuso un segnale del genere, e annota mentalmente come ti sei sentito per riconoscerlo oggi se torna."
+          },
+          {
+            "title": "Qual è l'obiettivo principale che vuoi raggiungere in questo preciso istante?",
+            "message": "Definire un unico scopo ora evita che pensieri casuali ti facciano perdere la strada e creino caos.",
+            "action": "Definisci in una frase qual è il tuo obiettivo immediato."
+          },
+          {
+            "title": "Riesci a dare un nome all'emozione che attraversa il tuo corpo?",
+            "message": "Mettere in parole ciò che senti ti aiuta a smettere di reagire per impulso e iniziare a pensare con più chiarezza.",
+            "action": "Nomina l'emozione con la massima precisione possibile (non solo \"male\", ma di che tipo esattamente) e osserva come cambia la sua intensità nel farlo."
+          },
+          {
+            "title": "Se avessi un interruttore fisico per la calma, dove lo metteresti sul tuo corpo?",
+            "message": "Se hai già un gesto di calma, usalo; se no, scegli un punto di pressione semplice per recuperare subito la concentrazione.",
+            "action": "Scegli un gesto fisico semplice (es. premere il pollice contro l'indice) che da oggi assocerai al ritorno al presente, e usalo ora."
+          },
+          {
+            "title": "Il tuo stato emotivo ti permette di pensare con chiarezza?",
+            "message": "Esiste un livello di agitazione oltre il quale la mente smette di valutare la realtà e reagisce solo in modo automatico.",
+            "action": "Se hai qualcosa da decidere, aspetta 10 secondi obbligatori; se no, fai una pausa di 10 secondi prima di continuare quello che stai facendo."
+          },
+          {
+            "title": "Se hai bisogno di una spinta adesso, quale traguardo passato potrebbe dartela?",
+            "message": "Riportare alla mente un trionfo passato può aiutarti a recuperare la fiducia e la concentrazione di cui hai bisogno ora.",
+            "action": "Ricorda un momento in cui hai risolto una situazione difficile e osserva come ti comportavi, prima di riprendere quello che stai facendo."
+          },
+          {
+            "title": "Se senti una voce critica in questo momento, è un rimprovero, o un segnale reale del tuo corpo?",
+            "message": "Quella voce che ti critica spesso usa il senso di colpa per controllarti; un segnale corporeo genuino si sente diverso — più come informazione che come attacco.",
+            "action": "Nota se la voce nella tua testa suona come un rimprovero; se sì, ignorala e torna alle sensazioni del tuo corpo."
+          },
+          {
+            "title": "Se sei nel mezzo di qualcosa adesso, stai reagendo d'impulso, o rispondendo con consapevolezza?",
+            "message": "Tra quello che succede e quello che fai c'è uno spazio dove puoi scegliere di non agire automaticamente.",
+            "action": "Fai una pausa di due cicli respiratori completi per ampliare la tua capacità di osservazione prima di agire."
+          },
+          {
+            "title": "Senti il tuo peso e i tuoi piedi sul pavimento?",
+            "message": "Perdere la sensazione del corpo sotto stress riduce la precisione; tornare a sentirsi presenti riporta il controllo immediato.",
+            "action": "Premi i piedi contro il pavimento con forza per 3 secondi per \"atterrare\" i tuoi sensi nel presente."
+          }
+        ]
+      },
+      "flow": {
+        "name": "Azione e Concentrazione",
+        "tagline": "Tutto il tuo potere sta nel secondo presente.",
+        "cards": [
+          {
+            "title": "Continui a pensare a qualcosa che è già finito?",
+            "message": "Continuare a pensare a compiti o eventi precedenti consuma l'energia mentale di cui hai bisogno per quello che stai facendo ora.",
+            "action": "Decidi consapevolmente che ciò che è successo è finito, e riporta l'attenzione al presente."
+          },
+          {
+            "title": "Qual è l'unica azione concreta che richiede la tua attenzione in questo secondo?",
+            "message": "Il vero costo di una distrazione non è sempre la distrazione in sé, ma il tempo che impieghi per tornare concentrato.",
+            "action": "Di' \"ora\" e riprendi subito il compito. Prima di farlo, verifica che sia davvero il compito che merita la tua attenzione in questo momento."
+          },
+          {
+            "title": "Se qualcuno ti stesse guardando adesso, direbbe che sei concentrato su quello che stai facendo?",
+            "message": "Dimenticarti di te stesso è fondamentale per rendere bene; l'ego consuma l'energia di cui hai bisogno per decidere.",
+            "action": "Porta l'attenzione completamente sul compito, non su come ti stanno guardando."
+          },
+          {
+            "title": "È questa la cosa più importante che potresti fare adesso?",
+            "message": "Nominare la tua intenzione immediata ti aiuta a concentrare la tua attenzione e ad agire con precisione.",
+            "action": "Definisci l'obiettivo del tuo prossimo minuto in meno di tre parole. Se ti accorgi che non è il compito a maggiore impatto, reindirizza la tua attenzione prima di iniziare."
+          },
+          {
+            "title": "Stai elaborando quello che succede ora, o stai simulando un futuro che non esiste ancora?",
+            "message": "Concentrarsi su ciò che accade ora ferma l'ansia di immaginare problemi o risultati futuri.",
+            "action": "Nomina tre cose che stanno accadendo davanti a te in questo momento (suoni, movimenti, persone), senza giudicarle. Poi torna deliberatamente a quello che stavi facendo prima di questa pausa."
+          },
+          {
+            "title": "C'è qualcosa di più importante che la tua attenzione sta lasciando fuori in questo momento?",
+            "message": "Prestare attenzione ai cambiamenti sottili ti permette di aggiustare il tuo comportamento prima che qualcosa diventi un problema.",
+            "action": "Se ti viene in mente qualcosa (un compito o un segnale che stai trascurando), nominalo e, se cambia le tue priorità, riaggiusta il tuo focus; se non ti viene in mente nulla, è un buon segno che sei già ben concentrato."
+          },
+          {
+            "title": "Se c'è una distrazione banale che ti sta rubando concentrazione adesso, qual è?",
+            "message": "Il lavoro profondo richiede concentrazione sostenuta; le distrazioni irrilevanti possono abbassare la qualità di ciò che fai.",
+            "action": "Allontana fisicamente dalla tua vista qualsiasi oggetto o notifica che non sia essenziale per ciò che stai facendo."
+          },
+          {
+            "title": "Qual è il dettaglio più piccolo che percepisci ora?",
+            "message": "I dettagli rilevanti spesso distinguono una buona esecuzione; il flow appare quando noti ciò che gli altri lasciano passare.",
+            "action": "Concentra lo sguardo su una sola texture o numero specifico e mantieni il focus per 3 secondi prima di agire. Se quel dettaglio non cambia la tua prossima azione, probabilmente è rumore. Lascialo andare e continua."
+          },
+          {
+            "title": "Il tuo dialogo interiore ti dà istruzioni utili, o è solo rumore?",
+            "message": "Una mente silenziosa permette che emergano la sicurezza e la chiarezza necessarie per agire con precisione.",
+            "action": "Per dieci secondi, osserva i tuoi pensieri senza seguirne nessuno, poi riporta l'attenzione al tuo respiro."
+          },
+          {
+            "title": "Sei immerso nella situazione o sei uno spettatore?",
+            "message": "Sentirsi parte dell'azione e avere sensazione di controllo elimina la paura inutile del rischio.",
+            "action": "Coinvolgiti completamente per i prossimi dieci secondi e, una volta finito, valuta se questo è ancora il miglior investimento della tua attenzione."
+          }
+        ]
+      },
+      "systems": {
+        "name": "Sistemi e Coerenza",
+        "tagline": "Vince il sistema, non il risultato di oggi.",
+        "cards": [
+          {
+            "title": "Quello che stai facendo ora risponde a un metodo, o a un impulso del momento?",
+            "message": "Se hai già una routine o un modo di fare le cose, seguilo; se stai agendo in modo improvvisato, questo è un buon momento per notarlo.",
+            "action": "Identifica se stai seguendo un metodo, o se stai semplicemente reagendo senza accorgertene, e aggiusta se necessario."
+          },
+          {
+            "title": "Quello che stai facendo ora sta davvero aiutando ciò che vuoi ottenere oggi?",
+            "message": "Il vero progresso si costruisce attraverso l'accumulo di azioni corrette, che si notino subito o no.",
+            "action": "Nomina in una frase il tuo obiettivo generale di oggi, e decidi se ciò che stai facendo ora ti avvicina o ti allontana."
+          },
+          {
+            "title": "Qual è lo strumento più semplice ed efficace che puoi usare proprio ora?",
+            "message": "Fare bene le cose di base di solito vale più che rischiare una manovra complicata per correggere un errore precedente.",
+            "action": "Esegui il movimento più solido e basilare che conosci prima di tentare qualcosa di più rischioso. Se l'hai già provato più volte senza risultato, è il momento di cambiare strategia."
+          },
+          {
+            "title": "Il tuo ambiente facilita il fare le cose bene o ti tenta all'errore?",
+            "message": "Preparare il tuo spazio di lavoro per evitare le distrazioni di solito funziona meglio che cercare di resistervi solo con la forza di volontà.",
+            "action": "Rimuovi fisicamente dalla tua vista immediata l'oggetto che di solito ti tenta all'errore."
+          },
+          {
+            "title": "Come puoi aggiustare quello che stai facendo ora per renderlo un po' migliore?",
+            "message": "La capacità di correggere sul momento, anche in compiti semplici, è un muscolo che si allena ogni giorno.",
+            "action": "Identifica un dettaglio di ciò che stai facendo ora che potresti migliorare, e applicalo subito."
+          },
+          {
+            "title": "Ti fidi di ciò che sai fare o il pensare troppo ti blocca?",
+            "message": "In situazioni che già conosci, agire con fluidità tende a essere più preciso che analizzare ogni passo in eccesso.",
+            "action": "Se già padroneggi ciò che stai facendo, conta \"3, 2, 1\" e lasciati andare; se è qualcosa di nuovo, identifica il primo passo tecnico ed eseguilo."
+          },
+          {
+            "title": "Quale parte della tua giornata prevedi già che ti costerà di più?",
+            "message": "Nominarla ora, a freddo, ti permette di semplificarla prima che la pressione la complichi.",
+            "action": "Identifica quel compito e definisci subito quale sarebbe il primo passo più semplice per affrontarlo."
+          },
+          {
+            "title": "Sei già nel momento più difficile della tua giornata, o deve ancora arrivare?",
+            "message": "Avere deciso in anticipo la prima mossa ti dà un punto di partenza; se il momento è già arrivato, eseguirla senza esitare fa la differenza.",
+            "action": "Se sei già in quel momento, esegui ora il primo passo che hai definito (o il più semplice che ti viene in mente); se non è ancora arrivato, lascialo deciso per quando succederà."
+          },
+          {
+            "title": "Se stai per agire in fretta adesso, è per fretta, o perché la situazione lo richiede davvero?",
+            "message": "La pazienza tende a essere più efficace dell'urgenza, anche quando tutto ti spinge a risolvere in fretta.",
+            "action": "Prima di confermare la tua prossima azione, verifica ancora una volta che soddisfi i tuoi criteri."
+          },
+          {
+            "title": "La tua sicurezza dipende dal caso o dal seguire passi chiari?",
+            "message": "La fiducia stabile nasce dal rispettare un processo, al di là di ciò che succede intorno a te.",
+            "action": "Dì a te stesso: \"Il mio lavoro è seguire il processo; il risultato è solo un dato da cui imparare.\""
+          }
+        ]
+      },
+      "logic": {
+        "name": "Realtà e Strategia",
+        "tagline": "La chiarezza batte la fortuna.",
+        "cards": [
+          {
+            "title": "Su quali fatti ti baserai per le decisioni importanti di oggi?",
+            "message": "Esercitare la logica prima di averne bisogno ti rende più veloce quando arriva il momento.",
+            "action": "Scegli una decisione che sai di dover prendere oggi e riassumi in una frase la logica che userai."
+          },
+          {
+            "title": "Quali due fattori definiranno il risultato più importante della tua giornata?",
+            "message": "Identificarli in anticipo ti permette di ignorare il rumore non appena appare.",
+            "action": "Nomina questi due fattori ora e tienili come filtro per il resto della giornata. Se a un certo punto ti accorgi di agire fuori da quel filtro, fermati un momento e correggi la rotta."
+          },
+          {
+            "title": "Se noti che il tuo orgoglio si sta mettendo di mezzo, cosa potrebbe farti ignorare?",
+            "message": "Ingannare se stessi è un modo di proteggere l'ego; conviene controllare costantemente i propri pregiudizi.",
+            "action": "Immagina di essere il tuo stesso avversario; quale punto debole troveresti in ciò che stai per fare?"
+          },
+          {
+            "title": "Se hai qualcosa da decidere, ti muovi per speranza o per informazioni reali?",
+            "message": "La certezza si costruisce meglio affidandoti alle tue capacità e a informazioni oggettive piuttosto che alla fortuna.",
+            "action": "Cerca prove concrete a sostegno della tua scelta; se ora non hai nulla da decidere, verifica un dato concreto del tuo ambiente prima di andare avanti."
+          },
+          {
+            "title": "Su cosa formerai un giudizio oggi, e con quali prove reali lo farai?",
+            "message": "Prepararti a basarti su fatti e non su supposizioni ti protegge da conclusioni affrettate.",
+            "action": "Pensa a una situazione su cui dovrai decidere oggi e annota mentalmente i fatti concreti che la sostengono — non quello che supponi su di essa."
+          },
+          {
+            "title": "Quali alternative hai a disposizione oggi, che tu le usi o no?",
+            "message": "Sapere che esistono altre opzioni ti dà sicurezza anche quando non ne hai ancora bisogno.",
+            "action": "Nomina un'alternativa o una via d'uscita che hai a disposizione oggi, anche se non pensi di usarla."
+          },
+          {
+            "title": "Se devi decidere qualcosa adesso, quale principio vuoi rispettare?",
+            "message": "Scegliere il principio prima di agire ti dà un criterio chiaro per decidere, invece di reagire solo all'impulso del momento.",
+            "action": "Pensa a un'azione concreta coerente con quel principio, e falla adesso."
+          },
+          {
+            "title": "Se qualcosa ti sembra opprimente adesso, quale sarebbe il primo passo per ridimensionarlo?",
+            "message": "Dividere una situazione difficile in parti più piccole ti permette di risolverle una alla volta con precisione.",
+            "action": "Identifica e risolvi solo il primissimo passo della sequenza che hai di fronte. Prima di continuare, conferma che quel passo risolva il problema giusto, non solo quello più comodo."
+          },
+          {
+            "title": "Sei consapevole che l'unica cosa che controlli davvero oggi è come agisci?",
+            "message": "Il risultato finale può dipendere da fattori esterni, ma la qualità di ciò che fai è ciò che definisce il tuo percorso.",
+            "action": "Scegli un'azione della tua giornata e falla con determinazione, accettando che gran parte di ciò che succede dopo non dipende da te."
+          },
+          {
+            "title": "Stai dando tutta la tua attenzione a ciò che conta davvero adesso?",
+            "message": "Concentrarti pienamente su ciò che conta è ciò che più ti aiuta a rendere bene, anche se è difficile sostenerlo tutto il tempo.",
+            "action": "Elimina ogni possibile interruzione per i prossimi 10 minuti."
+          }
+        ]
+      }
     }
   }
 }

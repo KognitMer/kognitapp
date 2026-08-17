@@ -40,6 +40,8 @@
     --cyan-foreground: 210 60% 12%;
     --seafoam: 173 43% 56%;
     --seafoam-foreground: 210 60% 12%;
+    --azure: 200 70% 45%;
+    --azure-foreground: 0 0% 100%;
 
     --border: 208 25% 90%;
     --input: 208 25% 90%;
@@ -54,6 +56,7 @@
     --gradient-info: linear-gradient(135deg, hsl(212 55% 52%), hsl(198 58% 62%));
     --gradient-cyan: linear-gradient(135deg, hsl(188 48% 54%), hsl(180 50% 64%));
     --gradient-seafoam: linear-gradient(135deg, hsl(173 43% 56%), hsl(165 45% 66%));
+    --gradient-azure: linear-gradient(135deg, hsl(200 70% 45%), hsl(190 65% 55%));
     --gradient-hero: radial-gradient(circle at 20% 0%, hsl(199 85% 60% / 0.24), transparent 55%),
                      radial-gradient(circle at 80% 100%, hsl(217 78% 48% / 0.18), transparent 55%),
                      linear-gradient(180deg, hsl(208 33% 98%), hsl(208 40% 95%));
@@ -90,6 +93,8 @@
     --cyan-foreground: 210 60% 8%;
     --seafoam: 173 40% 62%;
     --seafoam-foreground: 210 60% 8%;
+    --azure: 200 65% 60%;
+    --azure-foreground: 210 60% 8%;
     --border: 210 40% 16%;
     --input: 210 40% 16%;
     --ring: 212 82% 62%;
@@ -122,6 +127,7 @@
   .bg-gradient-info { background: var(--gradient-info); }
   .bg-gradient-cyan { background: var(--gradient-cyan); }
   .bg-gradient-seafoam { background: var(--gradient-seafoam); }
+  .bg-gradient-azure { background: var(--gradient-azure); }
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-card { box-shadow: var(--shadow-card); }
   .shadow-glow { box-shadow: var(--shadow-glow); }

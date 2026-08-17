@@ -1,8 +1,9 @@
-export type MoodId = "calm" | "focus" | "neutral" | "frustrated" | "tilt";
+export type MoodId = "calm" | "focus" | "motivated" | "neutral" | "frustrated" | "tilt";
 
 export const MOOD_OPTIONS: { id: MoodId }[] = [
   { id: "calm" },
   { id: "focus" },
+  { id: "motivated" },
   { id: "neutral" },
   { id: "frustrated" },
   { id: "tilt" },

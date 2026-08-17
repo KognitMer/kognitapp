@@ -43,6 +43,8 @@ export function moodMascotSrc(id: MoodId | null): string {
       return mascotMeditating;
     case "focus":
       return mascotFocus;
+    case "motivated":
+      return mascotInspired;
     case "frustrated":
       return mascotFrustrated;
     case "tilt":

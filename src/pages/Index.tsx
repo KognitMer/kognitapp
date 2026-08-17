@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Apple, Smartphone } from "lucide-react";
@@ -11,11 +12,29 @@ import { CardsScreen } from "./kognit/Cards";
 import { CalendarScreen } from "./kognit/Calendar";
 import { ProfileScreen } from "./kognit/Profile";
 import { CommunityScreen } from "./kognit/Community";
+import { TesterProgramDialog } from "@/components/kognit/TesterProgramDialog";
+
+const TESTER_DIALOG_DISMISSED_KEY = "kognit:tester-dialog-dismissed";
 
 const Index = () => {
   const { t } = useTranslation();
+  const [testerDialogOpen, setTesterDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem(TESTER_DIALOG_DISMISSED_KEY) === "1") return;
+
+    const timeout = window.setTimeout(() => setTesterDialogOpen(true), 700);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  const handleTesterDialogChange = (open: boolean) => {
+    setTesterDialogOpen(open);
+    if (!open) sessionStorage.setItem(TESTER_DIALOG_DISMISSED_KEY, "1");
+  };
+
   return (
     <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
+      <TesterProgramDialog open={testerDialogOpen} onOpenChange={handleTesterDialogChange} />
       <div className="pointer-events-none absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-3xl" />
       <header className="relative px-6 md:px-8 pt-14 pb-16 max-w-6xl mx-auto">
         <div className="flex items-center gap-5 md:gap-6 group">
@@ -48,6 +67,13 @@ const Index = () => {
             <Link to="/auth" className="bg-gradient-primary text-primary-foreground font-bold px-6 py-3 rounded-full shadow-soft text-sm">
               {t("landing.ctaStart")}
             </Link>
+            <button
+              type="button"
+              onClick={() => setTesterDialogOpen(true)}
+              className="border border-primary/35 bg-primary/10 px-5 py-3 rounded-full text-sm font-bold text-primary transition-colors hover:bg-primary/15 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              {t("landing.testerProgram.trigger")}
+            </button>
             <span className="text-sm text-muted-foreground">{t("landing.ctaNote")}</span>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-3">
